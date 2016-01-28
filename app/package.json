@@ -1,0 +1,29 @@
+{
+  "name": "esbootstrap",
+  "version": "0.0.1",
+  "description": "Bootstrap for ElasticSearch apps",
+  "dependencies" : {
+    "nconf": "*",
+    "express": "*",
+    "jade": "*",
+    "eea-searchserver": "0.0.17",
+    "morgan": "*",
+    "request": "*",
+    "node-crontab": "*",
+    "sparql-client": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/eea/eea.docker.esbootstrap.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "EEA",
+    "Elastic",
+    "AIDE"
+  ],
+  "author": "Zoltan Szabo",
+  "license": "GPL-2.0",
+  "readmeFilename": "README.md"
+}

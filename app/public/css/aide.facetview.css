@@ -1,0 +1,17 @@
+.content {
+   background: url(http://www.eea.europa.eu/draft.png);
+}
+
+.item_detail_table.datatable td span.simple-value {
+    float: left;
+    padding-left: 6px;
+}
+
+.span3.order-by {
+    height:49px;
+}
+
+.span3.order-by > span.orderby,
+.span3.order-by > select.facetview_orderby {
+    display:none;
+}

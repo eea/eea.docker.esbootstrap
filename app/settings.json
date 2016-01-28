@@ -1,0 +1,32 @@
+{
+    "http": {
+        "port": 3000
+    },
+    "elastic": {
+        "index": "esbootstrapdata",
+        "real_index": "esbootstrapdata_blue",
+        "type": "resources",
+        "field_base":""
+    },
+    "elastic_green": {
+        "index": "esbootstrapdata",
+        "real_index": "esbootstrapdata_green",
+        "type": "resources",
+        "field_base":""
+    },
+    "external_templates": {
+        "local_path": "/external_templates",
+        "host": "www.eea.europa.eu",
+        "head_path": "/templates/v2/getRequiredHead?jsdisable=all",
+        "header_path": "/templates/v2/getHeader?jsdisable=all",
+        "footer_path": "/templates/v2/getFooter"
+    },
+    "indexing": {
+        "endpoint": "http://cr.eionet.europa.eu/sparql",
+        "analyzersLocation": "./management/river_config/analyzers.json",
+        "dataMappingsLocation": "./management/river_config/datamapping.json",
+        "filtersQuery": "./management/river_config/filtersQuery.sparql",
+        "queryTemplate": "./management/river_config/queryTemplate.sparql"
+    }
+
+}

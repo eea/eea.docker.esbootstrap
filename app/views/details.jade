@@ -1,0 +1,48 @@
+block extrajavascripts
+    script(type='text/javascript').
+        $(document).ready(function($){
+            $("div.container > div.content").attr("id", "content")
+        });
+
+    script(type='text/javascript', src='http://www.eea.europa.eu/register_function.js')
+    script(type='text/javascript', src='http://www.eea.europa.eu/nodeutilities.js')
+    script(type='text/javascript', src='http://www.eea.europa.eu/mark_special_links.js')
+
+block extrastyles
+    link(rel="stylesheet", href="css/aide.facetview.css")
+
+block title
+    if (data)
+        title= "Statistics for " + data._shorttitle.value
+    else
+        title= "Missing Statistics"
+
+block content
+    if (data)
+        div(id="portal-breadcrumbs")
+            span(id="breadcrumbs-you-are-here") You are here: 
+            span(id="breadcrumbs-home")
+                a(href="http://www.eea.europa.eu/") Home
+                span(class="breadcrumbSeparator")  / 
+            span(id="breadcrumbs-1")
+                a(href="./") Air Immissions Data Explorer
+                span(class="breadcrumbSeparator")  / 
+            span(id="breadcrumbs-2")
+                span(class="breadcrumbs-current")= data._shorttitle.value
+
+        h1
+            span= "Statistics for "
+                +ext_link(data._shorttitle, "http://cr.eionet.europa.eu/factsheet.action?uri=")
+        +detail_tables (sections, data, "http://cr.eionet.europa.eu/factsheet.action?uri=")
+
+    else
+        div(class = "portalMessage errorMessage")
+            span= "Statistics with ID: "
+            b= aideid 
+            span= " does not exist"
+
+    div(class="visualization-info")
+        h3 Data sources
+        a(href="http://www.eea.europa.eu/data-and-maps/data/aqereporting") AQ e-Reporting
+        span  provided by 
+        a(href="http://www.eea.europa.eu") European Environment Agency (EEA)
