@@ -12,43 +12,37 @@ var path = require('path');
 var searchServer = require('eea-searchserver')
 
 exports.index = function(req, res){
-  var options = {title: 'aide'};
+  var options = {title: 'index'};
 
   searchServer.EEAFacetFramework.render(req, res, 'index', options);
 };
 
 
 exports.details = function(req, res){
-  if (req.query.aideid === undefined){
-      res.send('aideid is missing');
+
+  if (req.query.id === undefined){
+      res.send('id is missing');
       return;
   }
 
   var host = "http://localhost:" + nconf.get('http:port');
 
-  var query = '{"query":{"ids":{"values":["' + req.query.aideid + '"]}}}';
+  var query = '{"query":{"ids":{"values":["' + req.query.id + '"]}}}';
   query = encodeURIComponent(query);
   var options = {
     host: host + "/api",
     path: "?source="+ query
   };
 
-
-  var shorttitle = req.query.aideid;
+  var id = req.query.id;
   searchServer.EEAFacetFramework.renderDetails({
     req:req,
     res:res,
     field_base:field_base,
     options:options,
-    prerender:function(tmp_options){
-        var shorttitle_link = encodeURIComponent(tmp_options.raw_data.hits.hits[0]._source.statsURI);
-        tmp_options.data['_shorttitle'] = {label:'_shorttitle', value : shorttitle, link : shorttitle_link}
-        return(tmp_options);
-    },
     error_fallback:function(tmp_options){
-        tmp_options.aideid = req.query.aideid;
+        tmp_options.id = req.query.id;
         return(tmp_options);
     }
   });
-
 };

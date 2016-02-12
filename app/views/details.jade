@@ -13,21 +13,17 @@ block extrastyles
 
 block title
     if (data)
-        title= "Info for " + data._shorttitle.value
+        title= "Info for " + data.title.value
     else
         title= "Missing Info"
 
 block content
     if (data)
 
-        +portal_breadcrumbs ("esbootstrap", data._shorttitle.value)
+        +portal_breadcrumbs ("esbootstrap", data.title.value)
 
-        h1
-            span= "Info for "
-                +ext_link(data._shorttitle, "http://cr.eionet.europa.eu/factsheet.action?uri=")
-        +detail_tables (sections, data, "http://cr.eionet.europa.eu/factsheet.action?uri=")
-
+        +detail_tables (sections, data)
     else
-        +app_error("Statistics with ID: ", aideid)
+        +app_error("Data with ID: ", id)
 
     +visualization_info ("http://www.eea.europa.eu/data-and-maps/daviz","ES bootstrap")
