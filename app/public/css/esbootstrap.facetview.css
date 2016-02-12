@@ -7,6 +7,18 @@
     padding-left: 6px;
 }
 
+.item_detail_table tbody {
+  display:inline-table;
+  width:100%;
+}
+.item_detail_table td {
+  width:80%;
+}
+
+.item_detail_table th {
+  width:20%;
+}
+
 .span3.order-by {
     height:49px;
 }
