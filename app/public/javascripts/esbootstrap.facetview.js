@@ -28,9 +28,9 @@ function viewReady(){
 }
 
 jQuery(document).ready(function($) {
-    var default_sort = [{}, {}];
-    default_sort[0][field_base + 'Namespace'] = {"order": 'asc'};
-    default_sort[1][field_base + 'ReportingYear'] = {"order": 'asc'};
+    var default_sort = [{}];
+    default_sort[0][field_base + 'created'] = {"order": 'asc'};
+
     eea_facetview('.facet-view-simple', 
         {
             search_url: './api',

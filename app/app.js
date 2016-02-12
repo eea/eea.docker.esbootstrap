@@ -7,15 +7,21 @@
 var path = require('path');
 var searchServer = require('eea-searchserver')
 var routes = require('./routes');
-var managementCommands = require('./management/commands');
-
+var managementCommands = require('eea-searchserver').BuiltinCommands;
 
 options = {
   app_dir: __dirname,
   views: __dirname + '/views',
   settingsFile: __dirname + '/settings.json',
   routes: routes,
-  managementCommands: managementCommands
+  indexing:{
+    managementCommands: managementCommands,
+    indexingFilterQuery: null,
+    indexingQuery: 'indexing/query.sparql',
+    extraAnalyzers: '',
+    dataMapping: 'indexing/dataMapping.json',
+    endpoint: 'http://semantic.eea.europa.eu/sparql',
+  }
 }
 searchServer.Helpers.SimpleStart(options)
 

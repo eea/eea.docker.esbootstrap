@@ -1,0 +1,144 @@
+{
+    "details_settings" : {
+        "show_links": true,
+        "sections": [
+            {"name":"default", "title":"", "pos":0}
+        ]
+    },
+    "listing_settings" : {
+        "show_links": false
+    },
+    "fields_mapping": [
+        {
+            "name": "title",
+            "is_id": false,
+            "is_link": false,
+            "listing": {
+                "title": "Title",
+                "visible" : true,
+                "pos" : 0,
+                "display": {
+                    "pre": "",
+                    "field": "title",
+                    "post": "</td>"
+                }
+            },
+            "details": {
+                "title": "Title",
+                "pos" : 0,
+                "section": "default",
+                "visible": true
+            },
+            "facet": {
+                "visible": false
+            },
+            "csv_tsv": {
+                "title": "Title",
+                "visible": true,
+                "pos": 0
+            }
+        },
+        {
+            "name": "visualization",
+            "is_id": false,
+            "is_link": false,
+            "listing": {
+                "title": "Visualization",
+                "visible" : true,
+                "pos" : 1
+            },
+            "details": {
+                "title": "Visualization",
+                "pos" : 1,
+                "section": "default",
+                "visible": true
+            },
+            "facet": {
+                "visible": false
+            },
+            "csv_tsv": {
+                "title": "Visualization",
+                "visible": true,
+                "pos": 1
+            }
+        },
+        {
+            "name": "description",
+            "is_id": false,
+            "is_link": false,
+            "listing": {
+                "title": "Description",
+                "visible" : true,
+                "pos" : 2
+            },
+            "details": {
+                "title": "Description",
+                "pos" : 2,
+                "section": "default",
+                "visible": true
+            },
+            "facet": {
+                "visible": false
+            },
+            "csv_tsv": {
+                "title": "Description",
+                "visible": true,
+                "pos": 2
+            }
+        },
+        {
+            "name": "creator",
+            "is_id": false,
+            "is_link": false,
+            "listing": {
+                "title": "Creator",
+                "visible" : true,
+                "pos" : 3
+            },
+            "details": {
+                "title": "Creator",
+                "pos" : 3,
+                "section": "default",
+                "visible": true
+            },
+            "facet": {
+                "visible": true,
+                "title": "Creator",
+                "pos": 0,
+                "type": "facet",
+                "size": 9999,
+                "order": "term",
+                "facet_display_options": ["sort", "checkbox"]
+            },
+            "csv_tsv": {
+                "title": "Creator",
+                "visible": true,
+                "pos": 3
+            }
+        },
+        {
+            "name": "created",
+            "is_id": false,
+            "is_link": false,
+            "listing": {
+                "title": "Created",
+                "visible" : true,
+                "pos" : 4
+            },
+            "details": {
+                "title": "Created",
+                "pos" : 4,
+                "section": "default",
+                "visible": true
+            },
+            "facet": {
+                "visible": false
+            },
+            "csv_tsv": {
+                "title": "Created",
+                "visible": true,
+                "pos": 4
+            }
+        }
+    ]
+}

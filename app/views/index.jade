@@ -1,28 +1,18 @@
 block title
-    title AIDE*  &mdash; AIr Data Explorer &mdash; European Environment Agency
+    title Elasticsearch bootstrap application
 
 block extrajavascripts
-    script(type='text/javascript', src='javascripts/aide.facetview.js')
+    script(type='text/javascript', src='javascripts/esbootstrap.facetview.js')
 
 block extrastyles
     link(rel='stylesheet', href='css/no-more-tables.css')
-    link(rel="stylesheet", href="css/aide.facetview.css")
+    link(rel="stylesheet", href="css/esbootstrap.facetview.css")
 
 block content
-    div(id="portal-breadcrumbs")
-        span(id="breadcrumbs-you-are-here") You are here: 
-        span(id="breadcrumbs-home")
-            a(href="http://www.eea.europa.eu/") Home
-            span(class="breadcrumbSeparator")  / 
-        span(id="breadcrumbs-1")
-            span(class="breadcrumbs-current")  AIr Data Explorer
-
-    h1 AIDE  &mdash; AIr Data Explorer for Europe
-    p Slice and dice air quality data. This viewer helps you explore the latest version of European air quality statistics (AQ e-Reporting following EC Decision 2011/850/EU). Please note that the viewer and its underpinning dataset are 'beta' versions, and remain subject to changes. Users should note that the dataset may not contain all data received to date by EEA, and that data for 2014 may contain both verified and unverified data received from countries.
+    +portal_breadcrumbs ("esbootstrap")
+    h1 Elasticsearch bootstrap application
+    p Simple customizable bootstrap application
     .facet-view-simple
 
-    div(class="visualization-info")
-        h3 Data sources
-        a(href="http://www.eea.europa.eu/data-and-maps/data/aqereporting") Air Quality e-Reporting
-        span  provided by 
-        a(href="http://www.eea.europa.eu") European Environment Agency (EEA)
+    +visualization_info ("http://www.eea.europa.eu/data-and-maps/daviz","ES bootstrap")
+
