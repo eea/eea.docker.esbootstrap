@@ -1,30 +1,5 @@
-function fixQueries(){
-    $(".detail_link").each(function(idx, detail_link){
-        var href = $(detail_link).attr("href");
-        var base = href.split("=")[0];
-        var aideid = href.split("=")[1];
-        $(detail_link)
-            .attr("href", base + "=" + encodeURIComponent(aideid));
-    });
-}
-
-function fixDataTitles(){
-    var th_list = [];
-    $("#facetview_results thead th").each(function(idx, th){
-        th_list.push($(th).text());
-
-    })
-    $("#facetview_results tr").each(function(tr_idx, tr){
-        $(tr).find("td").each(function(td_idx, td){
-            $(td).attr("data-title", th_list[td_idx]);
-        });
-    });
-}
-
 function viewReady(){
     addHeaders("#facetview_results");
-    fixQueries();
-    fixDataTitles();
 }
 
 jQuery(document).ready(function($) {

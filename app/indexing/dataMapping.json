@@ -18,5 +18,9 @@
   "created" : {
         "type" : "string",
         "analyzer" : "none"
-    }
+    },
+  "year" : {
+        "type" : "integer",
+        "analyzer" : "none"
+  }
 }

@@ -6,14 +6,17 @@
 
 var path = require('path');
 var searchServer = require('eea-searchserver')
-var routes = require('./routes');
-var managementCommands = require('eea-searchserver').BuiltinCommands;
+var managementCommands = searchServer.builtinCommands;
+var builtinRoutes = searchServer.builtinRoutes;
 
 options = {
   app_dir: __dirname,
   views: __dirname + '/views',
   settingsFile: __dirname + '/settings.json',
-  routes: routes,
+  routes: {
+    routes: builtinRoutes,
+    detailsIdName: 'id'
+  },
   indexing:{
     managementCommands: managementCommands,
     indexingFilterQuery: null,
