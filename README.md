@@ -48,6 +48,7 @@ Depending on the query you have, you have more options.
 5.1 
 If it's a select query what returns the data structured in the table.
 Once you tried and tested your query on the endpoint, just copy it in the indexing/query.sparql.
+All indexing queries should contain a unique _id column.
 In our example we use a simple query what returns all daviz visualizations:
 query.sparql
 PREFIX daviz: <http://www.eea.europa.eu/portal_types/DavizVisualization#>
