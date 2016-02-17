@@ -2,8 +2,12 @@
     "details_settings" : {
         "show_links": true,
         "sections": [
-            {"name":"info", "title":"General info", "pos":0},
-            {"name":"created", "title":"Created", "pos":1}
+            {"name":"info",
+             "title":"General info",
+             "pos":0},
+            {"name":"created",
+             "title":"Created",
+             "pos":1}
         ]
     },
     "listing_settings" : {
