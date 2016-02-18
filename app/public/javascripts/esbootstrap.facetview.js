@@ -3,8 +3,7 @@ function viewReady(){
 }
 
 jQuery(document).ready(function($) {
-    var default_sort = [{}];
-    default_sort[0]['created'] = {"order": 'asc'};
+    var default_sort = [{'created':{"order": 'asc'}}];
 
     eea_facetview('.facet-view-simple', 
         {

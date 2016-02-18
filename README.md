@@ -11,12 +11,12 @@ created from it.
 ## For creating a new application you have to follow the next steps:
 
 ### Development:
-1. __Clone eea.docker.searchservices on the development machine:__
+####1. __Clone eea.docker.searchservices on the development machine:__
 	```git clone --recursive  https://github.com/eea/eea.docker.searchservices.git```
 
-2. __Copy the eea.docker.esbootstrap application under a new name: eea.docker.newesapp__
+####2. __Copy the eea.docker.esbootstrap application under a new name: eea.docker.newesapp__
 You will have the following file structure:
-	```
+<pre>
 	├── app
 	│   ├── indexing
 	│   │   ├── dataMapping.json
@@ -36,7 +36,7 @@ You will have the following file structure:
 	├── Dockerfile
 	├── Dockerfile.dev
 	└── README.md
-	```
+</pre>
 
  - **app/indexing** is the folder what contains the indexing scripts, the data
 mapping for elasticsearch and optionally a configuration file for analyzers.
@@ -54,60 +54,64 @@ should not be modified
  - **Dockerfile.dev** the development Dockerfile for the application,
 in most cases this should not be modified
 
-1. __Configure the elastic index__
-Edit **app/settings.json**:
-"elastic" section set the index name and the real_index
-"elastic_green" section set the **index name** and the **real_index**
-```	"elastic": {
-	        "index": "newesappdata",
+####3. __Configure the elastic index__
+The **app/settings.json** is the place where external templates and the elastic index is configure. The external templates should remain unchanged, but the index should be configured for the new application.
+<pre>
+	"elastic": {
+	    "index": "newesappdata",
         "real_index": "newesappdata_blue",
         "type": "resources",
         "field_base":""
-	  },
-	  "elastic_green": {
-        "index": "newesappdata",
+	},
+	"elastic_green": {
+	    "index": "newesappdata",
         "real_index": "newesappdata_green",
         "type": "resources",
         "field_base":""
-	  },
-	  ```
-1. Identify the query you want to use.
-Depending on the query you have, there are several options.
-5.1
-If it's a select query which returns the data structured in the table,
-once you tried and tested your query on the endpoint, just paste it in the indexing/query.sparql file.
-All indexing queries should contain a unique _id column.
-In our example we use a simple query what returns all daviz visualizations:
-query.sparql
-PREFIX daviz: <http://www.eea.europa.eu/portal_types/DavizVisualization#>
-PREFIX dct: <http://purl.org/dc/terms/>
+	},
+</pre>
 
+ - **elastic** section set the **index** and the real_index
+ - **elastic_green** section set the **index** and the **real_index**
+ For both **elastic** and **elastic_green** the **index** should be the same.
+ 
+#####4. __Identify the query you want to use.__
+Depending on the query you have, there are several options.
+
+#####4.1 __Simple Select query__ when there are not too many results
+If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the indexing/query.sparql file. 
+**Important:** All indexing queries should contain a unique _id column. 
+In our example we use a simple query what returns all daviz visualizations:
+**app/indexing/query.sparql**
+<pre>
+PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
+PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
 SELECT distinct (?visualization as ?_id) ?visualization ?description ?title ?creator ?created (year(?created) as ?year)
 WHERE {
-  ?visualization a daviz:DavizVisualization
-     optional{?visualization dct:description ?description}
-     optional{?visualization dct:title ?title}
-     optional{?visualization dct:creator ?creator}
-     optional{?visualization dct:created ?created}
+		?visualization a daviz:DavizVisualization
+		optional{?visualization dct:description ?description}
+	    optional{?visualization dct:title ?title}
+	    optional{?visualization dct:creator ?creator}
+	    optional{?visualization dct:created ?created}
 }
-
-Depending on the number of rows returned by your query, you might run into a timeout when indexing.
-If this occures, you should split up the indexing using a filter (ex. year of creation).
+</pre>
+#####4.2 __Filtered Select queries__
+Depending on the number of rows returned by your query, you might run into a timeout when indexing. If this occures, you should split up the indexing using a filter (ex. year of creation).
 Supposing we have too many visualizations we can split up the results using a filter on the creator.
-Create indexing/filterQuery.sparql and fill it with:
-PREFIX daviz: <http://www.eea.europa.eu/portal_types/DavizVisualization#>
-PREFIX dct: <http://purl.org/dc/terms/>
-
+Create **app/indexing/filterQuery.sparql** and fill it with:
+<pre>
+PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
+PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
 SELECT distinct ?creator
 WHERE {
   ?visualization a daviz:DavizVisualization
      optional{?visualization dct:creator ?creator}
 }
-
-and update query.sparql to look like:
-PREFIX daviz: <http://www.eea.europa.eu/portal_types/DavizVisualization#>
-PREFIX dct: <http://purl.org/dc/terms/>
-
+</pre>
+This query will return all **creators** for DavizVisualiztaions, so we have to update our **app/indexing/query.sparql** to use the **creator** as a filter value.
+<pre>
+PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
+PREFIX dct: &lt;http://purl.org/dc/terms/>&gt;
 SELECT distinct (?visualization as ?_id) ?visualization ?description ?title ?creator ?created (year(?created) as ?year)
 WHERE {
   ?visualization a daviz:DavizVisualization
@@ -115,55 +119,107 @@ WHERE {
      optional{?visualization dct:title ?title}
      optional{?visualization dct:creator ?creator}
      optional{?visualization dct:created ?created}
-
-  FILTER (?creator = '<creator>')
+  FILTER (?creator = '&lt;<b>creator</b>&gt;')
 }
+</pre>
+Notice the **FILTER** clause in the **app/indexing/query.sparql** as this query will be executed for each creator from the filterQuery.sparql query.
 
-Notice the FILTER clause in the query.sparql as this query will be executed for each creator from the filterQuery.sparql query.
-5.2
-If it's a construct query
+#####4.3 __Construct query__
 TODO
 
-6. Data mapping for indexing:
-It is done within indexing/dataMapping.json.
-By default elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's usefull to specify it explicitly.
-The most common data types are:
-string, long, integer, double, date, boolean, geo_point
-A full list of data types is listed at:
-https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
-the analyzer attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
-coma or semicolon
+####5. __Data mapping for indexing:__
+Data mapping for elasticsearch is done within **app/indexing/dataMapping.json**.
+By default elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
 example of mapping for a field:
-  "visualization" : {
+<pre>  "visualization" : {
         "type" : "string",
         "analyzer" : "none"
   },
+</pre>
+- the **analyzer** attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
+	- coma 
+	- semicolon
 Also it is possible to create your own analyzer
 TODO
+- for **type** the most common data types are:
+	-  string, 
+	- long, 
+	- integer, 
+	- double, 
+	- date, 
+	- boolean, 
+	- geo_point
 
-7. Configure the layout of the pages:
+A full list of data types is listed at:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
+
+####6. __Configure the layout of the pages:__
 For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
-The default templates are located in the view folder were we have index.jade and details.jade.
+The default templates are:
+
+- **app/views/index.jade** 
+- **app/views/details.jade**
 The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
 
-7.1 You have the possibility to add custom css and js files.
-The location of these files are public/css and public/js
-We have a default js for creating the listing page for the application, called:
-esbootstrap.facetview.js.
-You should rename it to newesapp.facetview.js and update the extrajavascripts block in index.jade.
-TODO EX?
-In normal cases you only have to specify is the default_sort.
-TODO Why should you? How should you specify the default_sort aka what options it can use?
-If you don't need it, leave it as an empty list.
+#####7.1 __Adding custom js code:__
+The location for js files is and **app/public/javascripts**
+We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
+Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the **extrajavascripts** block in **app/views/index.jade**.
+**extrajavascripts** is the place where you have to add any extra libraries:
 
+<pre>
+...
+block extrajavascripts
+    script(type='text/javascript', src='javascripts/<b>newesapp</b>.facetview.js')
+    script(type='text/javascript', src='javascripts/<b>extrajslibrary.js</b>')
+...
+</pre>
+**Note:** You can add different js on the index and the detail views.
 
-We also provide a default css called esbootstrap.facetview.css
+After updating the template, you can start customizing the **app/public/javascripts/newesapp.facetview.js**. 
+In normal cases you only have to specify is the **default_sort**:
 
-If you need any extra functionality which is implemented with javascript or some special layout using css you can add in the extrajavascripts and extrastyles blocks.
-You can also add extra js&css for index and details pages.
-TODO add small example.
+- If you don't need any sort on the listing view, just set an empty list:
+<pre>
+...
+var default_sort = [];
+...
+</pre>
+- But you can easily add a sort by doing something like:
+<pre>
+...
+default_sort = [{'created':{'order':'asc'}}] 
+...
+</pre>
+You only have to specify the name of the field and if the order is ascending or descending.
+There is also possible to set the sort on more fields:
+<pre>
+...
+default_sort = [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}] 
+...
+</pre>
 
-8. Configure which fields to be displayed on the listing page, what facets to use, what fields to have in the exported csv/tsv file, how the details page should look like.
+In **app/public/javascripts/newesapp.facetview.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback**. Ex:
+<pre>
+...
+post_init_callback: function() {
+	add_EEA_settings();
+	<b>customPostInitFunction();</b>
+},
+post_search_callback: function() {
+	add_EEA_settings();
+	viewReady();
+	<b>customPostSearchFunction();</b>
+},
+...
+</pre>
+
+**Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
+
+#####7.2 __Adding custom css code:__
+By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js** 
+
+####8. __Configure which fields to be displayed on the listing page, what facets to use, what fields to have in the exported csv/tsv file, how the details page should look like.__
 All of these settings can be configured within indexing/mapping.json:
 8.1 The first section is the "details_settings", where you can define the sections where the fields can be grouped.
 In our example we defined 2 sections, one for general info about the visualization and one for the info about the creation
