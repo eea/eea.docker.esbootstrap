@@ -213,7 +213,7 @@ post_search_callback: function() {
 },
 ...
 </pre>
-
+In the bootstrap application we already added a small method for formating chemical formulas. See the **replaceNumbers** method from **app/public/javascripts/esbootstrap.facetview.js**. You can see how it's added in the **post_init_callback** and **post_search_callback**. This method can be removed.
 **Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
 
 #####7.2 __Adding custom css code:__
