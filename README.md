@@ -12,7 +12,7 @@ created from it.
 
 ### Development:
 ####1. __Clone eea.docker.searchservices on the development machine:__
-	```git clone --recursive  https://github.com/eea/eea.docker.searchservices.git```
+	git clone --recursive  https://github.com/eea/eea.docker.searchservices.git
 
 ####2. __Copy the eea.docker.esbootstrap application under a new name: eea.docker.newesapp__
 You will have the following file structure:
@@ -219,12 +219,23 @@ post_search_callback: function() {
 #####7.2 __Adding custom css code:__
 By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js** 
 
-####8. __Configure which fields to be displayed on the listing page, what facets to use, what fields to have in the exported csv/tsv file, how the details page should look like.__
-All of these settings can be configured within indexing/mapping.json:
-8.1 The first section is the "details_settings", where you can define the sections where the fields can be grouped.
+####8. __Configure fields to be displayed on the listing page, facets, csv/tsv export, details page__
+All of these settings can be configured within **app/mapping.json**:
+<pre>
+{
+    "details_settings" : {
+		...
+    },
+    "fields_mapping": [
+	    ...
+	]
+}
+ </pre>
+#####8.1 __details_settings__
+The first section is the **details_settings**, where you can define the sections where the fields can be grouped
 In our example we defined 2 sections, one for general info about the visualization and one for the info about the creation
+<pre>
    "details_settings" : {
-        "show_links": true,
         "sections": [
             {"name":"info",
              "title":"General info",
@@ -234,82 +245,116 @@ In our example we defined 2 sections, one for general info about the visualizati
               "pos":1}
         ]
     }
-Each section has a:
-- name: which will be used for the fields which belongs to this section.
-- title: which will be displayed on the view
-- pos: the order of the details sections
+</pre>
+Each section has the following attributes:
 
-8.2 The second section is the "fields_mapping", where all fields are enumerated and configured:
-        {
-            "name": "creator",
-            "is_id": false,
-            "is_link": false,
-            "listing": {
-                "title": "Creator",
-                "visible" : true,
-                "pos" : 3
-            },
-            "details": {
-                "title": "Creator",
-                "pos" : 3,
-                "section": "created",
-                "visible": true
-            },
-            "facet": {
-                "visible": true,
-                "title": "Creator",
-                "pos": 0,
-                "type": "facet",
-                "size": 9999,
-                "order": "term",
-                "facet_display_options": ["sort", "checkbox"]
-            },
-            "csv_tsv": {
-                "title": "Creator",
-                "visible": true,
-                "pos": 3
-            }
-        },
+- **name**: which will be used for the fields which belongs to this section
+- **title**: which will be displayed on the view
+- **pos**: the order of the details sections
 
-- name: is the name of the field
-- listing: here you define if you want this field to be displayed on the main listing page, what position it should take and what title it should have:
-            "listing": {
-                "visible" : true,
-                "title": "Column title",
-                "pos" : 0
-                "display": {
-                    "pre": "a href=/details?id=",
-                    "field": "_id",
-                    "post": ">"
-                }
-            }
-  It has the following attributes:
-  - visible: boolean, controlling if it should be displayed in the list or not, if false all the other options will be ignored
-  - title: the column name
-  - pos: position in the table
-  - display: optional attribute, you can add extra formatting or extra fields to be displayed
-    NOTE: the first column should always use the display option and have the "post" attribute set to "</td>"
+#####8.2 **fields_mapping**
+The second section is the **fields_mapping**, where all fields are enumerated and configured.
+For one field the setting looks like:
+<pre>
+  {
+	  "name": "creator",
+      "listing": {
+	      "title": "Creator",
+          "visible" : true,
+          "pos" : 3
+      },
+      "details": {
+	      "title": "Creator",
+          "pos" : 3,
+          "section": "created",
+          "visible": true
+      },
+      "facet": {
+		  "visible": true,
+          "title": "Creator",
+          "pos": 0,
+          "type": "facet",
+          "size": 9999,
+          "order": "term",
+          "facet_display_options": ["sort", "checkbox"]
+	},
+    "csv_tsv": {
+	    "title": "Creator",
+        "visible": true,
+        "pos": 3
+	}
+},
+</pre>
+
+The attributes are:
+
+- **name**: is the name of the field
+- **listing**: here you define if you want this field to be displayed on the main listing page, what position it should take and what title it should have:
+    <pre>
+	"listing": {
+		"visible" : true,
+		"title": "Column title",
+		"pos" : 0
+		"display": {
+		    "pre": "&lta href=/details?id=",
+	        "field": "_id",
+            "post": "&gt"
+		}
+	}
+    </pre>
+with the attributes:
+ - **visible**: boolean, controlling if it should be displayed in the list or not, if false all the other options will be ignored
+ - **title**: the column name
+ - **pos**: position in the table
+ - **display**: optional attribute, you can add extra formatting or extra fields to be displayed. In the **pre** and **post** attributes you can specify html snippet what will be displayed for this item. in the **field** attribute you can specify the name of the field. Usually the **field** attribute is identical with the original **name** but you can use others too. This is useful when you try to create links to detail pages.
+	  **IMPORTANT**: the first column should always use the display option and have the "post" attribute set to "&lt;/td&gt;"
 
 
-- facet
-  - visible: boolean, controlling if it should be used as a facet or not, if false all other options will be ignored
-  - title: label of the facet
-  - pos: order of the facet
-  - type: type of the facet that it can be
-    - facet, it can be any kind of field
-    - range, numeric field
-    - geo, geo_point field
-  - size: size of the facet if it's a simple facet
-  - facet_display_options: options for the simple facet, usually enough to have "sort" and "checkbox" TODO: list all available options
+- **facet**
+	In this section you can configure if you want a facet based on this field, and how it should look like:
+	<pre>
+      "facet": {
+		  "visible": true,
+          "title": "Creator",
+          "pos": 0,
+          "type": "facet",
+          "size": 9999,
+          "order": "term",
+          "facet_display_options": ["sort", "checkbox"]
+	},
+	</pre>
+	with the attributes:
+  - **visible:** boolean, controlling if it should be used as a facet or not, if false all other options will be ignored
+  - **title**: label of the facet
+  - **pos**: order of the facet
+  - **type**: type of the facet that it can be
+	    - **facet**: it can be any kind of field
+	    - **range**: numeric field
+	    - **geo**: geo_point* field
+  - **size**: size of the facet if it's a simple facet
+  - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox" 
+  - TODO: list all available options
 
-- csv_tsv
-  - visible: boolean, controlling if it should be used in the csv/tsv export or not, if false all other options will be ignored
-  - title: the column name
-  - pos: position in the export
+- **csv_tsv**
+	In this section you can configure the field for csv/tsv export
+	<pre>
+    "csv_tsv": {
+	    "title": "Creator",
+        "visible": true,
+        "pos": 3
+	}
+	</pre>
+	with the attributes:
+  - **visible**: boolean, controlling if it should be used in the csv/tsv export or not, if false all other options will be ignored
+  - **title**: the column name
+  - **pos**: position in the export
 
-9. app.js
+####9. __Configure the main application__
+  For this you have to work on the **app/app.js** file.
   If the name of the indexing files were not changed and only a simple query is used for indexing, this file can remain unchanged.
+  If there were changes in the naming of indexing files or templates, you will have to modify the **app/app.js**
   The options for starting the application should look like:
+<pre>
     options = {
       app_dir: __dirname,
       views: __dirname + '/views',
@@ -327,22 +372,27 @@ Each section has a:
         endpoint: 'http://semantic.eea.europa.eu/sparql',
       }
     }
-- app_dir: the absolute location of the application, leave it as it is
-- views: the absolute location of the jade templates, by default it is in the views folder
-- settingsFile: the absolute location of the settings.json
-- routes: the settings for the available views for listing and detail pages.
+</pre>
+with the attributes:
+
+- **app_dir**: the absolute location of the application, leave it as it is
+- **views**: the absolute location of the jade templates, by default it is in the views folder
+- **settingsFile**: the absolute location of the settings.json
+- **routes**: the settings for the available views for listing and detail pages.
   We have a builtin route for this, so if you don't have anything special then you don't need to do anything else.
-  If you need extra functionality you will have to replicate the eea.searchserver.js/lib/builtinRoutes.js and implement the same methods.
+	<pre>
       routes: {
         routes: builtinRoutes,
         detailsIdName: 'id'
       },
+	</pre>
+	
+  - **routes**: the routes module you want to use, usually you can use the builtinRoutes
+  - **detailsIdName**: the url attribute used for the details page
 
-  - routes: the routes module you want to use, usually you can use the builtinRoutes
-  - detailsIdName: the url attribute used for the details page
-- indexing: The settings for the indexing module
-  We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
-  If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
+  If you need extra functionality you will have to replicate the eea.searchserver.js/lib/builtinRoutes.js and implement the same methods.
+- **indexing**: The settings for the indexing module
+	<pre>
       indexing:{
         managementCommands: managementCommands,
         indexingFilterQuery: null,
@@ -351,15 +401,21 @@ Each section has a:
         dataMapping: 'indexing/dataMapping.json',
         endpoint: 'http://semantic.eea.europa.eu/sparql',
       }
-  - managementCommands: the commands module what you want to use
-  - indexingFilterQuery: an optional value, for the filtering Query (see 5.1)
-  - indexingQuery: the name of the file containing the sparql query
-  - extraAnalyzers: the name of the json what contains the analyzers (see 6)
-  - dataMapping: the name of the dataMapping file for indexing (see 6)
-  - endpoint: the endpoint where the queries should be executed
+      </pre>
+  - **managementCommands**: the commands module what you want to use
+  - **indexingFilterQuery**: an optional value, for the filtering Query (see 4.2)
+  - **indexingQuery**: the name of the file containing the sparql query
+  - **extraAnalyzers**: the name of the json what contains the analyzers (see 5)
+  - **dataMapping**: the name of the dataMapping file for indexing (see 5)
+  - **endpoint**: the endpoint where the queries should be executed
 
-  3. Add it in the docker-compose.dev.yml files
-  Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.yml and add to it the settings for development
+  We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
+  If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
+
+####10. __Configure the eea.docker.searchservices to include the new application__
+#####10.1 __Add it in the docker-compose.dev.yml file__
+Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.yml and add to it the settings for development
+<pre>
     newesapp:
       image: eeacms/esbootstrap:dev # Work with dev build
       links:
@@ -369,22 +425,41 @@ Each section has a:
       environment:
           - elastic_host=esclient
           - AUTO_INDEXING=true #index data when the app is started for the first time
-  #        - SYNC_CRONTAB=*/2 * * * * # This is optional, it executes the sync with a cronjob
+  #        - SYNC_CRONTAB=*/30 * * * * # This is optional, it executes the sync with a cronjob every 30 minutes
       volumes:
           - ./eea.docker.newesapp/app/:/code/:z # the volumes are added for easier development
           - ./eea.searchserver.js/lib/:/node_modules/eea-searchserver/lib/:z
+</pre>
 
-
-10. Testing the application
-In eea.docker.searchservices:
-Create the dev image for the new app:
+#####10.1 __Testing the application__
+In **eea.docker.searchservices**:
+At first try you have to build all development images for the applications
+<pre>
 ./build_dev.sh -s
+</pre>
+Later, when you modify your application, is enough to rebuild only that. This is not mandatory, as in the docker-compose.dev.yml we already mounted the code in the container, but when you want to try to build the image, is enough to do:
+<pre>
+./build_dev.sh newesapp -s
+</pre>
 
-Start the whole stack using:
+#####10.2 __Start the whole stack using:__
+In **eea.docker.searchservices** start the whole stack with:
+<pre>
 docker-compose -f docker-compose.dev.yml up
+</pre>
 
-Test in the browser
+#####10.3 __Test in the browser__
+In your favorite browser go to:
+<pre>
+http://&lt;machine ip&gt;:&lt;port&gt;
+</pre>
 
-11. If the application is working, you should add it in the stack as a submodule
-TODO
+####11. __Add it to the production stack__
+After there is a first working version of the application, you should 
+
+- add it in the stack as a git submodule for **eea.docker.searchservices**
+- create a git tag for **eea.docker.newesapp**
+- add the application in https://hub.docker.com and enable automatic build on tags
+- add your application in **docker-compose.yml** from **eea.docker.searchservices** and pin it to the tag you added
+
 

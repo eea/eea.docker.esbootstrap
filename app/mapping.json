@@ -1,6 +1,5 @@
 {
     "details_settings" : {
-        "show_links": true,
         "sections": [
             {"name":"info",
              "title":"General info",
@@ -10,13 +9,9 @@
              "pos":1}
         ]
     },
-    "listing_settings" : {
-        "show_links": false
-    },
     "fields_mapping": [
         {
             "name": "_id",
-            "is_link": false,
             "listing": {
                 "title": "Title",
                 "visible" : true,
@@ -40,8 +35,6 @@
 
         {
             "name": "title",
-            "is_id": false,
-            "is_link": false,
             "listing": {
                 "title": "",
                 "visible" : true,
@@ -69,8 +62,6 @@
         },
         {
             "name": "visualization",
-            "is_id": false,
-            "is_link": true,
             "listing": {
                 "title": "Visualization",
                 "visible" : true,
@@ -93,8 +84,6 @@
         },
         {
             "name": "description",
-            "is_id": false,
-            "is_link": false,
             "listing": {
                 "title": "Description",
                 "visible" : true,
@@ -117,8 +106,6 @@
         },
         {
             "name": "creator",
-            "is_id": false,
-            "is_link": false,
             "listing": {
                 "title": "Creator",
                 "visible" : true,
@@ -147,8 +134,6 @@
         },
         {
             "name": "created",
-            "is_id": false,
-            "is_link": false,
             "listing": {
                 "title": "Created",
                 "visible" : true,
@@ -171,8 +156,6 @@
         },
         {
             "name": "year",
-            "is_id": false,
-            "is_link": false,
             "listing": {
                 "visible" : false
             },
