@@ -232,8 +232,8 @@ All of these settings can be configured within **app/mapping.json**. Based on th
 	    ...
 	]
 }
- </pre>
- 
+</pre>
+
 #####7.1 __details_settings__
 The first section is the **details_settings**, where you can define the sections where the fields can be grouped
 In our example we defined 2 sections, one for general info about the visualization and one for the info about the creation
