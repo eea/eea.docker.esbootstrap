@@ -220,7 +220,7 @@ In the bootstrap application we already added a small method for formating chemi
 #####6.2 __Adding custom css code__
 By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js** 
 
-####7. __configure fields definition for the presentation layer__
+####7. __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
 All of these settings can be configured within **app/mapping.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
 <pre>
