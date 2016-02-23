@@ -11,7 +11,7 @@ created from it.
 ## For creating a new application you have to follow the next steps:
 
 ### Development:
-####1. __Clone eea.docker.searchservices on the development machine:__
+####1. __Clone eea.docker.searchservices on the development machine__
 	git clone --recursive  https://github.com/eea/eea.docker.searchservices.git
 
 ####2. __Copy the eea.docker.esbootstrap application under a new name: eea.docker.newesapp__
@@ -75,7 +75,8 @@ The **app/settings.json** is the place where external templates and the elastic 
  - **elastic_green** section set the **index** and the **real_index**
  For both **elastic** and **elastic_green** the **index** should be the same.
  
-#####4. __Identify the query you want to use.__
+####4. __Set up the SPARQL Query to be indexed in Elasticsearch__
+Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
 Depending on the query you have, there are several options.
 
 #####4.1 __Simple Select query__ when there are not too many results
@@ -127,9 +128,9 @@ Notice the **FILTER** clause in the **app/indexing/query.sparql** as this query 
 #####4.3 __Construct query__
 TODO
 
-####5. __Data mapping for indexing:__
+####5. __Data mapping for indexing in Elasticsearch__
+When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
 Data mapping for elasticsearch is done within **app/indexing/dataMapping.json**.
-By default elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
 example of mapping for a field:
 <pre>  "visualization" : {
         "type" : "string",
@@ -153,7 +154,7 @@ TODO
 A full list of data types is listed at:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
 
-####6. __Configure the layout of the pages:__
+####6. __Configure the layout of the pages__
 For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
 The default templates are:
 
@@ -161,7 +162,7 @@ The default templates are:
 - **app/views/details.jade**
 The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
 
-#####7.1 __Adding custom js code:__
+#####6.1 __Adding custom js code__
 The location for js files is and **app/public/javascripts**
 We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
 Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the **extrajavascripts** block in **app/views/index.jade**.
@@ -216,11 +217,12 @@ post_search_callback: function() {
 In the bootstrap application we already added a small method for formating chemical formulas. See the **replaceNumbers** method from **app/public/javascripts/esbootstrap.facetview.js**. You can see how it's added in the **post_init_callback** and **post_search_callback**. This method can be removed.
 **Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
 
-#####7.2 __Adding custom css code:__
+#####6.2 __Adding custom css code__
 By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js** 
 
-####8. __Configure fields to be displayed on the listing page, facets, csv/tsv export, details page__
-All of these settings can be configured within **app/mapping.json**:
+####7. __configure fields definition for the presentation layer__
+In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
+All of these settings can be configured within **app/mapping.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
 <pre>
 {
     "details_settings" : {
@@ -231,7 +233,8 @@ All of these settings can be configured within **app/mapping.json**:
 	]
 }
  </pre>
-#####8.1 __details_settings__
+ 
+#####7.1 __details_settings__
 The first section is the **details_settings**, where you can define the sections where the fields can be grouped
 In our example we defined 2 sections, one for general info about the visualization and one for the info about the creation
 <pre>
@@ -252,7 +255,7 @@ Each section has the following attributes:
 - **title**: which will be displayed on the view
 - **pos**: the order of the details sections
 
-#####8.2 **fields_mapping**
+#####7.2 **fields_mapping**
 The second section is the **fields_mapping**, where all fields are enumerated and configured.
 For one field the setting looks like:
 <pre>
@@ -349,7 +352,7 @@ with the attributes:
   - **title**: the column name
   - **pos**: position in the export
 
-####9. __Configure the main application__
+####8. __Configure the main application__
   For this you have to work on the **app/app.js** file.
   If the name of the indexing files were not changed and only a simple query is used for indexing, this file can remain unchanged.
   If there were changes in the naming of indexing files or templates, you will have to modify the **app/app.js**
@@ -388,7 +391,7 @@ with the attributes:
 	</pre>
 	
   - **routes**: the routes module you want to use, usually you can use the builtinRoutes
-  - **detailsIdName**: the url attribute used for the details page
+  - **detailsIdName**: the url attribute used for the detail pages
 
   If you need extra functionality you will have to replicate the eea.searchserver.js/lib/builtinRoutes.js and implement the same methods.
 - **indexing**: The settings for the indexing module
@@ -412,8 +415,8 @@ with the attributes:
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
 
-####10. __Configure the eea.docker.searchservices to include the new application__
-#####10.1 __Add it in the docker-compose.dev.yml file__
+####9. __Configure the eea.docker.searchservices to include the new application__
+#####9.1 __Add it in the docker-compose.dev.yml file__
 Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.yml and add to it the settings for development
 <pre>
     newesapp:
@@ -431,7 +434,7 @@ Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.
           - ./eea.searchserver.js/lib/:/node_modules/eea-searchserver/lib/:z
 </pre>
 
-#####10.1 __Testing the application__
+#####9.2 __Testing the application__
 In **eea.docker.searchservices**:
 At first try you have to build all development images for the applications
 <pre>
@@ -442,19 +445,19 @@ Later, when you modify your application, is enough to rebuild only that. This is
 ./build_dev.sh newesapp -s
 </pre>
 
-#####10.2 __Start the whole stack using:__
+#####9.3 __Start the whole stack__
 In **eea.docker.searchservices** start the whole stack with:
 <pre>
 docker-compose -f docker-compose.dev.yml up
 </pre>
 
-#####10.3 __Test in the browser__
+#####9.4 __Test in the browser__
 In your favorite browser go to:
 <pre>
 http://&lt;machine ip&gt;:&lt;port&gt;
 </pre>
 
-####11. __Add it to the production stack__
+####10. __Add it to the production stack__
 After there is a first working version of the application, you should 
 
 - add it in the stack as a git submodule for **eea.docker.searchservices**
