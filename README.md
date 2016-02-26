@@ -59,21 +59,12 @@ The **app/settings.json** is the place where external templates and the elastic 
 <pre>
 	"elastic": {
 	    "index": "newesappdata",
-        "real_index": "newesappdata_blue",
-        "type": "resources",
-        "field_base":""
-	},
-	"elastic_green": {
-	    "index": "newesappdata",
-        "real_index": "newesappdata_green",
         "type": "resources",
         "field_base":""
 	},
 </pre>
 
- - **elastic** section set the **index** and the real_index
- - **elastic_green** section set the **index** and the **real_index**
- For both **elastic** and **elastic_green** the **index** should be the same.
+ - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
  
 ####4. __Set up the SPARQL Query to be indexed in Elasticsearch__
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
