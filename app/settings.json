@@ -4,13 +4,6 @@
     },
     "elastic": {
         "index": "esbootstrapdata",
-        "real_index": "esbootstrapdata_blue",
-        "type": "resources",
-        "field_base":""
-    },
-    "elastic_green": {
-        "index": "esbootstrapdata",
-        "real_index": "esbootstrapdata_green",
         "type": "resources",
         "field_base":""
     },
