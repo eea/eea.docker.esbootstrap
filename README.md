@@ -352,7 +352,7 @@ with the attributes:
     options = {
       app_dir: __dirname,
       views: __dirname + '/views',
-      settingsFile: __dirname + '/settings.json',
+      settingsFile: __dirname + '/config/settings.json',
       routes: {
         routes: builtinRoutes,
         detailsIdName: 'id'

@@ -1,5 +1,5 @@
 block title
-    title Elasticsearch bootstrap application
+    title= site_title
 
 block extrajavascripts
     script(type='text/javascript', src='javascripts/esbootstrap.facetview.js')
@@ -9,10 +9,9 @@ block extrastyles
     link(rel="stylesheet", href="css/esbootstrap.facetview.css")
 
 block content
-    +portal_breadcrumbs ("esbootstrap")
-    h1 Elasticsearch bootstrap application
-    p Simple customizable bootstrap application
+    +portal_breadcrumbs (breadcrumbs)
+    h1= site_title
+    p= site_description
     .facet-view-simple
 
-    +visualization_info ("http://www.eea.europa.eu/data-and-maps/daviz","ES bootstrap")
-
+    +visualization_info (visualization_info_url,visualization_info_text)
