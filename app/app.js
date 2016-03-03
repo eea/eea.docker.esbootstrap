@@ -12,7 +12,7 @@ var builtinRoutes = searchServer.builtinRoutes;
 options = {
   app_dir: __dirname,
   views: __dirname + '/views',
-  settingsFile: __dirname + 'config/settings.json',
+  settingsFile: __dirname + '/config/settings.json',
   routes: {
     routes: builtinRoutes,
     detailsIdName: 'id'
