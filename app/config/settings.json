@@ -18,7 +18,8 @@
         "site_title": "Elasticsearch bootstrap application",
         "site_description": "Simple customizable bootstrap application",
         "breadcrumbs": "esbootstrap",
-        "visualization_info_text": "ES bootstrap",
-        "visualization_info_url": "http://www.eea.europa.eu/data-and-maps/daviz"
+        "dataprovencance_info_text": "ES bootstrap",
+        "dataprovencance_info_url": "http://www.eea.europa.eu/data-and-maps/daviz",
+        "further_info": ""
     }
 }
