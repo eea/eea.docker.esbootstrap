@@ -12,7 +12,7 @@ var builtinRoutes = searchServer.builtinRoutes;
 options = {
   app_dir: __dirname,
   views: __dirname + '/views',
-  settingsFile: __dirname + '/settings.json',
+  settingsFile: __dirname + 'config/settings.json',
   routes: {
     routes: builtinRoutes,
     detailsIdName: 'id'
@@ -20,15 +20,15 @@ options = {
   indexing:{
     managementCommands: managementCommands,
     indexingFilterQuery: null,
-    indexingQuery: 'indexing/query.sparql',
+    indexingQuery: 'config/query.sparql',
     extraAnalyzers: '',
-    dataMapping: 'indexing/dataMapping.json',
+    dataMapping: 'config/dataMapping.json',
     endpoint: 'http://semantic.eea.europa.eu/sparql',
   }
 }
 searchServer.Helpers.SimpleStart(options)
 
 exports.fieldsMapping = function(next){
-    next(require(path.join(__dirname, "mapping.json")));
+    next(require(path.join(__dirname, "config/mapping.json")));
 }
 

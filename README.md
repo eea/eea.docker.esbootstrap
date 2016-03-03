@@ -18,9 +18,11 @@ created from it.
 You will have the following file structure:
 <pre>
 	├── app
-	│   ├── indexing
+	│   ├── config
 	│   │   ├── dataMapping.json
 	│   │   └── query.sparql
+	│   │   └── mapping.json
+	│   │   └── settings.json
 	│   ├── public
 	│   │   ├── css
 	│   │   │   └── esbootstrap.facetview.css
@@ -30,32 +32,30 @@ You will have the following file structure:
 	│   |   ├── details.jade
 	│   |   └── index.jade
 	│   ├── app.js
-	│   ├── mapping.json
 	│   ├── package.json
-	│   └── settings.json
 	├── Dockerfile
 	├── Dockerfile.dev
 	└── README.md
 </pre>
 
- - **app/indexing** is the folder what contains the indexing scripts, the data
+ - **app/config** is the folder what contains the indexing scripts, the data
 mapping for elasticsearch and optionally a configuration file for analyzers.
+ - **app/config/mapping.json** contains the configuration of the pages, including listing
+ - **app/config/settings.json** contains information about the external templates and the
+elastic index to be used in the app
+ - view, facets, detail view, csv/tsv export
  - **app/public** contains the static resources
  - **app/views** contains the jade templates for index and detail pages
  - **app/app.js** is the main application
- - **app/mapping.json** contains the configuration of the pages, including listing
- - view, facets, detail view, csv/tsv export
  - **app/package.json** contains information about the application, version number,
 dependencies, etc.
- - **app/settings.json** contains information about the external templates and the
-elastic index to be used in the app
  - **Dockerfile** the production Dockerfile for the application, in most cases this
 should not be modified
  - **Dockerfile.dev** the development Dockerfile for the application,
 in most cases this should not be modified
 
 ####3. __Configure the elastic index__
-The **app/settings.json** is the place where external templates and the elastic index is configure. The external templates should remain unchanged, but the index should be configured for the new application.
+The **app/config/settings.json** is the place where external templates and the elastic index is configure. The external templates should remain unchanged, but the index should be configured for the new application.
 <pre>
 	"elastic": {
 	    "index": "newesappdata",
@@ -65,16 +65,16 @@ The **app/settings.json** is the place where external templates and the elastic 
 </pre>
 
  - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
- 
+
 ####4. __Set up the SPARQL Query to be indexed in Elasticsearch__
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
 Depending on the query you have, there are several options.
 
 #####4.1 __Simple Select query__ when there are not too many results
-If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the indexing/query.sparql file. 
-**Important:** All indexing queries should contain a unique _id column. 
+If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the indexing/query.sparql file.
+**Important:** All indexing queries should contain a unique _id column.
 In our example we use a simple query what returns all daviz visualizations:
-**app/indexing/query.sparql**
+**app/config/query.sparql**
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
@@ -90,7 +90,7 @@ WHERE {
 #####4.2 __Filtered Select queries__
 Depending on the number of rows returned by your query, you might run into a timeout when indexing. If this occures, you should split up the indexing using a filter (ex. year of creation).
 Supposing we have too many visualizations we can split up the results using a filter on the creator.
-Create **app/indexing/filterQuery.sparql** and fill it with:
+Create **app/config/filterQuery.sparql** and fill it with:
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
@@ -100,7 +100,7 @@ WHERE {
      optional{?visualization dct:creator ?creator}
 }
 </pre>
-This query will return all **creators** for DavizVisualiztaions, so we have to update our **app/indexing/query.sparql** to use the **creator** as a filter value.
+This query will return all **creators** for DavizVisualiztaions, so we have to update our **app/config/query.sparql** to use the **creator** as a filter value.
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/>&gt;
@@ -114,14 +114,14 @@ WHERE {
   FILTER (?creator = '&lt;<b>creator</b>&gt;')
 }
 </pre>
-Notice the **FILTER** clause in the **app/indexing/query.sparql** as this query will be executed for each creator from the filterQuery.sparql query.
+Notice the **FILTER** clause in the **app/config/query.sparql** as this query will be executed for each creator from the filterQuery.sparql query.
 
 #####4.3 __Construct query__
 TODO
 
 ####5. __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
-Data mapping for elasticsearch is done within **app/indexing/dataMapping.json**.
+Data mapping for elasticsearch is done within **app/config/dataMapping.json**.
 example of mapping for a field:
 <pre>  "visualization" : {
         "type" : "string",
@@ -129,17 +129,17 @@ example of mapping for a field:
   },
 </pre>
 - the **analyzer** attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
-	- coma 
+	- coma
 	- semicolon
 Also it is possible to create your own analyzer
 TODO
 - for **type** the most common data types are:
-	-  string, 
-	- long, 
-	- integer, 
-	- double, 
-	- date, 
-	- boolean, 
+	-  string,
+	- long,
+	- integer,
+	- double,
+	- date,
+	- boolean,
 	- geo_point
 
 A full list of data types is listed at:
@@ -149,7 +149,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.ht
 For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
 The default templates are:
 
-- **app/views/index.jade** 
+- **app/views/index.jade**
 - **app/views/details.jade**
 The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
 
@@ -168,7 +168,7 @@ block extrajavascripts
 </pre>
 **Note:** You can add different js on the index and the detail views.
 
-After updating the template, you can start customizing the **app/public/javascripts/newesapp.facetview.js**. 
+After updating the template, you can start customizing the **app/public/javascripts/newesapp.facetview.js**.
 In normal cases you only have to specify is the **default_sort**:
 
 - If you don't need any sort on the listing view, just set an empty list:
@@ -180,14 +180,14 @@ var default_sort = [];
 - But you can easily add a sort by doing something like:
 <pre>
 ...
-default_sort = [{'created':{'order':'asc'}}] 
+default_sort = [{'created':{'order':'asc'}}]
 ...
 </pre>
 You only have to specify the name of the field and if the order is ascending or descending.
 There is also possible to set the sort on more fields:
 <pre>
 ...
-default_sort = [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}] 
+default_sort = [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}]
 ...
 </pre>
 
@@ -209,11 +209,11 @@ In the bootstrap application we already added a small method for formating chemi
 **Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
 
 #####6.2 __Adding custom css code__
-By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js** 
+By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js**
 
 ####7. __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
-All of these settings can be configured within **app/mapping.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
+All of these settings can be configured within **app/config/mapping.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
 <pre>
 {
     "details_settings" : {
@@ -326,7 +326,7 @@ with the attributes:
 	    - **range**: numeric field
 	    - **geo**: geo_point* field
   - **size**: size of the facet if it's a simple facet
-  - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox" 
+  - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox"
   - TODO: list all available options
 
 - **csv_tsv**
@@ -380,7 +380,7 @@ with the attributes:
         detailsIdName: 'id'
       },
 	</pre>
-	
+
   - **routes**: the routes module you want to use, usually you can use the builtinRoutes
   - **detailsIdName**: the url attribute used for the detail pages
 
@@ -449,7 +449,7 @@ http://&lt;machine ip&gt;:&lt;port&gt;
 </pre>
 
 ####10. __Add it to the production stack__
-After there is a first working version of the application, you should 
+After there is a first working version of the application, you should
 
 - add it in the stack as a git submodule for **eea.docker.searchservices**
 - create a git tag for **eea.docker.newesapp**
