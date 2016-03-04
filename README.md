@@ -41,8 +41,8 @@ You will have the following file structure:
  - **app/config** is the folder what contains the indexing scripts, the data
 mapping for elasticsearch and optionally a configuration file for analyzers.
  - **app/config/mapping.json** contains the configuration of the pages, including listing
- - **app/config/settings.json** contains information about the external templates and the
-elastic index to be used in the app
+ - **app/config/settings.json** contains information about the external templates, the
+elastic index to be used in the app and some information for customize the layout
  - view, facets, detail view, csv/tsv export
  - **app/public** contains the static resources
  - **app/views** contains the jade templates for index and detail pages
@@ -54,8 +54,12 @@ should not be modified
  - **Dockerfile.dev** the development Dockerfile for the application,
 in most cases this should not be modified
 
-####3. __Configure the elastic index__
-The **app/config/settings.json** is the place where external templates and the elastic index is configure. The external templates should remain unchanged, but the index should be configured for the new application.
+####3.1 __Configure settings.json__
+The **app/config/settings.json** is the place where external templates, customstring and the elastic index is configure. The external templates should remain unchanged, but the **index** and **layout_vars**
+should be configured for the new application.
+
+####3.1 __Configure the elastic index__
+
 <pre>
 	"elastic": {
 	    "index": "newesappdata",
@@ -65,6 +69,21 @@ The **app/config/settings.json** is the place where external templates and the e
 </pre>
 
  - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
+
+#####3.2 __Configure custom string__
+
+<pre>
+  "layout_vars": {
+        "site_title": "Elasticsearch bootstrap application",
+        "site_description": "Simple customizable bootstrap application",
+        "breadcrumbs": "esbootstrap",
+        "dataprovencance_info_text": "ES bootstrap",
+        "dataprovencance_info_url": "http://www.eea.europa.eu/data-and-maps/daviz",
+        "further_info": ""
+    }
+</pre>
+
+ - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.The
 
 ####4. __Set up the SPARQL Query to be indexed in Elasticsearch__
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
