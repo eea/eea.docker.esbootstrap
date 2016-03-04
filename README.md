@@ -12,12 +12,12 @@ created from it.
 
 Basic usage of the image is given by the following pattern:
 
-<pre>
+```
 docker run -d -v ./config:/code/config -p 8080:3000 -e "elastic_host=<elasticsearch_host_or_ip>" eeacms/esbootstrap:v1.0
-</pre>
+```
 
 - **<elasticsearch_host_or_ip>** is the url of your elastic search server
-- **config** is the folder that contains the configuration files for your app. See this to [details]()
+- **config** is the folder that contains the configuration files for your app. See this to [details](/docs/Details.md#3-configuration)
 
 ## Details
 
