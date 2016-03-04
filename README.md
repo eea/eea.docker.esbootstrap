@@ -83,7 +83,9 @@ should be configured for the new application.
     }
 </pre>
 
- - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.The
+ - in the **layout_vars** section you can edit the strings to be describe the title and the text description of your app.
+ - in **further_info** you can add a small HTML that be renderer above the data provenance info.
+
 
 ####4. __Set up the SPARQL Query to be indexed in Elasticsearch__
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
