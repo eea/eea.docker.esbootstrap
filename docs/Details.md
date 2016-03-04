@@ -44,7 +44,7 @@ should not be modified
  - **Dockerfile.dev** the development Dockerfile for the application,
 in most cases this should not be modified
 
-####3 __Configuration__
+####3. __Configuration__
 All configuration are place in the **config** folder. This folder contains these files
 
 <pre>
@@ -55,12 +55,12 @@ All configuration are place in the **config** folder. This folder contains these
     │   └── settings.json
 </pre>
 
-#####3.1 __Configure settings.json__
+#####3.1. __Configure settings.json__
 
 The **app/config/settings.json** is the place where external templates, customstring and the elastic index is configure. The external templates should remain unchanged, but the **index** and **layout_vars**
 should be configured for the new application.
 
-######3.1.1 __Configure the elastic index__
+######3.1.1. __Configure the elastic index__
 
 <pre>
 	"elastic": {
@@ -72,7 +72,7 @@ should be configured for the new application.
 
  - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
 
-######3.1.2 __Configure custom string__
+######3.1.2. __Configure custom string__
 
 <pre>
   "layout_vars": {
@@ -93,7 +93,7 @@ should be configured for the new application.
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
 Depending on the query you have, there are several options.
 
-######3.2.1 __Simple Select query__ when there are not too many results
+######3.2.1. __Simple Select query__ when there are not too many results
 If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the indexing/query.sparql file.
 **Important:** All indexing queries should contain a unique _id column.
 In our example we use a simple query what returns all daviz visualizations:
@@ -110,7 +110,7 @@ WHERE {
 	    optional{?visualization dct:created ?created}
 }
 </pre>
-######3.2.2 __Filtered Select queries__
+######3.2.2. __Filtered Select queries__
 Depending on the number of rows returned by your query, you might run into a timeout when indexing. If this occures, you should split up the indexing using a filter (ex. year of creation).
 Supposing we have too many visualizations we can split up the results using a filter on the creator.
 Create **app/config/filterQuery.sparql** and fill it with:
@@ -139,7 +139,7 @@ WHERE {
 </pre>
 Notice the **FILTER** clause in the **app/config/query.sparql** as this query will be executed for each creator from the filterQuery.sparql query.
 
-######3.2.3 __Construct query__
+######3.2.3. __Construct query__
 TODO
 
 ####3.3. __Data mapping for indexing in Elasticsearch__
@@ -168,73 +168,7 @@ TODO
 A full list of data types is listed at:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
 
-####4. __Configure the layout of the pages__
-For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
-The default templates are:
-
-- **app/views/index.jade**
-- **app/views/details.jade**
-The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
-
-#####4.1 __Adding custom js code__
-The location for js files is and **app/public/javascripts**
-We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
-Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the **extrajavascripts** block in **app/views/index.jade**.
-**extrajavascripts** is the place where you have to add any extra libraries:
-
-<pre>
-...
-block extrajavascripts
-    script(type='text/javascript', src='javascripts/<b>newesapp</b>.facetview.js')
-    script(type='text/javascript', src='javascripts/<b>extrajslibrary.js</b>')
-...
-</pre>
-**Note:** You can add different js on the index and the detail views.
-
-After updating the template, you can start customizing the **app/public/javascripts/newesapp.facetview.js**.
-In normal cases you only have to specify is the **default_sort**:
-
-- If you don't need any sort on the listing view, just set an empty list:
-<pre>
-...
-var default_sort = [];
-...
-</pre>
-- But you can easily add a sort by doing something like:
-<pre>
-...
-default_sort = [{'created':{'order':'asc'}}]
-...
-</pre>
-You only have to specify the name of the field and if the order is ascending or descending.
-There is also possible to set the sort on more fields:
-<pre>
-...
-default_sort = [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}]
-...
-</pre>
-
-In **app/public/javascripts/newesapp.facetview.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback**. Ex:
-<pre>
-...
-post_init_callback: function() {
-	add_EEA_settings();
-	<b>customPostInitFunction();</b>
-},
-post_search_callback: function() {
-	add_EEA_settings();
-	viewReady();
-	<b>customPostSearchFunction();</b>
-},
-...
-</pre>
-In the bootstrap application we already added a small method for formating chemical formulas. See the **replaceNumbers** method from **app/public/javascripts/esbootstrap.facetview.js**. You can see how it's added in the **post_init_callback** and **post_search_callback**. This method can be removed.
-**Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
-
-#####4.2 __Adding custom css code__
-By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js**
-
-####5. __Configure fields definition for the presentation layer__
+####3.4. __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
 All of these settings can be configured within **app/config/mapping.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
 <pre>
@@ -248,7 +182,7 @@ All of these settings can be configured within **app/config/mapping.json**. Base
 }
 </pre>
 
-#####5.1 __details_settings__
+#####3.4.1. __details_settings__
 The first section is the **details_settings**, where you can define the sections where the fields can be grouped
 In our example we defined 2 sections, one for general info about the visualization and one for the info about the creation
 <pre>
@@ -269,7 +203,7 @@ Each section has the following attributes:
 - **title**: which will be displayed on the view
 - **pos**: the order of the details sections
 
-#####5.2 **fields_mapping**
+#####3.4.2. **fields_mapping**
 The second section is the **fields_mapping**, where all fields are enumerated and configured.
 For one field the setting looks like:
 <pre>
@@ -326,7 +260,6 @@ with the attributes:
  - **display**: optional attribute, you can add extra formatting or extra fields to be displayed. In the **pre** and **post** attributes you can specify html snippet what will be displayed for this item. in the **field** attribute you can specify the name of the field. Usually the **field** attribute is identical with the original **name** but you can use others too. This is useful when you try to create links to detail pages.
 	  **IMPORTANT**: the first column should always use the display option and have the "post" attribute set to "&lt;/td&gt;"
 
-
 - **facet**
 	In this section you can configure if you want a facet based on this field, and how it should look like:
 	<pre>
@@ -366,7 +299,73 @@ with the attributes:
   - **title**: the column name
   - **pos**: position in the export
 
-####8. __Configure the main application__
+####4. __Configure the layout of the pages__
+For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
+The default templates are:
+
+- **app/views/index.jade**
+- **app/views/details.jade**
+The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
+
+#####4.1. __Adding custom js code__
+The location for js files is and **app/public/javascripts**
+We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
+Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the **extrajavascripts** block in **app/views/index.jade**.
+**extrajavascripts** is the place where you have to add any extra libraries:
+
+<pre>
+...
+block extrajavascripts
+    script(type='text/javascript', src='javascripts/<b>newesapp</b>.facetview.js')
+    script(type='text/javascript', src='javascripts/<b>extrajslibrary.js</b>')
+...
+</pre>
+**Note:** You can add different js on the index and the detail views.
+
+After updating the template, you can start customizing the **app/public/javascripts/newesapp.facetview.js**.
+In normal cases you only have to specify is the **default_sort**:
+
+- If you don't need any sort on the listing view, just set an empty list:
+<pre>
+...
+var default_sort = [];
+...
+</pre>
+- But you can easily add a sort by doing something like:
+<pre>
+...
+default_sort = [{'created':{'order':'asc'}}]
+...
+</pre>
+You only have to specify the name of the field and if the order is ascending or descending.
+There is also possible to set the sort on more fields:
+<pre>
+...
+default_sort = [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}]
+...
+</pre>
+
+In **app/public/javascripts/newesapp.facetview.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback**. Ex:
+<pre>
+...
+post_init_callback: function() {
+	add_EEA_settings();
+	<b>customPostInitFunction();</b>
+},
+post_search_callback: function() {
+	add_EEA_settings();
+	viewReady();
+	<b>customPostSearchFunction();</b>
+},
+...
+</pre>
+In the bootstrap application we already added a small method for formating chemical formulas. See the **replaceNumbers** method from **app/public/javascripts/esbootstrap.facetview.js**. You can see how it's added in the **post_init_callback** and **post_search_callback**. This method can be removed.
+**Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
+
+#####4.2. __Adding custom css code__
+By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js**
+
+####5. __Configure the main application__
   For this you have to work on the **app/app.js** file.
   If the name of the indexing files were not changed and only a simple query is used for indexing, this file can remain unchanged.
   If there were changes in the naming of indexing files or templates, you will have to modify the **app/app.js**
@@ -430,7 +429,7 @@ with the attributes:
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
 
 ####6. __Configure the eea.docker.searchservices to include the new application__
-#####6.1 __Add it in the docker-compose.dev.yml file__
+#####6.1. __Add it in the docker-compose.dev.yml file__
 Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.yml and add to it the settings for development
 <pre>
     newesapp:
@@ -448,7 +447,7 @@ Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.
           - ./eea.searchserver.js/lib/:/node_modules/eea-searchserver/lib/:z
 </pre>
 
-#####6.2 __Testing the application__
+#####6.2. __Testing the application__
 In **eea.docker.searchservices**:
 At first try you have to build all development images for the applications
 <pre>
@@ -459,13 +458,13 @@ Later, when you modify your application, is enough to rebuild only that. This is
 ./build_dev.sh newesapp -s
 </pre>
 
-#####6.3 __Start the whole stack__
+#####6.3. __Start the whole stack__
 In **eea.docker.searchservices** start the whole stack with:
 <pre>
 docker-compose -f docker-compose.dev.yml up
 </pre>
 
-#####6.4 __Test in the browser__
+#####6.4. __Test in the browser__
 In your favorite browser go to:
 <pre>
 http://&lt;machine ip&gt;:&lt;port&gt;
