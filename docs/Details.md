@@ -45,7 +45,15 @@ should not be modified
 in most cases this should not be modified
 
 ####3 __Configuration__
-All configuration are place in the **config** folder.
+All configuration are place in the **config** folder. This folder contains these files
+
+<pre>
+    ├── config
+    │   ├── dataMapping.json
+    │   └── query.sparql
+    │   └── mapping.json
+    │   └── settings.json
+</pre>
 
 #####3.1 __Configure settings.json__
 
