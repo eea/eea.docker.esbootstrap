@@ -84,7 +84,7 @@ should be configured for the new application.
 </pre>
 
  - in the **layout_vars** section you can edit the strings to be describe the title and the text description of your app.
- - in **further_info** you can add a small HTML that be renderer above the data provenance info.
+ - in **further_info** you can add a small HTML that be renderer below the data provenance info.
 
 
 ####4. __Set up the SPARQL Query to be indexed in Elasticsearch__
