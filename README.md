@@ -87,6 +87,6 @@ After there is a first working version of the application, you should
 
 ## Details
 
-For details and implementation read the [documentation](./docs/Details.md).
+For details on implementation read the [documentation](./docs/Details.md).
 
 
