@@ -8,7 +8,9 @@ csv/tsv export.
 It can be cloned, and with minimal configuration a new search application
 created from it.
 
-## Docker Usage
+## Development
+
+### Standalone - Docker Usage
 
 Basic usage of the image is given by the following pattern:
 
@@ -19,9 +21,19 @@ docker run -d -v ./config:/code/config -p 8080:3000 -e "elastic_host=<elasticsea
 - **```<elasticsearch_host_or_ip>```** is the url of your elastic search server
 - **```./config```** is the folder that contains the configuration files for your app. See this to [details](/docs/Details.md#3-configuration)
 
-### Development:
+### Using eea.docker.searchservices
+
+For creating a new application you have to follow the next steps:
 ####1. __Clone eea.docker.searchservices on the development machine__
+	
 	git clone --recursive  https://github.com/eea/eea.docker.searchservices.git
+
+####2. __Clone the eea.docker.esbootstrap
+       
+       $ cd eea.docker.searchservices
+       $ # clone eea.docker.esbootstrap under eea.docker.searchservices and gives new name: eea.docker.newesapp
+       $ git clone https://github.com/eea/eea.docker.esbootstrap.git eea.docker.newesapp
+       
 ## Details
 
 For details and implementation read the [documentation](./docs/Details.md).
