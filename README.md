@@ -35,6 +35,9 @@ For creating a new application you have to follow the next steps:
 	$ # clone eea.docker.esbootstrap under eea.docker.searchservices and gives new name: eea.docker.newesapp
 	$ git clone https://github.com/eea/eea.docker.esbootstrap.git eea.docker.newesapp
 
+####3. Configure the new app
+The **config** folder contains the configuration files for your app. Read this to know how to [configure](/docs/Details.md#setup) the files for your app.
+
 ####3. __Configure the eea.docker.searchservices to include the new application__
 #####3.1. __Add it in the docker-compose.dev.yml file__
 Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.yml and add to it the settings for development
