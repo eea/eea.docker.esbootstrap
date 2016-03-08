@@ -9,7 +9,8 @@ block extrajavascripts
     script(type='text/javascript', src='http://www.eea.europa.eu/mark_special_links.js')
 
 block extrastyles
-    link(rel="stylesheet", href="css/esbootstrap.facetview.css")
+    each style in css_resources
+        link(rel='stylesheet', href=style)
 
 block title
     if (data)
@@ -20,7 +21,7 @@ block title
 block content
     if (data)
 
-        +portal_breadcrumbs ("esbootstrap", data.title.value)
+        +portal_breadcrumbs (breadcrumbs, data.title.value)
 
         +detail_tables (sections, data)
     else

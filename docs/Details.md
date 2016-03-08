@@ -73,6 +73,13 @@ should be configured for the new application.
 
 <pre>
   "layout_vars": {
+        "head_title": "Elasticsearch bootstrap application",
+        "css_resources": [
+            "css/esbootstrap.facetview.css",
+        ],
+        "js_resources": [
+            "javascripts/esbootstrap.facetview.js",
+        ],
         "site_title": "Elasticsearch bootstrap application",
         "site_description": "Simple customizable bootstrap application",
         "breadcrumbs": "esbootstrap",
