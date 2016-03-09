@@ -1,15 +1,9 @@
 block extrajavascripts
-    script(type='text/javascript').
-        $(document).ready(function($){
-            $("div.container > div.content").attr("id", "content")
-        });
-
-    script(type='text/javascript', src='http://www.eea.europa.eu/register_function.js')
-    script(type='text/javascript', src='http://www.eea.europa.eu/nodeutilities.js')
-    script(type='text/javascript', src='http://www.eea.europa.eu/mark_special_links.js')
+    each script in js_resources.details_page
+        script(type='text/javascript', src=script)
 
 block extrastyles
-    each style in css_resources
+    each style in css_resources.details_page
         link(rel='stylesheet', href=style)
 
 block title
