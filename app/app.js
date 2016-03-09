@@ -29,6 +29,6 @@ options = {
 searchServer.Helpers.SimpleStart(options)
 
 exports.fieldsMapping = function(next){
-    next(require(path.join(__dirname, "config/mapping.json")));
+    next(require(path.join(__dirname, "/config/mapping.json")));
 }
 
