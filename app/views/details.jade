@@ -1,3 +1,9 @@
+block title
+    if (data)
+        title= "Info for " + data.title.value
+    else
+        title= "Missing Info"
+
 block extrajavascripts
     each script in js_resources.details_page
         script(type='text/javascript', src=script)
@@ -5,12 +11,6 @@ block extrajavascripts
 block extrastyles
     each style in css_resources.details_page
         link(rel='stylesheet', href=style)
-
-block title
-    if (data)
-        title= "Info for " + data.title.value
-    else
-        title= "Missing Info"
 
 block content
     if (data)
