@@ -14,8 +14,8 @@ block extrastyles
 
 block content
     if (data)
-
-        +portal_breadcrumbs (breadcrumbs, data.title.value)
+        if (enableBreadcrumbs)
+            +portal_breadcrumbs (breadcrumbs, data.title.value)
 
         +detail_tables (sections, data)
     else
