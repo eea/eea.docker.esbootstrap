@@ -336,7 +336,7 @@ The default templates are:
 The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
 
 #### __Adding custom js code__
-The location for js files is and **app/public/javascripts**
+The location for js files is **app/public/javascripts**.
 We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
 Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the url in **js_resources** block in **app/config/settings.json**.
 **js_resources** is the place where you have to add any extra libraries:
