@@ -71,7 +71,8 @@ should be configured for the new application.
 
 #### __Configure custom layout string__
 
-in the **layout_vars** section you can edit the strings to be describe the title and the text description of your app.
+in the **layout_vars** section you can change some layout configurations like title, description, show/hide breadcrumb and other.
+
 <pre>
   "layout_vars": {
         "head_title": "Elasticsearch bootstrap application",
@@ -105,8 +106,15 @@ in the **layout_vars** section you can edit the strings to be describe the title
     }
 </pre>
 
- 
- - in **further_info** you can add a small HTML that be renderer below the data provenance info.
+ - **head_title**: it is the text showed on title bar of the browser;
+ - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". **The sorting of the urls in the lists is the order for which they will be injected into HTML**;
+ - **site_title**: it is the text of H1 html tag of your app;
+ - **site_description**: it is the description text;
+ - **enableBreadcrumbs**: show/hide the breadcrumbs, possible values are ```true``` or ```false```;
+ - **breadcrumbs**: it is text of the first breadcrumb;
+ - **dataprovencance_info_text**: it is the text of the link to the data provenance info;
+ - **dataprovencance_info_url**: it is the url of the link to the data provenance info;
+ - **further_info**: you can add a small HTML that be renderer below the data provenance info.
 
 
 ### __Set up the SPARQL Query to be indexed in Elasticsearch__
@@ -123,11 +131,11 @@ PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
 SELECT distinct (?visualization as ?_id) ?visualization ?description ?title ?creator ?created (year(?created) as ?year)
 WHERE {
-		?visualization a daviz:DavizVisualization
+	?visualization a daviz:DavizVisualization
 		optional{?visualization dct:description ?description}
-	    optional{?visualization dct:title ?title}
-	    optional{?visualization dct:creator ?creator}
-	    optional{?visualization dct:created ?created}
+		optional{?visualization dct:title ?title}
+		optional{?visualization dct:creator ?creator}
+		optional{?visualization dct:created ?created}
 }
 </pre>
 #### __Filtered Select queries__
@@ -330,19 +338,27 @@ The main blocks are already specified, in most cases only the labels like title 
 #### __Adding custom js code__
 The location for js files is and **app/public/javascripts**
 We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
-Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the **extrajavascripts** block in **app/views/index.jade**.
-**extrajavascripts** is the place where you have to add any extra libraries:
+Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the url in **js_resources** block in **app/config/settings.json**.
+**js_resources** is the place where you have to add any extra libraries:
 
 <pre>
 ...
-block extrajavascripts
-    script(type='text/javascript', src='javascripts/<b>newesapp</b>.facetview.js')
-    script(type='text/javascript', src='javascripts/<b>extrajslibrary.js</b>')
+"js_resources": {
+    "index_page": [
+        "javascripts/**newapp**.facetview.js"
+    ],
+    "details_page": [
+        "javascripts/jq.tools.js",
+        "http://www.eea.europa.eu/register_function.js",
+        "http://www.eea.europa.eu/nodeutilities.js",
+        "http://www.eea.europa.eu/mark_special_links.js"
+    ]
+},
 ...
 </pre>
-**Note:** You can add different js on the index and the detail views.
+**Note:** You can add different js on the index and the detail section.
 
-After updating the template, you can start customizing the **app/public/javascripts/newesapp.facetview.js**.
+After added, you can start customizing the **app/public/javascripts/newesapp.facetview.js**.
 In normal cases you only have to specify is the **default_sort**:
 
 - If you don't need any sort on the listing view, just set an empty list:
