@@ -71,6 +71,7 @@ should be configured for the new application.
 
 #### __Configure custom layout string__
 
+in the **layout_vars** section you can edit the strings to be describe the title and the text description of your app.
 <pre>
   "layout_vars": {
         "head_title": "Elasticsearch bootstrap application",
@@ -96,6 +97,7 @@ should be configured for the new application.
         },
         "site_title": "Elasticsearch bootstrap application",
         "site_description": "Simple customizable bootstrap application",
+        "enableBreadcrumbs": true,
         "breadcrumbs": "esbootstrap",
         "dataprovencance_info_text": "ES bootstrap",
         "dataprovencance_info_url": "http://www.eea.europa.eu/data-and-maps/daviz",
@@ -103,7 +105,7 @@ should be configured for the new application.
     }
 </pre>
 
- - in the **layout_vars** section you can edit the strings to be describe the title and the text description of your app.
+ 
  - in **further_info** you can add a small HTML that be renderer below the data provenance info.
 
 
