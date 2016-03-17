@@ -15,10 +15,10 @@ created from it.
 Basic usage of the image is given by the following pattern:
 
 ```
-docker run -d -v ./config:/code/config -p 8080:3000 -e "elastic_host=<elasticsearch_host_or_ip>" eeacms/esbootstrap:v1.0
+docker run -d -v ./config:/code/config:z -p 8080:3000 -e "elastic_host=<elasticsearch_host_or_ip>" eeacms/esbootstrap:v1.0
 ```
 
-- **```<elasticsearch_host_or_ip>```** is the url of your elastic search server
+- **```<elasticsearch_host_or_ip>```** is the url or the ip of your elastic search server without the port
 - **```./config```** is the folder that contains the configuration files for your app. Read this to know how to [configure](/docs/Details.md#setup).
 
 ### Using eea.docker.searchservices
