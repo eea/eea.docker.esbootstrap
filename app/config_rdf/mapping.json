@@ -1,0 +1,37 @@
+{
+    "details_settings" : {
+        "sections": [
+            {"name":"info",
+             "title":"General info",
+             "pos":0},
+            {"name":"created",
+             "title":"Created",
+             "pos":1}
+        ]
+    },
+    "fields_mapping": [
+        {
+            "name": "http://purl.org/dc/terms/title",
+            "listing": {
+                "title": "Title",
+                "visible" : true,
+                "pos" : 0
+
+            },
+            "details": {
+                "title": "Title",
+                "pos" : 0,
+                "section": "info",
+                "visible": true
+            },
+            "facet": {
+                "visible": false
+            },
+            "csv_tsv": {
+                "title": "Title",
+                "visible": true,
+                "pos": 1
+            }
+        }
+    ]
+}

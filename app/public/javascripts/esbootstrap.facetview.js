@@ -36,8 +36,7 @@ function replaceNumbers(){
 
 
 jQuery(document).ready(function($) {
-    var default_sort = [{'created':{"order": 'asc'}}];
-
+    var default_sort = [];
     eea_facetview('.facet-view-simple', 
         {
             search_url: './api',
