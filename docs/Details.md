@@ -9,6 +9,12 @@
 	│   │   └── query.sparql
 	│   │   └── mapping.json
 	│   │   └── settings.json
+	│   ├── config_rdf
+	│   │   ├── dataMapping.json
+	│   │   └── query.sparql
+	│   │   └── normalize.json
+	│   │   └── mapping.json
+	│   │   └── settings.json
 	│   ├── public
 	│   │   ├── css
 	│   │   │   └── esbootstrap.facetview.css
@@ -28,8 +34,12 @@
 mapping for elasticsearch and optionally a configuration file for analyzers.
  - **app/config/mapping.json** contains the configuration of the pages, including listing
  - **app/config/settings.json** contains information about the external templates, the
-elastic index to be used in the app and some information for customize the layout
- - view, facets, detail view, csv/tsv export
+elastic index to be used in the app and some information for customize the layout for
+	 - view,
+	 - facets,
+	 - detail view,
+	 - csv/tsv export
+ - **app/config_rdf** is similar with **app/config**, but contains the configuration for a demo app with indexing from a construct query
  - **app/public** contains the static resources
  - **app/views** contains the jade templates for index and detail pages
  - **app/app.js** is the main application
@@ -168,7 +178,28 @@ WHERE {
 Notice the **FILTER** clause in the **app/config/query.sparql** as this query will be executed for each creator from the filterQuery.sparql query.
 
 #### __Construct query__
-TODO
+A demo how the query and the config files in case of a construct query is used can be seen in **app/config_rdf**
+
+If you have a **construct** query or a **select** query that returns SPO triples, you will use our rdfriver plugin for elasticsearch. This is transparent, in normal cases you shouldn't do any extra configuration. Only when you have a **select** query, it is required to put a comment on the top of the sparql query what contains the string "construct".
+
+##### __Normalize properties for construct queries__
+When a **construct** query is used, the properties will be long strings. As these properties will appear in all queries and url's you might want to replace them with  shorter names. For this you can use **app/config_rdf/normalize.json** where you have to define the pairs of property-replacement.
+Ex:
+<pre>
+{
+  "http://purl.org/dc/terms/title": "title",
+  "http://purl.org/dc/terms/description": "description",
+  "http://purl.org/dc/terms/creator": "creator",
+  "http://purl.org/dc/terms/created": "created",
+  "http://www.eea.europa.eu/portal_types#topic": "topic",
+  "http://www.eea.europa.eu/portal_types/DavizVisualization#temporalCoverage": "temporalCoverage",
+  "http://www.eea.europa.eu/portal_types/DavizVisualization#themes": "themes",
+  "http://www.w3.org/ns/dcat#theme": "theme",
+  "http://purl.org/dc/terms/subject": "subject"
+}
+</pre>
+After the normalize.json is set up, you can use your short names in the **mapping.json**. 
+**Note: ** in the dataMapping.json you still have to use the original property names.
 
 ### __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
@@ -182,7 +213,7 @@ example of mapping for a field:
 - the **analyzer** attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
 	- coma
 	- semicolon
-Also it is possible to create your own analyzer
+    - Also it is possible to create your own analyzer
 TODO
 - for **type** the most common data types are:
 	-  string,
