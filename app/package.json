@@ -10,7 +10,8 @@
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
-    "sparql-client": "*"
+    "sparql-client": "*",
+    "nodemon": "*"
   },
   "repository": {
     "type": "git",
