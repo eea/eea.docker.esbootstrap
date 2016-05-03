@@ -4,8 +4,8 @@ ADD ./app/package.json /tmp/package.json
 ADD ./README.md /tmp/README.md
 RUN cd /tmp && npm install && mv /tmp/node_modules /node_modules
 ADD . /sources_from_git
-RUN ln -s /sources_from_git/app /code
-RUN ln -s /sources_from_git/app/config /config
+ADD ./app /code
+ADD ./app/config /config
 VOLUME /config
 VOLUME /code
 USER node
