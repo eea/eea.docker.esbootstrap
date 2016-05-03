@@ -13,7 +13,7 @@ var defaultIndexingFilterQuery = 'config/filtersQuery.sparql';
 var defaultExtraAnalyzers = 'config/analyzers.json';
 
 var nconf = require('nconf');
-nconf.file({file:'/code/config/settings.json'});
+nconf.file({file:__dirname + '/config/settings.json'});
 var endpoint = nconf.get("endpoint");
 options = {
   app_dir: __dirname,
