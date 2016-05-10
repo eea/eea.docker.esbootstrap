@@ -1,6 +1,21 @@
+function fixDataTitles(){
+    var th_list = [];
+    $("#facetview_results thead th").each(function(idx, th){
+        th_list.push($(th).text());
+
+    })
+    $("#facetview_results tr").each(function(tr_idx, tr){
+        $(tr).find("td").each(function(td_idx, td){
+            $(td).attr("data-title", th_list[td_idx]);
+        });
+    });
+}
+
 function viewReady(){
     addHeaders("#facetview_results");
+    fixDataTitles();
 }
+
 
 function replaceNumbers(){
     var possibleContainers = ['a', 'td', 'th'];
@@ -36,8 +51,7 @@ function replaceNumbers(){
 
 
 jQuery(document).ready(function($) {
-    var default_sort = [{'created':{"order": 'asc'}}];
-
+    var default_sort = [];
     eea_facetview('.facet-view-simple', 
         {
             search_url: './api',
