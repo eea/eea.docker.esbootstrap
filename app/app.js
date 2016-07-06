@@ -1,13 +1,19 @@
 #!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
 
 var path = require('path');
-var searchServer = require('eea-searchserver')
+var searchServer = require('eea-searchserver');
+var fs = require('fs-extra');
 
-var query = fs.readFileSync('/code/config/query.sparql', 'utf8');
+var getenv = require('getenv');
+var APP_CONFIG_DIRNAME = getenv.string('APP_CONFIG_DIRNAME', 'default');
+var APP_CONFIG_DIR = 'config/'+ APP_CONFIG_DIRNAME;
+
+fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
+
+var query = fs.readFileSync('/code/' + APP_CONFIG_DIR + '/query.sparql', 'utf8');
 var managementCommands;
 var hasConstruct = false;
 var lowerQuery = query.toLowerCase();
@@ -34,19 +40,19 @@ else {
 
 var builtinRoutes = searchServer.builtinRoutes;
 
-var defaultIndexingFilterQuery = 'config/filtersQuery.sparql';
-var defaultExtraAnalyzers = 'config/analyzers.json';
-var defaultNormalize = 'config/normalize.json';
+var defaultIndexingFilterQuery = APP_CONFIG_DIR + '/filtersQuery.sparql';
+var defaultExtraAnalyzers = APP_CONFIG_DIR + '/analyzers.json';
+var defaultNormalize = APP_CONFIG_DIR + '/normalize.json';
 
 var nconf = require('nconf');
-nconf.file({file:'/code/config/settings.json'});
+nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
 var endpoint = nconf.get("endpoint");
 
 
-options = {
+var options = {
   app_dir: __dirname,
   views: __dirname + '/views',
-  settingsFile: __dirname + '/config/settings.json',
+  settingsFile: __dirname + '/' + APP_CONFIG_DIR + '/settings.json',
   routes: {
     routes: builtinRoutes,
     detailsIdName: 'id'
@@ -55,14 +61,15 @@ options = {
   indexing:{
     managementCommands: managementCommands,
     indexingFilterQuery: null,
-    indexingQuery: 'config/query.sparql',
+    indexingQuery: APP_CONFIG_DIR + '/query.sparql',
     extraAnalyzers: '',
-    dataMapping: 'config/dataMapping.json',
+    dataMapping: APP_CONFIG_DIR + '/dataMapping.json',
     normalize: '',
     isConstruct: hasConstruct,
     endpoint: endpoint
   }
-}
+};
+
 if (fs.existsSync(__dirname +'/' + defaultIndexingFilterQuery)){
   options.indexing.indexingFilterQuery = defaultIndexingFilterQuery;
 }
@@ -72,9 +79,9 @@ if (fs.existsSync(__dirname +'/' + defaultExtraAnalyzers)){
 if (fs.existsSync(__dirname +'/' + defaultNormalize)){
   options.indexing.normalize = defaultNormalize;
 }
-searchServer.Helpers.SimpleStart(options)
+searchServer.Helpers.SimpleStart(options);
 
 exports.fieldsMapping = function(next){
-    next(require(path.join(__dirname, "/config/mapping.json")));
-}
+    next(require(path.join(__dirname, "/" + APP_CONFIG_DIR + "/mapping.json")));
+};
 

@@ -11,7 +11,9 @@
     "request": "*",
     "node-crontab": "*",
     "sparql-client": "*",
-    "nodemon": "*"
+    "nodemon": "*",
+    "getenv": "*",
+    "fs-extra": "*"
   },
   "repository": {
     "type": "git",
