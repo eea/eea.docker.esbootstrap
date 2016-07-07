@@ -1,7 +1,7 @@
 # Development docker-compose file with server auto-reload and
 # code mounted as a volume.
 app:
-    image: esbootstrap
+    image: eeacms/esbootstrap:esbootstrap_rancher
     ports: # App accessible on http://localhost:3000
         - 3000:3000
     volumes_from: # Mount code as a volume for easy restart
@@ -21,8 +21,8 @@ ide:
         - C9_WORKSPACE=/code/config
         
 esbootstrap-data:
-    image: eea-git
+    image: eeacms/esbootstrap-configs
     environment:
-        - github_repo=https://github.com/ekulos/eea.esbootstrap.configs
+        - github_repo=https://github.com/eea/eea.esbootstrap.configs
     volumes:
         - /code/config
