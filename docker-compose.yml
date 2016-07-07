@@ -1,18 +1,28 @@
 # Development docker-compose file with server auto-reload and
 # code mounted as a volume.
 app:
-    image: esbootstrapmy2
+    image: esbootstrap
     ports: # App accessible on http://localhost:3000
         - 3000:3000
     volumes_from: # Mount code as a volume for easy restart
         - esbootstrap-data
     environment: # Use current upstream staging instance
         - elastic_host=10.201.1.97
-        - APP_CONFIG_DIRNAME=default2
+        - APP_CONFIG_DIRNAME=default
         - NODE_ENV=dev # Change to production if you want to test the app in production environment
 
+ide:
+    image: eeacms/cloud9
+    volumes_from:
+        - esbootstrap-data
+    ports:
+        - 8001:8080
+    environment:
+        - C9_WORKSPACE=/code/config
+        
 esbootstrap-data:
-    image: docker.io/busybox
+    image: eea-git
+    environment:
+        - github_repo=https://github.com/ekulos/eea.esbootstrap.configs
     volumes:
-        - ./app:/code:z
-    command: ['chmod', '777', '/code/config']
+        - /code/config

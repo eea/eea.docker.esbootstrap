@@ -11,9 +11,9 @@ var getenv = require('getenv');
 var APP_CONFIG_DIRNAME = getenv.string('APP_CONFIG_DIRNAME', 'default');
 var APP_CONFIG_DIR = 'config/'+ APP_CONFIG_DIRNAME;
 
-function existsSync(myDir) {
+var existsSync = function(path) {
   try {
-    fs.accessSync(myDir);
+    fs.accessSync(path);
     return true;
   } catch (e) {
     return false;
