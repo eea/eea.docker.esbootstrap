@@ -4,10 +4,15 @@ app:
     image: esbootstrapmy2
     ports: # App accessible on http://localhost:3000
         - 3000:3000
-    volumes: # Mount code as a volume for easy restart
-        - ./app/:/code/:z
+    volumes_from: # Mount code as a volume for easy restart
+        - esbootstrap-data
     environment: # Use current upstream staging instance
         - elastic_host=10.201.1.97
-        - APP_CONFIG_DIRNAME=rdf
+        - APP_CONFIG_DIRNAME=default2
         - NODE_ENV=dev # Change to production if you want to test the app in production environment
 
+esbootstrap-data:
+    image: docker.io/busybox
+    volumes:
+        - ./app:/code:z
+    command: ['chmod', '777', '/code/config']

@@ -11,7 +11,17 @@ var getenv = require('getenv');
 var APP_CONFIG_DIRNAME = getenv.string('APP_CONFIG_DIRNAME', 'default');
 var APP_CONFIG_DIR = 'config/'+ APP_CONFIG_DIRNAME;
 
-fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
+function existsSync(myDir) {
+  try {
+    fs.accessSync(myDir);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME))
+  fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 
 var query = fs.readFileSync('/code/' + APP_CONFIG_DIR + '/query.sparql', 'utf8');
 var managementCommands;
