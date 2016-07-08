@@ -8,6 +8,3 @@ ADD . /sources_from_git
 RUN ln -s /sources_from_git/app /code
 
 USER node
-
-ENTRYPOINT ["/usr/local/bin/chaperone", "/node_modules/.bin/nodemon", "/code/app.js", "--watch", "/code/config/${APP_CONFIG_DIRNAME}/settings.json"]
-CMD ["runserver"]
