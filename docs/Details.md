@@ -7,7 +7,7 @@
 	│   ├── config
 	│   │   ├── default
 	│   │   │   ├── dataMapping.json
-	│   │   │   │   └── query.sparql
+	│   │   │   └── query.sparql
 	│   │   │   └── mapping.json
 	│   │   │   └── settings.json
 	│   │   ├── rdf
