@@ -8,13 +8,15 @@ app:
         - esbootstrap-data-config
     environment: # Use current upstream staging instance
         - elastic_host=10.201.1.97
-        - APP_CONFIG_DIRNAME=mytest2
+        - APP_CONFIG_DIRNAME=mytest
         - NODE_ENV=dev # Change to production if you want to test the app in production environment
     entrypoint:
         - /node_modules/.bin/nodemon
         - /code/app.js
         - --watch
-        - /code/config/
+        - /code/config/*/settings.json
+    command:
+        - runserver
 
 ide:
     image: eeacms/cloud9
