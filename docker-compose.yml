@@ -5,22 +5,22 @@ app:
     ports: # App accessible on http://localhost:3000
         - 3000:3000
     volumes_from: # Mount code as a volume for easy restart
-        - esbootstrap-data
+        - esbootstrap-data-config
     environment: # Use current upstream staging instance
         - elastic_host=10.201.1.97
-        - APP_CONFIG_DIRNAME=default
+        - APP_CONFIG_DIRNAME=myapp1
         - NODE_ENV=dev # Change to production if you want to test the app in production environment
 
 ide:
     image: eeacms/cloud9
     volumes_from:
-        - esbootstrap-data
+        - esbootstrap-data-config
     ports:
         - 8001:8080
     environment:
         - C9_WORKSPACE=/code/config
         
-esbootstrap-data:
+esbootstrap-data-config:
     image: eeacms/esbootstrap-configs
     environment:
         - github_repo=https://github.com/eea/eea.esbootstrap.configs
