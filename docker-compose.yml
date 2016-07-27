@@ -19,7 +19,7 @@ app:
         - runserver
     volumes:
         - ./app/public:/code/public:z
-        - /var/local/deploy/eea.docker.searchservices/eea.searchserver.js/lib:/node_modules/eea-searchserver/lib:z
+        - ../eea.searchserver.js/lib:/node_modules/eea-searchserver/lib:z
         - ./app/config/:/code/config/:z
 
 ide:
