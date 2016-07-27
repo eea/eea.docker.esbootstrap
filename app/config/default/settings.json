@@ -15,7 +15,7 @@
         "footer_path": "/templates/v2/getFooter"
     },
     "layout_vars": {
-        "head_title": "Elasticsearch bootstrap application",
+        "head_title": "Dragos application #2",
         "css_resources": {
             "index_page": [
                 "css/no-more-tables.css",
@@ -36,8 +36,8 @@
                 "http://www.eea.europa.eu/mark_special_links.js"
             ]
         },
-        "site_title": "Elasticsearch bootstrap application",
-        "site_description": "Simple customizable bootstrap application",
+        "site_title": "Dragos application #2",
+        "site_description": "work for #73715",
         "enableBreadcrumbs": true,
         "breadcrumbs": "esbootstrap",
         "dataprovencance_info_text": "ES bootstrap",
