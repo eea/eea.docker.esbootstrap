@@ -27,11 +27,3 @@
 .span3.order-by > select.facetview_orderby {
     display:none;
 }
-
-table#facetview_results {
-    display:table!important;
-}
-
-.facetview_display_type {margin:0 0 5px;}
-.facetview_display_type a {display:inline-block;margin:0 5px;padding:5px;border:1px solid #fff;outline:0!important;}
-.facetview_display_type a.active, .facetview_display_type a:hover {border: 1px solid #ccc;border-radius:3px;background-color:#ececec;}
