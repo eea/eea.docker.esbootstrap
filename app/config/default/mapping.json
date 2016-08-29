@@ -32,7 +32,6 @@
                 "visible": false
             }
         },
-
         {
             "name": "title",
             "listing": {
@@ -58,6 +57,16 @@
                 "title": "Title",
                 "visible": true,
                 "pos": 1
+            },
+            "card": {
+                "field": "title",
+                "default": "",
+                "visible": true
+            },
+            "list": {
+                "field": "title",
+                "default": "",
+                "visible": true
             }
         },
         {
@@ -80,6 +89,16 @@
                 "title": "Visualization",
                 "visible": true,
                 "pos": 1
+            },
+            "card": {
+                "field": "url",
+                "default": "",
+                "visible": true
+            },
+            "list": {
+                "field": "url",
+                "default": "",
+                "visible": true
             }
         },
         {
@@ -102,6 +121,16 @@
                 "title": "Description",
                 "visible": true,
                 "pos": 2
+            },
+            "card": {
+                "field": "description",
+                "default": "",
+                "visible": true
+            },
+            "list": {
+                "field": "description",
+                "default": "",
+                "visible": true
             }
         },
         {
@@ -152,6 +181,16 @@
                 "title": "Created",
                 "visible": true,
                 "pos": 4
+            },
+            "card": {
+                "field": "datestamp",
+                "default": "",
+                "visible": true
+            },
+            "list": {
+                "field": "datestamp",
+                "default": "",
+                "visible": true
             }
         },
         {
@@ -173,6 +212,31 @@
             },
             "csv_tsv": {
                 "visible": false
+            }
+        },
+        {
+            "name": "type",
+            "listing": {
+                "visible" : false
+            },
+            "details": {
+                "visible": false
+            },
+            "facet": {
+                "visible": false
+            },
+            "csv_tsv": {
+                "visible": false
+            },
+            "card": {
+                "field": "types",
+                "default": "Data Visualization",
+                "visible": true
+            },
+            "list": {
+                "field": "types",
+                "default": "Data Visualization",
+                "visible": true
             }
         }
     ]
