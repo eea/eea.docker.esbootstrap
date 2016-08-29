@@ -3,12 +3,12 @@
 app:
     image: eeacms/esbootstrap:latest
     ports: # App accessible on http://localhost:3000
-        - 3090:3000
+        - 3000:3000
     volumes_from: # Mount code as a volume for easy restart
         - esbootstrap-data-config
     environment: # Use current upstream staging instance
-        - elastic_host=10.201.1.153
-        - APP_CONFIG_DIRNAME=default
+        - elastic_host=10.201.1.97
+        - APP_CONFIG_DIRNAME=mytest
         - NODE_ENV=dev # Change to production if you want to test the app in production environment
     entrypoint:
         - /node_modules/.bin/nodemon
@@ -17,10 +17,6 @@ app:
         - /code/config/*/settings.json
     command:
         - runserver
-    volumes:
-        - ./app/public:/code/public:z
-        - ../eea.searchserver.js/lib:/node_modules/eea-searchserver/lib:z
-        - ./app/config/:/code/config/:z
 
 ide:
     image: eeacms/cloud9
