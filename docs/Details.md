@@ -6,16 +6,17 @@
 	├── app
 	│   ├── config
 	│   │   ├── default
-	│   │   │   ├── dataMapping.json
-	│   │   │   └── query.sparql
-	│   │   │   └── mapping.json
-	│   │   │   └── settings.json
-	│   │   ├── rdf
-	│   │   │   ├── dataMapping.json
-	│   │   │   └── query.sparql
-	│   │   │   └── normalize.json
-	│   │   │   └── mapping.json
-	│   │   │   └── settings.json
+	│   │   ├── facets.json
+	│   │   ├── mapping.json
+	│   │   └── query.sparql
+	│   │   └── mapping.json
+	│   │   └── settings.json
+	│   ├── config_rdf
+	│   │   ├── facets.json
+	│   │   └── query.sparql
+	│   │   └── normalize.json
+	│   │   └── mapping.json
+	│   │   └── settings.json
 	│   ├── public
 	│   │   ├── css
 	│   │   │   └── esbootstrap.facetview.css
@@ -58,7 +59,7 @@ All apps configurations are place in the **config** folder. An app folder contai
 
 <pre>
     ├── default
-    │   ├── dataMapping.json
+    │   ├── mapping.json
     │   └── query.sparql
     │   └── mapping.json
     │   └── settings.json
@@ -201,11 +202,11 @@ Ex:
 }
 </pre>
 After the normalize.json is set up, you can use your short names in the **mapping.json**. 
-**Note: ** in the dataMapping.json you still have to use the original property names.
+**Note: ** in the mapping.json you still have to use the original property names.
 
 ### __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
-Data mapping for elasticsearch is done within **app/config/default/dataMapping.json**.
+Data mapping for elasticsearch is done within **app/config/mapping.json**.
 example of mapping for a field:
 <pre>  "visualization" : {
         "type" : "string",
@@ -453,7 +454,7 @@ By default the application contains a small css called **app/public/css/esbootst
         indexingFilterQuery: null,
         indexingQuery: 'indexing/query.sparql',
         extraAnalyzers: '',
-        dataMapping: 'indexing/dataMapping.json',
+        dataMapping: 'indexing/mapping.json',
         endpoint: 'http://semantic.eea.europa.eu/sparql',
       }
     }
@@ -483,7 +484,7 @@ with the attributes:
         indexingFilterQuery: null,
         indexingQuery: 'indexing/query.sparql',
         extraAnalyzers: '',
-        dataMapping: 'indexing/dataMapping.json',
+        dataMapping: 'indexing/mapping.json',
         endpoint: 'http://semantic.eea.europa.eu/sparql',
       }
       </pre>
@@ -491,7 +492,7 @@ with the attributes:
   - **indexingFilterQuery**: an optional value, for the filtering Query (see 4.2)
   - **indexingQuery**: the name of the file containing the sparql query
   - **extraAnalyzers**: the name of the json what contains the analyzers (see 5)
-  - **dataMapping**: the name of the dataMapping file for indexing (see 5)
+  - **dataMapping**: the name of the mapping file for indexing (see 5)
   - **endpoint**: the endpoint where the queries should be executed
 
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.

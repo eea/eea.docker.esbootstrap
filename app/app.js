@@ -53,6 +53,7 @@ var builtinRoutes = searchServer.builtinRoutes;
 var defaultIndexingFilterQuery = APP_CONFIG_DIR + '/filtersQuery.sparql';
 var defaultExtraAnalyzers = APP_CONFIG_DIR + '/analyzers.json';
 var defaultNormalize = APP_CONFIG_DIR + '/normalize.json';
+var defaultDataMapping = APP_CONFIG_DIR + '/mapping.json';
 
 var nconf = require('nconf');
 nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
@@ -80,6 +81,8 @@ var options = {
   }
 };
 
+options.indexing.dataMapping = defaultDataMapping;
+
 if (fs.existsSync(__dirname +'/' + defaultIndexingFilterQuery)){
   options.indexing.indexingFilterQuery = defaultIndexingFilterQuery;
 }
@@ -92,6 +95,6 @@ if (fs.existsSync(__dirname +'/' + defaultNormalize)){
 searchServer.Helpers.SimpleStart(options);
 
 exports.fieldsMapping = function(next){
-    next(require(path.join(__dirname, "/" + APP_CONFIG_DIR + "/mapping.json")));
+    next(require(path.join(__dirname, "/" + APP_CONFIG_DIR + "/facets.json")));
 };
 
