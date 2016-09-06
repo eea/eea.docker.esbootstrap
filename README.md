@@ -20,6 +20,7 @@ docker run -d -v /path/of/your/config/:/code/config:z -p 8080:3000 -e "elastic_h
 
 - **```<elasticsearch_host_or_ip>```** is the url or the ip of your elastic search server without the port
 - **```./config```** is the folder that contains the configuration files for your app. Read this to know how to [configure](/docs/Details.md#setup).
+- **```./public/custom/```** is the folder that contains the static files for your app.
 
 ### Using rancher
 

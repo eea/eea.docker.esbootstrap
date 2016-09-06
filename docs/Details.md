@@ -6,12 +6,12 @@
 	├── app
 	│   ├── config
 	│   │   ├── default
-	│   │   │   ├── dataMapping.json
+	│   │   │   ├── facets.json
 	│   │   │   └── query.sparql
 	│   │   │   └── mapping.json
 	│   │   │   └── settings.json
 	│   │   ├── rdf
-	│   │   │   ├── dataMapping.json
+	│   │   │   ├── facets.json
 	│   │   │   └── query.sparql
 	│   │   │   └── normalize.json
 	│   │   │   └── mapping.json
@@ -19,8 +19,11 @@
 	│   ├── public
 	│   │   ├── css
 	│   │   │   └── esbootstrap.facetview.css
-	│   │   └── javascripts
-	│   │       └── esbootstrap.facetview.js
+	│   │   ├── javascripts
+	│   │   │   └── esbootstrap.facetview.js
+	│   │   └── custom
+	│   │       ├── app.css
+	│   │       └── app.js
 	│   ├── views
 	│   |   ├── details.jade
 	│   |   └── index.jade
@@ -34,7 +37,7 @@
  - **app/config** is the folder what contains the configuration files for your apps.
  - **app/config/default** is an app configuration folder what containsthe indexing scripts, the data
 mapping for elasticsearch and optionally a configuration file for analyzers.
- - **app/config/default/mapping.json** contains the configuration of the pages, including listing
+ - **app/config/default/facets.json** contains the configuration of the pages, including listing
  - **app/config/default/settings.json** contains information about the external templates, the
 elastic index to be used in the app and some information for customize the layout for
 	 - view,
@@ -58,7 +61,7 @@ All apps configurations are place in the **config** folder. An app folder contai
 
 <pre>
     ├── default
-    │   ├── dataMapping.json
+    │   ├── facets.json
     │   └── query.sparql
     │   └── mapping.json
     │   └── settings.json
