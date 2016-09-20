@@ -22,10 +22,11 @@ ide:
     image: eeacms/cloud9
     volumes_from:
         - esbootstrap-data-config
+        - app
     ports:
         - 8001:8080
     environment:
-        - C9_WORKSPACE=/code/config
+        - C9_WORKSPACE=/code/
         
 esbootstrap-data-config:
     image: eeacms/esbootstrap-configs
