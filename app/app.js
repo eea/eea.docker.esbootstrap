@@ -20,6 +20,7 @@ var existsSync = function(path) {
   }
 }
 
+
 if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME))
   fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 
@@ -58,6 +59,8 @@ var defaultDataMapping = APP_CONFIG_DIR + '/mapping.json';
 var nconf = require('nconf');
 nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
 var endpoint = nconf.get("endpoint");
+var custom_resources_path = [APP_CONFIG_DIR + "/public"]
+var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"]
 
 
 var options = {
@@ -92,6 +95,17 @@ if (fs.existsSync(__dirname +'/' + defaultExtraAnalyzers)){
 if (fs.existsSync(__dirname +'/' + defaultNormalize)){
   options.indexing.normalize = defaultNormalize;
 }
+
+options.customResourcesPath = [];
+defaultCustomResourcesPath.forEach(function(dirpath) {
+    dirpath = path.join(__dirname, dirpath);
+    if (existsSync(dirpath)) {
+        options.customResourcesPath.push(dirpath)
+    } else {
+        console.log("Custom resource '" + dirpath + "' doesn't exists")
+    }
+});
+
 searchServer.Helpers.SimpleStart(options);
 
 exports.fieldsMapping = function(next){
