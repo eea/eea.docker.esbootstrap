@@ -9,20 +9,8 @@ jQuery(document).ready(function($) {
             enable_rangeselect: true,
             enable_geoselect: true,
             default_sort: default_sort,
-            search_sortby: [
-              {
-                'field': 'title',
-                'display_asc': 'Title a-z',
-                'display_desc': 'Title z-a'
-              },
-              {
-                'field': 'created',
-                'display_asc': 'Oldest',
-                'display_desc': 'Newest'
-              }
-            ],
-            sort: [{'created': {'order': 'desc'}}
-            ],
+            search_sortby: settings_search_sortby,
+            sort: settings_sort,
             post_init_callback: function() {
               add_EEA_settings();
               replaceNumbers();

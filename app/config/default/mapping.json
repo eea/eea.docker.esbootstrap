@@ -1,4 +1,20 @@
 {
+    "search_sortby_": [
+        {
+            "field": "title",
+            "display_asc": "Title a-z",
+            "display_desc": "Title z-a"
+        },
+        {
+            "field": "created",
+            "display_asc": "Oldest",
+            "display_desc": "Newest"
+        }
+    ],
+    "sort_": [
+        {"created": {"order": "desc"}}
+    ],
+
     "details_settings" : {
         "sections": [
             {"name":"info",
