@@ -23,6 +23,8 @@ jQuery(document).ready(function($) {
             paging: {
                 from: 0,
                 size: 10
-            }
+            },
+            display_type_options: settings_display_options,
+            display_type: settings_default_display
         });
 });
