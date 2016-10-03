@@ -5,17 +5,17 @@
 <pre>
 	├── app
 	│   ├── config
-	│   │   ├── default
-	│   │   │   ├── dataMapping.json
-	│   │   │   └── query.sparql
-	│   │   │   └── mapping.json
-	│   │   │   └── settings.json
-	│   │   ├── rdf
-	│   │   │   ├── dataMapping.json
-	│   │   │   └── query.sparql
-	│   │   │   └── normalize.json
-	│   │   │   └── mapping.json
-	│   │   │   └── settings.json
+        │   │   ├── default
+        │   │   │   ├── mapping.json
+        │   │   │   └── query.sparql
+        │   │   │   └── facets.json
+        │   │   │   └── settings.json
+        │   │   ├── rdf
+        │   │   │   ├── mapping.json
+        │   │   │   └── query.sparql
+        │   │   │   └── normalize.json
+        │   │   │   └── facets.json
+        │   │   │   └── settings.json
 	│   ├── public
 	│   │   ├── css
 	│   │   │   └── esbootstrap.facetview.css
@@ -34,7 +34,7 @@
  - **app/config** is the folder what contains the configuration files for your apps.
  - **app/config/default** is an app configuration folder what containsthe indexing scripts, the data
 mapping for elasticsearch and optionally a configuration file for analyzers.
- - **app/config/default/mapping.json** contains the configuration of the pages, including listing
+ - **app/config/default/facets.json** contains the configuration of the pages, including listing
  - **app/config/default/settings.json** contains information about the external templates, the
 elastic index to be used in the app and some information for customize the layout for
 	 - view,
@@ -58,11 +58,16 @@ All apps configurations are place in the **config** folder. An app folder contai
 
 <pre>
     ├── default
-    │   ├── dataMapping.json
-    │   └── query.sparql
-    │   └── mapping.json
-    │   └── settings.json
+        ├── mapping.json
+        └── query.sparql
+        └── facets.json
+        └── settings.json
+        └── public
+            └── custom_css
+            └── custom_js
 </pre>
+
+Optionally you can add a public folder what will contain your custom css and javascript files
 
 ### __Configure settings.json__
 
@@ -119,7 +124,7 @@ in the **layout_vars** section you can change some layout configurations like ti
 </pre>
 
  - **head_title**: it is the text showed on title bar of the browser;
- - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". **The sorting of the urls in the lists is the order for which they will be injected into HTML**;
+ - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". If you added a public folder with your custom css or javascripts, you have add those resources to this css/js list.**The sorting of the urls in the lists is the order for which they will be injected into HTML**;
  - **site_title**: it is the text of H1 html tag of your app;
  - **site_description**: it is the description text;
  - **enableBreadcrumbs**: show/hide the breadcrumbs, possible values are ```true``` or ```false```;
@@ -200,12 +205,12 @@ Ex:
   "http://purl.org/dc/terms/subject": "subject"
 }
 </pre>
-After the normalize.json is set up, you can use your short names in the **mapping.json**. 
-**Note: ** in the dataMapping.json you still have to use the original property names.
+After the normalize.json is set up, you can use your short names in the **facets.json**. 
+**Note: ** in the mapping.json you still have to use the original property names.
 
 ### __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
-Data mapping for elasticsearch is done within **app/config/default/dataMapping.json**.
+Data mapping for elasticsearch is done within **app/config/mapping.json**.
 example of mapping for a field:
 <pre>  "visualization" : {
         "type" : "string",
@@ -231,7 +236,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.ht
 
 #### __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
-All of these settings can be configured within **app/config/default/mapping.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
+All of these settings can be configured within **app/config/default/facets.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
 <pre>
 {
     "details_settings" : {
@@ -453,7 +458,7 @@ By default the application contains a small css called **app/public/css/esbootst
         indexingFilterQuery: null,
         indexingQuery: 'indexing/query.sparql',
         extraAnalyzers: '',
-        dataMapping: 'indexing/dataMapping.json',
+        dataMapping: 'indexing/mapping.json',
         endpoint: 'http://semantic.eea.europa.eu/sparql',
       }
     }
@@ -483,7 +488,7 @@ with the attributes:
         indexingFilterQuery: null,
         indexingQuery: 'indexing/query.sparql',
         extraAnalyzers: '',
-        dataMapping: 'indexing/dataMapping.json',
+        dataMapping: 'indexing/mapping.json',
         endpoint: 'http://semantic.eea.europa.eu/sparql',
       }
       </pre>
@@ -491,7 +496,7 @@ with the attributes:
   - **indexingFilterQuery**: an optional value, for the filtering Query (see 4.2)
   - **indexingQuery**: the name of the file containing the sparql query
   - **extraAnalyzers**: the name of the json what contains the analyzers (see 5)
-  - **dataMapping**: the name of the dataMapping file for indexing (see 5)
+  - **dataMapping**: the name of the mapping file for indexing (see 5)
   - **endpoint**: the endpoint where the queries should be executed
 
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
