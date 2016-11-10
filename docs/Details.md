@@ -86,6 +86,30 @@ should be configured for the new application.
 
  - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
 
+#### __Configure rivers__
+If you use the rdfriver with CONSTRUCT queries, and you use the built in query builder (ex. in the eeasearch app), you have the possibility to set up on or more sources for your data. For this you have to use the **river_configs**:
+<pre>
+    "river_configs": {
+        "configs": [
+            {
+                "id": "rod_instruments",
+                "cluster_name": "reportnet",
+                "config_file": "riverconfig_instruments.json"
+            },
+            {
+                "id": "rod_obligations",
+                "cluster_name": "reportnet",
+                "config_file": "riverconfig_obligations.json"
+            }
+        ]
+    }
+</pre>
+
+You have to specify:
+ - **id** a unique ID for the source
+ - **cluster_name** a name where the source should be grouped, more sources may have the same **cluster_name**
+ - **config_file** the specific configuration for the source
+
 #### __Configure custom layout string__
 
 in the **layout_vars** section you can change some layout configurations like title, description, show/hide breadcrumb and other.
