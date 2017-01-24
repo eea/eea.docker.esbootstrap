@@ -5,17 +5,17 @@
 <pre>
 	├── app
 	│   ├── config
-        │   │   ├── default
-        │   │   │   ├── mapping.json
-        │   │   │   └── query.sparql
-        │   │   │   └── facets.json
-        │   │   │   └── settings.json
-        │   │   ├── rdf
-        │   │   │   ├── mapping.json
-        │   │   │   └── query.sparql
-        │   │   │   └── normalize.json
-        │   │   │   └── facets.json
-        │   │   │   └── settings.json
+    │   │   │   ├── default
+    │   │   │   │   ├── mapping.json
+    │   │   │   │   └── query.sparql
+    │   │   │   │   └── facets.json
+    │   │   │   │   └── settings.json
+    │   │   │   ├── rdf
+    │   │   │   │   ├── mapping.json
+    │   │   │   │   └── query.sparql
+    │   │   │   │   └── normalize.json
+    │   │   │   │   └── facets.json
+    │   │   │   │   └── settings.json
 	│   ├── public
 	│   │   ├── css
 	│   │   │   └── esbootstrap.facetview.css
@@ -81,10 +81,12 @@ should be configured for the new application.
 	    "index": "newesappdata",
         "type": "resources",
         "field_base":""
+        "enableValuesCounting": false
 	},
 </pre>
 
  - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
+ - the **enableValuesCounting** option is by default set on **false**. If it's set on **true**, on indexing an extra property will be added for each property called: **items_count_property_name** and will contain the number values stored in the property. This is required by the **exact search** feature.
 
 #### __Configure rivers__
 If you use the rdfriver with CONSTRUCT queries, and you use the built in query builder (ex. in the eeasearch app), you have the possibility to set up on or more sources for your data. For this you have to use the **river_configs**:
@@ -317,7 +319,9 @@ For one field the setting looks like:
           "type": "facet",
           "size": 9999,
           "order": "term",
-          "facet_display_options": ["sort", "checkbox"]
+          "facet_display_options": ["sort", "checkbox"],
+          "allow_exact": false,
+          "desctext":""
 	},
     "csv_tsv": {
 	    "title": "Creator",
@@ -360,7 +364,9 @@ with the attributes:
           "type": "facet",
           "size": 9999,
           "order": "term",
-          "facet_display_options": ["sort", "checkbox"]
+          "facet_display_options": ["sort", "checkbox"],
+          "allow_exact": false,
+          "desctext":""
 	},
 	</pre>
 	with the attributes:
@@ -374,6 +380,8 @@ with the attributes:
   - **size**: size of the facet if it's a simple facet
   - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox"
   - TODO: list all available options
+  - **allow_exact**: by default is set on false. If set on true, it will add a checkbox on the facet, and using it, the user can select if he wants exact search results or not.
+  - **desctext**: by default empty. If set, this description text will be displayed in the header of the facet.
 
 - **csv_tsv**
 	In this section you can configure the field for csv/tsv export
@@ -388,6 +396,12 @@ with the attributes:
   - **visible**: boolean, controlling if it should be used in the csv/tsv export or not, if false all other options will be ignored
   - **title**: the column name
   - **pos**: position in the export
+
+### __Enabling exact search feature__
+For enabling the **exact search** two settings are required
+
+ 1. Enable column counting for properties. This is done using **enableValuesCounting** from **settings.json** and after setting it, a reindex is required
+ 2. In **mapping.json**, for facets where we want the exact search option, enable it using the **allow_exact** option.
 
 ### __Configure the layout of the pages__
 For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
