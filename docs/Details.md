@@ -3,32 +3,34 @@
 ## eea.docker.esbootstrap structure
 
 <pre>
-	├── app
-	│   ├── config
-    │   │   │   ├── default
-    │   │   │   │   ├── mapping.json
-    │   │   │   │   └── query.sparql
-    │   │   │   │   └── facets.json
-    │   │   │   │   └── settings.json
-    │   │   │   ├── rdf
-    │   │   │   │   ├── mapping.json
-    │   │   │   │   └── query.sparql
-    │   │   │   │   └── normalize.json
-    │   │   │   │   └── facets.json
-    │   │   │   │   └── settings.json
-	│   ├── public
-	│   │   ├── css
-	│   │   │   └── esbootstrap.facetview.css
-	│   │   └── javascripts
-	│   │       └── esbootstrap.facetview.js
-	│   ├── views
-	│   |   ├── details.jade
-	│   |   └── index.jade
-	│   ├── app.js
-	│   ├── package.json
-	├── Dockerfile
-	├── docker-compose.yml
-	└── README.md
+    ├── app
+    │   ├── config
+    │   │   ├── default
+    │   │   │   ├── mapping.json
+    │   │   │   ├── query.sparql
+    │   │   │   ├── facets.json
+    │   │   │   ├── settings.json
+    │   │   │   ├── public
+    │   │   │   └── views
+    │   │   ├── rdf
+    │   │   │   ├── mapping.json
+    │   │   │   ├── query.sparql
+    │   │   │   ├── normalize.json
+    │   │   │   ├── facets.json
+    │   │   │   └── settings.json
+    │   ├── public
+    │   │   ├── css
+    │   │   │   └── esbootstrap.facetview.css
+    │   │   └── javascripts
+    │   │       └── esbootstrap.facetview.js
+    │   ├── views
+    │   │   ├── details.jade
+    │   │   └── index.jade
+    │   ├── app.js
+    │   └── package.json
+    ├── Dockerfile
+    ├── docker-compose.yml
+    └── README.md
 </pre>
 
  - **app/config** is the folder what contains the configuration files for your apps.
@@ -41,6 +43,8 @@ elastic index to be used in the app and some information for customize the layou
 	 - facets,
 	 - detail view,
 	 - csv/tsv export
+ - **app/config/default/public** contains the app specific static resources: js, css, or images
+ - **app/config/default/views** contains the app specific templates ex: the tiles for landing page, the templates for card and listing views
  - **app/config/rdf** is similar with **app/config/default**, but contains the configuration for a demo app with indexing from a construct query
  - **app/public** contains the static resources
  - **app/views** contains the jade templates for index and detail pages
@@ -57,14 +61,16 @@ in most cases this should not be modified
 All apps configurations are place in the **config** folder. An app folder contains these files
 
 <pre>
-    ├── default
+    └── default
         ├── mapping.json
-        └── query.sparql
-        └── facets.json
-        └── settings.json
-        └── public
-            └── custom_css
-            └── custom_js
+        ├── query.sparql
+        ├── facets.json
+        ├── settings.json
+        ├── public
+        │   ├── custom_css
+        │   └── custom_js
+        └── views
+            └── custom_template.jade
 </pre>
 
 Optionally you can add a public folder what will contain your custom css and javascript files
@@ -327,7 +333,19 @@ For one field the setting looks like:
 	    "title": "Creator",
         "visible": true,
         "pos": 3
-	}
+	},
+	"card": {
+	    "field": "creator",
+        "default": "",
+        "visible": true,
+        "type": "simple"
+	 },
+     "list": {
+	     "field": "creator",
+         "default": "",
+         "visible": true,
+         "type": "simple"
+	  }
 },
 </pre>
 
@@ -338,6 +356,8 @@ The attributes are:
     <pre>
 	"listing": {
 		"visible" : true,
+		"type": "",
+		"format": "",
 		"title": "Column title",
 		"pos" : 0
 		"display": {
@@ -350,6 +370,8 @@ The attributes are:
 with the attributes:
  - **visible**: boolean, controlling if it should be displayed in the list or not, if false all the other options will be ignored
  - **title**: the column name
+ - **type**: currently the only available options are "date", or empty/missing. If it's set to "date", it will format the date to the form given in the "format" attribute
+ - **format**: only used when "type" is set to "date". Ex: "dd M yy"
  - **pos**: position in the table
  - **display**: optional attribute, you can add extra formatting or extra fields to be displayed. In the **pre** and **post** attributes you can specify html snippet what will be displayed for this item. in the **field** attribute you can specify the name of the field. Usually the **field** attribute is identical with the original **name** but you can use others too. This is useful when you try to create links to detail pages.
 	  **IMPORTANT**: the first column should always use the display option and have the "post" attribute set to "&lt;/td&gt;"
@@ -396,6 +418,25 @@ with the attributes:
   - **visible**: boolean, controlling if it should be used in the csv/tsv export or not, if false all other options will be ignored
   - **title**: the column name
   - **pos**: position in the export
+
+- **card** && **list**
+	This is an optional section, here you can configure if the field is used in the card view, what name it has, and how to handle if it's a list.
+	<pre>
+	"card": {
+	    "type": "date",
+        "format": "dd M yy",
+        "field": "date",
+        "default": "",
+        "visible": true
+	},
+	</pre>
+    attributes:
+	- **field**: how it is used in the template
+	- **default**: it's default value
+	- **visible**: boolean value for enable/disable (mostly for development/debugging)
+	- **type** and **format**: Works similar as described in the **listing** section but with some extra options. Possible values: "date", "simple", "list". 
+		- **simple** if the field contains multiple values, only the first will be used
+		- **list** all values from the field will be merged into one csv separated string
 
 ### __Enabling exact search feature__
 For enabling the **exact search** two settings are required
@@ -476,6 +517,27 @@ In the bootstrap application we already added a small method for formating chemi
 
 ##### __Adding custom css code__
 By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js**
+
+#### __Customize card and list views__
+By default we use the predefined templates from eea.searchserver.js: 
+https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.jade
+https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.jade
+If you want to customize it, is enough to copy them in your application in the **app/config/views** folder, and you can start modifying it. In the template you have access to all fields what you specified in the **mapping.json** in section **fields_mapping** in the **card** or **list** attributes of the fields. Ex: if you have in the **mapping.json**:
+<pre>
+	"card": {
+	    "type": "date",
+        "format": "dd M yy",
+        "field": "date",
+        "default": "",
+        "visible": true
+	},
+</pre>
+in the template you can have
+<pre>
+...
+time(class="eea-tileIssued", datetime="${date}") ${date}
+...
+</pre>
 
 ### __Configure the main application__
   For this you have to work on the **app/app.js** file.
