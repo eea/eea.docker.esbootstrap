@@ -1,83 +1,36 @@
-# Details
-
-## eea.docker.esbootstrap structure
-
-<pre>
-    ├── app
-    │   ├── config
-    │   │   ├── default
-    │   │   │   ├── mapping.json
-    │   │   │   ├── query.sparql
-    │   │   │   ├── facets.json
-    │   │   │   ├── settings.json
-    │   │   │   ├── public
-    │   │   │   └── views
-    │   │   ├── rdf
-    │   │   │   ├── mapping.json
-    │   │   │   ├── query.sparql
-    │   │   │   ├── normalize.json
-    │   │   │   ├── facets.json
-    │   │   │   └── settings.json
-    │   ├── public
-    │   │   ├── css
-    │   │   │   └── esbootstrap.facetview.css
-    │   │   └── javascripts
-    │   │       └── esbootstrap.facetview.js
-    │   ├── views
-    │   │   ├── details.jade
-    │   │   └── index.jade
-    │   ├── app.js
-    │   └── package.json
-    ├── Dockerfile
-    ├── docker-compose.yml
-    └── README.md
-</pre>
-
- - **app/config** is the folder what contains the configuration files for your apps.
- - **app/config/default** is an app configuration folder what containsthe indexing scripts, the data
-mapping for elasticsearch and optionally a configuration file for analyzers.
- - **app/config/default/facets.json** contains the configuration of the pages, including listing
- - **app/config/default/settings.json** contains information about the external templates, the
-elastic index to be used in the app and some information for customize the layout for
-	 - view,
-	 - facets,
-	 - detail view,
-	 - csv/tsv export
- - **app/config/default/public** contains the app specific static resources: js, css, or images
- - **app/config/default/views** contains the app specific templates ex: the tiles for landing page, the templates for card and listing views
- - **app/config/rdf** is similar with **app/config/default**, but contains the configuration for a demo app with indexing from a construct query
- - **app/public** contains the static resources
- - **app/views** contains the jade templates for index and detail pages
- - **app/app.js** is the main application
- - **app/package.json** contains information about the application, version number,
-dependencies, etc.
- - **Dockerfile** the production Dockerfile for the application, in most cases this
-should not be modified
- - **Dockerfile.dev** the development Dockerfile for the application,
-in most cases this should not be modified
+# eea.docker.esbootstrap
+esbootstrap configuration
 
 ## Setup
 
-All apps configurations are place in the **config** folder. An app folder contains these files
+All apps configurations are placed in the config folder. An app folder contains these files
 
 <pre>
     └── default
         ├── mapping.json
+        ├── filtersQuery.sparql
         ├── query.sparql
         ├── facets.json
         ├── settings.json
+        ├── riverconfig.example.json
+        ├── riverconfig_1.json
+        ├── riverconfig_2.json
         ├── public
         │   ├── custom_css
         │   └── custom_js
         └── views
-            └── custom_template.jade
+            ├── cardview.jade
+            ├── listview.jade
+            └── landingview.jade
 </pre>
 
-Optionally you can add a public folder what will contain your custom css and javascript files
+### Development environment
+
+If the image is launched with **DEV_CONFIG** environment variable, repository will clone/pull in **/code/config**.
 
 ### __Configure settings.json__
 
-The **app/config/default/settings.json** is the place where external templates, customstring and the elastic index is configure. The external templates should remain unchanged, but the **index** and **layout_vars**
+The **/*default*/settings.json** is the place where external templates, custom strings and the elastic index is configured. Usually the external templates should remain unchanged, but the **index** and **layout_vars**
 should be configured for the new application.
 
 #### __Configure the elastic index__
@@ -95,19 +48,19 @@ should be configured for the new application.
  - the **enableValuesCounting** option is by default set on **false**. If it's set on **true**, on indexing an extra property will be added for each property called: **items_count_property_name** and will contain the number values stored in the property. This is required by the **exact search** feature.
 
 #### __Configure rivers__
-If you use the rdfriver with CONSTRUCT queries, and you use the built in query builder (ex. in the eeasearch app), you have the possibility to set up on or more sources for your data. For this you have to use the **river_configs**:
+If you use the rdfriver with CONSTRUCT queries, and you use the built in query builder (ex. in the eeasearch app), you have the possibility to set up one or more sources for your data. For this you have to use the **river_configs**:
 <pre>
     "river_configs": {
         "configs": [
             {
                 "id": "rod_instruments",
                 "cluster_name": "reportnet",
-                "config_file": "riverconfig_instruments.json"
+                "config_file": "riverconfig_1.json"
             },
             {
                 "id": "rod_obligations",
                 "cluster_name": "reportnet",
-                "config_file": "riverconfig_obligations.json"
+                "config_file": "riverconfig_2.json"
             }
         ]
     }
@@ -156,7 +109,7 @@ in the **layout_vars** section you can change some layout configurations like ti
 </pre>
 
  - **head_title**: it is the text showed on title bar of the browser;
- - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". If you added a public folder with your custom css or javascripts, you have add those resources to this css/js list.**The sorting of the urls in the lists is the order for which they will be injected into HTML**;
+ - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". If you added a public folder with your custom css or javascripts, you have to add those resources to the css/js list.**The sorting of the urls in the lists is the order for which they will be injected into HTML**;
  - **site_title**: it is the text of H1 html tag of your app;
  - **site_description**: it is the description text;
  - **enableBreadcrumbs**: show/hide the breadcrumbs, possible values are ```true``` or ```false```;
@@ -165,16 +118,20 @@ in the **layout_vars** section you can change some layout configurations like ti
  - **dataprovencance_info_url**: it is the url of the link to the data provenance info;
  - **further_info**: you can add a small HTML that be renderer below the data provenance info.
 
+#### __Enable/disable landing page__
+<pre>
+	"landingpage_enabled": false
+</pre>
+By default the landing page is disabled. When enabled, you should add the template for it in the **views** folder, and all the logic and style should be implemented in the public folder.
 
 ### __Set up the SPARQL Query to be indexed in Elasticsearch__
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
 Depending on the query you have, there are several options.
 
 #### __Simple Select query__ when there are not too many results
-If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the indexing/query.sparql file.
+If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the query.sparql file.
 **Important:** All indexing queries should contain a unique _id column.
 In our example we use a simple query what returns all daviz visualizations:
-**app/config/default/query.sparql**
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
@@ -190,7 +147,7 @@ WHERE {
 #### __Filtered Select queries__
 Depending on the number of rows returned by your query, you might run into a timeout when indexing. If this occures, you should split up the indexing using a filter (ex. year of creation).
 Supposing we have too many visualizations we can split up the results using a filter on the creator.
-Create **app/config/default/filterQuery.sparql** and fill it with:
+Create **filtersQuery.sparql** and fill it with:
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
@@ -200,7 +157,7 @@ WHERE {
      optional{?visualization dct:creator ?creator}
 }
 </pre>
-This query will return all **creators** for DavizVisualiztaions, so we have to update our **app/config/default/query.sparql** to use the **creator** as a filter value.
+This query will return all **creators** for DavizVisualiztaions, so we have to update our **query.sparql** to use the **creator** as a filter value.
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/>&gt;
@@ -214,15 +171,13 @@ WHERE {
   FILTER (?creator = '&lt;<b>creator</b>&gt;')
 }
 </pre>
-Notice the **FILTER** clause in the **app/config/default/query.sparql** as this query will be executed for each creator from the filterQuery.sparql query.
+Notice the **FILTER** clause in the **query.sparql** as this query will be executed for each creator from the filtersQuery.sparql query.
 
 #### __Construct query__
-A demo how the query and the config files in case of a construct query is used can be seen in **app/config/rdf**
-
 If you have a **construct** query or a **select** query that returns SPO triples, you will use our rdfriver plugin for elasticsearch. This is transparent, in normal cases you shouldn't do any extra configuration. Only when you have a **select** query, it is required to put a comment on the top of the sparql query what contains the string "construct".
 
 ##### __Normalize properties for construct queries__
-When a **construct** query is used, the properties will be long strings. As these properties will appear in all queries and url's you might want to replace them with  shorter names. For this you can use **app/config/rdf/normalize.json** where you have to define the pairs of property-replacement.
+When a **construct** query is used, the properties will be long strings. As these properties will appear in all queries and url's you might want to replace them with  shorter names. For this you can use **normalize.json** where you have to define the pairs of property-replacement.
 Ex:
 <pre>
 {
@@ -237,12 +192,12 @@ Ex:
   "http://purl.org/dc/terms/subject": "subject"
 }
 </pre>
-After the normalize.json is set up, you can use your short names in the **facets.json**. 
-**Note: ** in the mapping.json you still have to use the original property names.
+After the normalize.json is set up, you can use your short names in the **mapping.json**. 
+**Note: ** in the dataMapping.json you still have to use the original property names.
 
 ### __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
-Data mapping for elasticsearch is done within **app/config/mapping.json**.
+Data mapping for elasticsearch is done within **mapping.json**.
 example of mapping for a field:
 <pre>  "visualization" : {
         "type" : "string",
@@ -255,7 +210,7 @@ example of mapping for a field:
     - Also it is possible to create your own analyzer
 TODO
 - for **type** the most common data types are:
-	-  string,
+	- string,
 	- long,
 	- integer,
 	- double,
@@ -268,7 +223,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.ht
 
 #### __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
-All of these settings can be configured within **app/config/default/facets.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
+All of these settings can be configured within **default/default/facets.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
 <pre>
 {
     "details_settings" : {
@@ -400,6 +355,11 @@ with the attributes:
 	    - **range**: numeric field
 	    - **geo**: geo_point* field
   - **size**: size of the facet if it's a simple facet
+  - **order**: order can be one of the following
+  	    - **term**: sorted by alphanumeric order "a-z"
+	    - **reverse_term**: or "rterm" for reversed alphanumeric order "z-a"
+	    - **count**: sorted by count, smaller on top
+	    - **reverse_count**: or "rcount", sorted by count, largest on top
   - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox"
   - TODO: list all available options
   - **allow_exact**: by default is set on false. If set on true, it will add a checkbox on the facet, and using it, the user can select if he wants exact search results or not.
@@ -455,7 +415,7 @@ The main blocks are already specified, in most cases only the labels like title 
 #### __Adding custom js code__
 The location for js files is **app/public/javascripts**.
 We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
-Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the url in **js_resources** block in **app/config/default/settings.json**.
+Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the url in **js_resources** block in **/*default*/settings.json**.
 **js_resources** is the place where you have to add any extra libraries:
 
 <pre>
