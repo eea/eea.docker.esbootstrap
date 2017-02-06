@@ -231,7 +231,13 @@ All of these settings can be configured within **default/default/facets.json**. 
     },
     "fields_mapping": [
 	    ...
-	]
+	],
+	"highlights": {
+		...
+	},
+	"types": {
+		...
+	}
 }
 </pre>
 
@@ -262,6 +268,8 @@ For one field the setting looks like:
 <pre>
   {
 	  "name": "creator",
+	  "values_whitelist":[],
+	  "values_blacklist":[],
       "listing": {
 	      "title": "Creator",
           "visible" : true,
@@ -307,6 +315,7 @@ For one field the setting looks like:
 The attributes are:
 
 - **name**: is the name of the field
+- **values_whitelist** and **values_blacklist**: can be used to filter what values to be displayed. By default they are empty, but they accept a list of elements what will be applied in all views. The white and blacklists can be overwritten in the listing, facets, csv_tsv, card, list sections, and it will be applied only for that view.
 - **listing**: here you define if you want this field to be displayed on the main listing page, what position it should take and what title it should have:
     <pre>
 	"listing": {
@@ -398,6 +407,82 @@ with the attributes:
 		- **simple** if the field contains multiple values, only the first will be used
 		- **list** all values from the field will be merged into one csv separated string
 
+##### __highlights__
+By default the elasticsearch highlight is disabled. If you enable it, you can configure with the whitelist and blacklist, which columns should contain the highlighted texts.
+<pre>
+    "highlights": {
+        "enabled": true,
+        "whitelist": [
+            "http://purl.org/dc/terms/title",
+            "label",
+            "http://purl.org/dc/terms/description",
+            "http://www.eea.europa.eu/portal_types#topic"
+            ],
+        "blacklist": []
+    },
+</pre>
+
+##### __types__
+This property is a mapping tool, where we can normalize the content types to a specific form. This is useful especially in the eeasearch app, where we want to display the type icon, for the documents, but the content types doesn't exactly match with the icon names we have in portal_depiction.
+<pre>
+"types": {
+        "contentTypeNormalize": {
+            "highlight": "highlight",
+            "press-release": "pressrelease",
+			 ...
+        },
+        "defaultContentType" : "generic",
+        "images": {
+            "fallback_thumb" : "",
+            "fallback_icon" : "",
+            "rules": [
+                {
+                    "rule": "startsWith",
+                    "operator": "",
+                    "field": "http://www.w3.org/1999/02/22-rdf-syntax-ns#about",
+                    "value": "http://www.eea.europa.eu",
+                    "thumb_template": {
+                        "template": "${url}/image_preview",
+                        "variables": [{
+                                "name": "url",
+                                "type" : "field",
+                                "field" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#about"
+                        }]
+                    },
+                    "icon_template": {
+                        "template": "http://www.eea.europa.eu/portal_depiction/${contentType}/image_thumb",
+                        "variables": [{
+                                "name": "contentType",
+                                "type" : "variable",
+                                "variable" : "contentType"
+                        }]
+                    }
+                },
+				...
+            ]
+        }
+},
+</pre>
+	
+ attributes:
+
+ - **contentTypeNormalize**: is the mapping
+ - **defaultContentType**: the default value if a type is missing from the mapping
+ - **images**: describes how the url of the images should be built based on the content type. It can be done using the fallback properties, and a set of rules:
+	- **fallback_thumb**: the default thumbnail image
+	- **fallback_icon**: the default icon
+	- **rules**: a list of rules with conditions on an attribute, and a description on what the thumb and icon image should be built:
+		- **rule**: can be "startsWith" or "contains"
+		- **operator**: by default empty, but it might be "none"
+		- **field**: the field from elastic on what we apply the rule
+		- **value**: the value what we look for in the field
+		- **thumb_template** and **icon_template**: the templates for the image urls
+			- **template**: should be something like: "${url}/image_preview"
+			- **variables**: a list of variables what will be filled in the template
+				- **name**: the name of the variable from the template string
+				- **type**: "field" or "variable". If "field" is specified, it will take the value from elastic. If "variable" is selected, it will take the value from the variable defined in the "card" or "list" sections.
+				- **variable** or **field**: you only have to specify one of them, depending the **type** you've chosen. It should contain the name of the **field** or the **variable**
+			
 ### __Enabling exact search feature__
 For enabling the **exact search** two settings are required
 
