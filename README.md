@@ -30,11 +30,11 @@ Read this to know how to [setup](https://github.com/eea/eea.rancher.catalog/blob
 For creating a new application you have to follow the next steps:
 
 ####1. __Clone eea.docker.searchservices on the development machine__
-	
+
 	$ git clone --recursive  https://github.com/eea/eea.docker.searchservices.git
 
 ####2. Clone the eea.docker.esbootstrap
-       
+
 	$ cd eea.docker.searchservices
 	$ # clone eea.docker.esbootstrap under eea.docker.searchservices and gives new name: eea.docker.newesapp
 	$ git clone https://github.com/eea/eea.docker.esbootstrap.git eea.docker.newesapp
@@ -56,6 +56,7 @@ Clone the docker-compose.dev.yml.example file under the name docker-compose.dev.
           - elastic_host=esclient
           - AUTO_INDEXING=true #index data when the app is started for the first time
           # - SYNC_CRONTAB=*/30 * * * * # This is optional, it executes the sync with a cronjob every 30 minutes
+          # - GOOGLE_MAP_KEY=google-map-api-key # To enable google map extention functionality in geo facet assign a valid key generated at https://developers.google.com/maps/documentation/javascript/get-api-key
       volumes:
           - ./eea.docker.newesapp/app/:/code/:z # the volumes are added for easier development
           - ./eea.searchserver.js/lib/:/node_modules/eea-searchserver/lib/:z
