@@ -369,7 +369,12 @@ with the attributes:
   - TODO: list all available options
   - **allow_exact**: by default is set on false. If set on true, it will add a checkbox on the facet, and using it, the user can select if he wants exact search results or not.
   - **desctext**: by default empty. If set, this description text will be displayed in the header of the facet.
-
+  - **default_distance**: should be added only for **geo facet type**, specifying the initial coordinates (lat, lng) of the circle shape center and the radius (rad) of the circle.
+  - **default_bounds**: should be added only for **geo facet type**, specifying the initial coordinates of the upper left corner (lat1, lng1) and lower right corner (lat2, lng2) of the rectangle shape. See example below:
+  <pre>
+      "default_distance": { "lat": 48.738525, "lng": 13.981955, "rad": 250000 },
+      "default_bounds": { "lat1": 50.738525, "lng1": 9.981955, "lat2": 46.738525, "lng2": 18.981955 }
+  </pre>
 - **csv_tsv**
 	In this section you can configure the field for csv/tsv export
 	<pre>
