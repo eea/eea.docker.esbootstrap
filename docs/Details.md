@@ -348,7 +348,11 @@ with the attributes:
           "order": "term",
           "facet_display_options": ["sort", "checkbox"],
           "allow_exact": false,
-          "desctext":""
+          "desctext":"",
+          "short_name": "Value",
+          "empty_message": "No values to show",
+          "autocomplete": false, 
+          "autocomplete_placeholder": "Search for value"
 	},
 	</pre>
 	with the attributes:
@@ -368,7 +372,10 @@ with the attributes:
   - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox"
   - TODO: list all available options
   - **allow_exact**: by default is set on false. If set on true, it will add a checkbox on the facet, and using it, the user can select if he wants exact search results or not.
-  - **desctext**: by default empty. If set, this description text will be displayed in the header of the facet.
+  - **short_name**: by default "**Value**". The label what will be displayed in top of the values for facets, used for sorting.
+  - **empty_message**: by default "**No values to show**". The message what is displayed when no values are available for the facet.
+  - **autocomplete**: by default **false**. Enable if you want a search field in top of the facet, to quickly search for a value. Useful when you have lots of values.
+  - **autocomplete_placeholder**: by default "**Search for value**". Placeholder for autocomplete search input.
   - **default_distance**: should be added only for **geo facet type**, specifying the initial coordinates (lat, lng) of the circle shape center and the radius (rad) of the circle.
   - **default_bounds**: should be added only for **geo facet type**, specifying the initial coordinates of the upper left corner (lat1, lng1) and lower right corner (lat2, lng2) of the rectangle shape. See example below:
   <pre>
