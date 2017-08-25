@@ -16,8 +16,8 @@ All apps configurations are placed in the config folder. An app folder contains 
         ├── riverconfig_1.json
         ├── riverconfig_2.json
         ├── public
-        │   ├── custom_css
-        │   └── custom_js
+        │   ├── custom.css
+        │   └── custom.js
         └── views
             ├── cardview.jade
             ├── listview.jade
@@ -76,18 +76,22 @@ in the **layout_vars** section you can change some layout configurations like ti
         "head_title": "Elasticsearch bootstrap application",
         "css_resources": {
             "index_page": [
+                "/custom.css",
                 "css/no-more-tables.css",
                 "css/esbootstrap.facetview.css"
             ],
             "details_page": [
+                "/custom.css",
                 "css/esbootstrap.facetview.css"
             ]
         },
         "js_resources": {
             "index_page": [
+                "/custom.js",
                 "javascripts/esbootstrap.facetview.js"
             ],
             "details_page": [
+                "/custom.js",
                 "javascripts/jq.tools.js",
                 "http://www.eea.europa.eu/register_function.js",
                 "http://www.eea.europa.eu/nodeutilities.js",
@@ -508,14 +512,15 @@ The main blocks are already specified, in most cases only the labels like title 
 #### __Adding custom js code__
 The location for js files is **app/public/javascripts**.
 We have a default js for creating the listing page for the application, called: **app/public/javascripts/esbootstrap.facetview.js**.
-Once a new application is created, it's recommended to rename it to **app/public/javascripts/newesapp.facetview.js** and update the url in **js_resources** block in **/*default*/settings.json**.
+Once a new application is created, it's recommended to add **app/public/custom.js** and add the url in **js_resources** block in **/*default*/settings.json**.
 **js_resources** is the place where you have to add any extra libraries:
 
 <pre>
 ...
 "js_resources": {
     "index_page": [
-        "javascripts/**newapp**.facetview.js"
+        "/custom.js", // add custom.js before esbootstrap.facetview.js
+        "javascripts/esbootstrap.facetview.js"
     ],
     "details_page": [
         "javascripts/jq.tools.js",
@@ -528,7 +533,7 @@ Once a new application is created, it's recommended to rename it to **app/public
 </pre>
 **Note:** You can add different js on the index and the detail section.
 
-After added, you can start customizing the **app/public/javascripts/newesapp.facetview.js**.
+After added, you can adding customizations to **app/public/custom.js**.
 In normal cases you only have to specify is the **default_sort**:
 
 - If you don't need any sort on the listing view, just set an empty list:
@@ -566,7 +571,7 @@ window.esbootstrap_options = {
 }
 </pre>
 
-In **app/public/javascripts/newesapp.facetview.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback** custom event binding. Ex:
+In **app/public/custom.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback** custom event binding. Ex:
 <pre>
 ...
 
@@ -583,7 +588,7 @@ In the bootstrap application we already added a small method for formating chemi
 **Important:** The default calls: **add_EEA_settings**, and **viewReady** should not be removed.
 
 ##### __Adding custom css code__
-By default the application contains a small css called **app/public/css/esbootstrap.facetview.css** what should be renamed and updated the same way you did for **app/public/javascripts/esbootstrap.facetview.js**
+By default the application contains a small css called **app/public/css/esbootstrap.facetview.css**. You should add another css file called **app/public/custom.css" if you want to add any css.
 
 #### __Customize card and list views__
 By default we use the predefined templates from eea.searchserver.js: 
@@ -668,3 +673,6 @@ with the attributes:
 
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
+  
+### __Default configuration demo__
+See example default custom configuration at [eea.esbootstrap.configs](https://github.com/eea/eea.esbootstrap.configs/tree/master/default)
