@@ -534,35 +534,49 @@ In normal cases you only have to specify is the **default_sort**:
 - If you don't need any sort on the listing view, just set an empty list:
 <pre>
 ...
-var default_sort = [];
+window.esbootstrap_options = {
+    default_sort: []
+}
 ...
 </pre>
 - But you can easily add a sort by doing something like:
 <pre>
 ...
-default_sort = [{'created':{'order':'asc'}}]
+window.esbootstrap_options = {
+    default_sort: [{'created':{'order':'asc'}}]
+}
 ...
 </pre>
 You only have to specify the name of the field and if the order is ascending or descending.
 There is also possible to set the sort on more fields:
 <pre>
 ...
-default_sort = [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}]
+window.esbootstrap_options = {
+    default_sort: [{'field1':{'order':'asc'}}, {'field2':{'order':'asc'}}]
+}
 ...
 </pre>
-
-In **app/public/javascripts/newesapp.facetview.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback**. Ex:
+And the ability to modify more options, see **app/public/javascripts/esbootstrap.facetview.js** for all options:
 <pre>
 ...
-post_init_callback: function() {
-	add_EEA_settings();
+window.esbootstrap_options = {
+        initial_search: false,
+        enable_rangeselect: true,
+        enable_geoselect: true
+}
+</pre>
+
+In **app/public/javascripts/newesapp.facetview.js** you also have the possibility to add extra functionalities after the list was displayed or a search was done. For this you only have to define your methods and call them in the **post_init_callback** or the **post_search_callback** custom event binding. Ex:
+<pre>
+...
+
+$(window).bind('post_init_callback', function(){
 	<b>customPostInitFunction();</b>
-},
-post_search_callback: function() {
-	add_EEA_settings();
-	viewReady();
+});
+
+$(window).bind('post_search_callback', function(){
 	<b>customPostSearchFunction();</b>
-},
+});
 ...
 </pre>
 In the bootstrap application we already added a small method for formating chemical formulas. See the **replaceNumbers** method from **app/public/javascripts/esbootstrap.facetview.js**. You can see how it's added in the **post_init_callback** and **post_search_callback**. This method can be removed.

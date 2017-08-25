@@ -12,13 +12,13 @@ jQuery(document).ready(function($) {
         post_init_callback: function() {
             add_EEA_settings();
             replaceNumbers();
-            $(window).trigger('eea_post_init_callback');
+            $(window).trigger('post_init_callback');
         },
         post_search_callback: function() {
             add_EEA_settings();
             viewReady();
             replaceNumbers();
-            $(window).trigger('eea_post_search_callback');
+            $(window).trigger('post_search_callback');
         },
         paging: {
             from: 0,
