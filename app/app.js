@@ -24,29 +24,36 @@ var existsSync = function(path) {
 if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME))
   fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 
-var query = fs.readFileSync('/code/' + APP_CONFIG_DIR + '/query.sparql', 'utf8');
 var managementCommands;
-var hasConstruct = false;
-var lowerQuery = query.toLowerCase();
-var constructPos = lowerQuery.indexOf('construct');
-var selectPos = lowerQuery.indexOf('select');
-
-if (constructPos !== -1) {
-  if (selectPos !== -1) {
-    if (constructPos < selectPos){
-      hasConstruct = true;
-    }
-  }
-  else {
-    hasConstruct = true;
-  }
-}
-
-if (hasConstruct){
-  managementCommands = searchServer.builtinCommandsRDF;
+var queryFile = '/code/' + APP_CONFIG_DIR + '/query.sparql';
+if (! existsSync(queryFile)){
+    managementCommands = searchServer.builtinCommandsRivers;
 }
 else {
-  managementCommands = searchServer.builtinCommands;
+
+    var query = fs.readFileSync(queryFile, 'utf8');
+    var hasConstruct = false;
+    var lowerQuery = query.toLowerCase();
+    var constructPos = lowerQuery.indexOf('construct');
+    var selectPos = lowerQuery.indexOf('select');
+
+    if (constructPos !== -1) {
+        if (selectPos !== -1) {
+            if (constructPos < selectPos){
+                hasConstruct = true;
+            }
+        }
+        else {
+            hasConstruct = true;
+        }
+    }
+
+    if (hasConstruct){
+        managementCommands = searchServer.builtinCommandsRDF;
+    }
+    else {
+        managementCommands = searchServer.builtinCommands;
+    }
 }
 
 var builtinRoutes = searchServer.builtinRoutes;
@@ -54,6 +61,7 @@ var builtinRoutes = searchServer.builtinRoutes;
 var defaultIndexingFilterQuery = APP_CONFIG_DIR + '/filtersQuery.sparql';
 var defaultExtraAnalyzers = APP_CONFIG_DIR + '/analyzers.json';
 var defaultNormalize = APP_CONFIG_DIR + '/normalize.json';
+var defaultFilterAnalyzers = APP_CONFIG_DIR + '/filters.json';
 
 var nconf = require('nconf');
 nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
@@ -63,6 +71,7 @@ var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"]
 
 
 var options = {
+  config_dir: __dirname + '/' + APP_CONFIG_DIR,
   app_dir: __dirname,
   views: __dirname + '/views',
   settingsFile: __dirname + '/' + APP_CONFIG_DIR + '/settings.json',
@@ -76,6 +85,7 @@ var options = {
     indexingFilterQuery: null,
     indexingQuery: APP_CONFIG_DIR + '/query.sparql',
     extraAnalyzers: '',
+    filterAnalyzers: '',
     dataMapping: APP_CONFIG_DIR + '/mapping.json',
     normalize: '',
     isConstruct: hasConstruct,
@@ -93,6 +103,10 @@ if (fs.existsSync(__dirname +'/' + defaultNormalize)){
   options.indexing.normalize = defaultNormalize;
 }
 
+if (fs.existsSync(__dirname +'/' + defaultFilterAnalyzers)){
+  options.indexing.filterAnalyzers = defaultFilterAnalyzers;
+}
+
 options.customResourcesPath = [];
 defaultCustomResourcesPath.forEach(function(dirpath) {
     dirpath = path.join(__dirname, dirpath);
@@ -104,6 +118,17 @@ defaultCustomResourcesPath.forEach(function(dirpath) {
 });
 
 searchServer.Helpers.SimpleStart(options);
+
+exports.relevanceSettings = function(next){
+    var relevancePath = path.join(__dirname, APP_CONFIG_DIR, "/relevance.json");
+    if (fs.existsSync(relevancePath)) {
+        next(require(relevancePath));
+    }
+    else{
+        next({});
+    }
+}
+
 
 exports.fieldsMapping = function(next){
     next(require(path.join(__dirname, "/" + APP_CONFIG_DIR + "/facets.json")));
