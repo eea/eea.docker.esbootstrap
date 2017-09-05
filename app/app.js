@@ -25,6 +25,7 @@ if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME))
   fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 
 var managementCommands;
+var hasConstruct = false;
 var queryFile = '/code/' + APP_CONFIG_DIR + '/query.sparql';
 if (! existsSync(queryFile)){
     managementCommands = searchServer.builtinCommandsRivers;
@@ -32,7 +33,6 @@ if (! existsSync(queryFile)){
 else {
 
     var query = fs.readFileSync(queryFile, 'utf8');
-    var hasConstruct = false;
     var lowerQuery = query.toLowerCase();
     var constructPos = lowerQuery.indexOf('construct');
     var selectPos = lowerQuery.indexOf('select');
