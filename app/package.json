@@ -6,7 +6,7 @@
     "nconf": "*",
     "express": "*",
     "jade": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#1.2.3",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#1.2.4",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
