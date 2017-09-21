@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
     var opts = {
-        search_url: './api',
+        search_url: './tools/api',
         search_index: 'elasticsearch',
         datatype: 'json',
         initial_search: false,
