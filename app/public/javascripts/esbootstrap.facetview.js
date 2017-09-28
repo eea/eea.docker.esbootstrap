@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
         sort: settings_sort,
         post_init_callback: function() {
             add_EEA_settings();
+            markNavigationTab(settings_selected_navigation_tab);
             replaceNumbers();
             $(window).trigger('post_init_callback');
         },
