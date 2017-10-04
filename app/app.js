@@ -18,11 +18,12 @@ var existsSync = function(path) {
   } catch (e) {
     return false;
   }
+};
+
+
+if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME)) {
+    fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 }
-
-
-if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME))
-  fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 
 var managementCommands;
 var hasConstruct = false;
@@ -66,8 +67,7 @@ var defaultFilterAnalyzers = APP_CONFIG_DIR + '/filters.json';
 var nconf = require('nconf');
 nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
 var endpoint = nconf.get("endpoint");
-var custom_resources_path = [APP_CONFIG_DIR + "/public"]
-var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"]
+var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"];
 
 
 var options = {
@@ -111,9 +111,9 @@ options.customResourcesPath = [];
 defaultCustomResourcesPath.forEach(function(dirpath) {
     dirpath = path.join(__dirname, dirpath);
     if (existsSync(dirpath)) {
-        options.customResourcesPath.push(dirpath)
+        options.customResourcesPath.push(dirpath);
     } else {
-        console.log("Custom resource '" + dirpath + "' doesn't exists")
+        console.log("Custom resource '" + dirpath + "' doesn't exists");
     }
 });
 
@@ -127,7 +127,7 @@ exports.relevanceSettings = function(next){
     else{
         next({});
     }
-}
+};
 
 
 exports.fieldsMapping = function(next){
