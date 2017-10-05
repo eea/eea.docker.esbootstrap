@@ -130,12 +130,12 @@ Depending on the query you have, there are several options.
 
 #### __Simple Select query__ when there are not too many results
 If it's a select query which returns the data structured in the table, once you tried and tested your query on the endpoint, just paste it in the query.sparql file.
-**Important:** All indexing queries should contain a unique column as _id, make sure the string is URL encoded, in sparql you can use md5() function.
+**Important:** All indexing queries should contain a unique column as _id, make sure the string is URL encoded, in sparql you can use encode_for_uri() function.
 In our example we use a simple query what returns all daviz visualizations:
 <pre>
 PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
-SELECT distinct (md5(?visualization) as ?_id) ?visualization ?description ?title ?creator ?created (year(?created) as ?year)
+SELECT distinct (encode_for_uri(?visualization) as ?_id) ?visualization ?description ?title ?creator ?created (year(?created) as ?year)
 WHERE {
 	?visualization a daviz:DavizVisualization
 		optional{?visualization dct:description ?description}
