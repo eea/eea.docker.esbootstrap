@@ -1,4 +1,7 @@
 jQuery(document).ready(function($) {
+    if (window.settings_display_images === undefined){
+        settings_display_images = true;
+    }
     var opts = {
         search_url: './tools/api',
         search_index: 'elasticsearch',
@@ -6,6 +9,7 @@ jQuery(document).ready(function($) {
         initial_search: false,
         enable_rangeselect: true,
         enable_geoselect: true,
+        display_images: settings_display_images,
         default_sort: [],
         search_sortby: settings_search_sortby,
         sort: settings_sort,
