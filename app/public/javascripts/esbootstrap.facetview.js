@@ -35,5 +35,10 @@ jQuery(document).ready(function($) {
     if (window.esbootstrap_options) {
        $.extend(opts, esbootstrap_options);
     }
+    if ((eea_mapping.highlights !== undefined) && (eea_mapping.highlights.enabled)){
+        opts.highlight_enabled = eea_mapping.highlights.enabled;
+        opts.highlight_whitelist = eea_mapping.highlights.whitelist;
+        opts.highlight_blacklist = eea_mapping.highlights.blacklist;
+    }
     eea_facetview('.facet-view-simple', opts);
 });
