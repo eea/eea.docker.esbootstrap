@@ -674,7 +674,7 @@ with the attributes:
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
   
-###Autocomplete, Suggestions, Highlights
+###__Autocomplete, Suggestions, Highlights__
  1. in settings.json enable the suggestions by adding:
   ```
   suggestions_enabled = true
@@ -716,6 +716,32 @@ In the configuration for the fields you want to be used, add:
     }
     ```
 First we enable the feature, and after that, with the whitelist and blacklist we specify which fields to be used.
+
+###__Exact match for facets__
+Elasticsearch by default doesn't support exact match, for terms. For this we need to add an extra "count" field for each original field, what will contain the number of terms in that field.
+This is done automatically by the indexing methods, but it has to be enabled, with setting the **elastic.enableValuesCounting** configuration option on **true**. This is done in settings.json and it should look like:
+```
+"elastic": {
+	...
+	"enableValuesCounting": true
+	...
+}
+```
+After the feature is enabled, in the facets.json we can enable the exact checkbox for each facet individually. In the facet configuration for the field set the **allow_exact** on **true**:
+```
+{
+	"name": "my_field",
+	...
+    "facet": {
+	    "allow_exact": true,
+        "visible": true,
+        "type": "facet",
+        "facet_display_options": ["sort", "checkbox"]
+        ...
+    }
+    ...
+}
+```
 
 ### __Default configuration demo__
 See example default custom configuration at [eea.esbootstrap.configs](https://github.com/eea/eea.esbootstrap.configs/tree/master/default)
