@@ -674,5 +674,48 @@ with the attributes:
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
   
+###Autocomplete, Suggestions, Highlights
+ 1. in settings.json enable the suggestions by adding:
+  ```
+  suggestions_enabled = true
+  ```
+  
+ 2. in mapping.json add the two fields:
+ ```
+  "did_you_mean": {"type": "string", "analyzer": "didYouMean"},
+  "autocomplete": {"type": "string", "analyzer": "autocomplete"}
+ ```
+ 
+	In this fields we will copy the real fields what we want to be included in the autocomplete & suggestions functionality. Be careful, if too many data are added in these fields, autocomplete may be slow.
+In the configuration for the fields you want to be used, add:
+	```
+    {
+	    "my_field_name": {
+		    "type":"string",
+    		"fields" : {
+	    		"toindex" : {"type" : "string", "analyzer" : "default"},
+    		    "index" : {"type" : "string", "analyzer" : "none"},
+    	        "my_field_name": {"type": "string", "index": "not_analyzed"}
+		    },
+    	    "copy_to" : ["did_you_mean", "autocomplete"]
+    	 }
+	}
+	```
+ 
+	This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the copy_to parameter we tell if the field should be used for suggestions, autocomplete, or both.
+
+ 3. For configuring highlights, in facets.json add the section:
+	```
+    "highlights": {
+        "enabled": true,
+        "whitelist": [
+            "longName",
+            "dataDescription"
+        ],
+        "blacklist": []
+    }
+    ```
+First we enable the feature, and after that, with the whitelist and blacklist we specify which fields to be used.
+
 ### __Default configuration demo__
 See example default custom configuration at [eea.esbootstrap.configs](https://github.com/eea/eea.esbootstrap.configs/tree/master/default)
