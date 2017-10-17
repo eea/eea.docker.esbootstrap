@@ -743,7 +743,7 @@ After the feature is enabled, in the facets.json we can enable the exact checkbo
 }
 ```
 
-###__Autocomplete for facets__
+### __Autocomplete for facets__
 If there are too many values in a facet, it's handy to have an option to search quickly. For this we can enable the autocomplete feature for facets. This can be done in the facets.json, facet configuration for the field by setting the **autocomplete** on **true**. We also have an extra option, **autocomplete_placeholder**, which will be used as a placeholder for autocomplete:
 ```
 {
