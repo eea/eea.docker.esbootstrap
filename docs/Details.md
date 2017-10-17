@@ -674,13 +674,8 @@ with the attributes:
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
   
-<<<<<<< HEAD
 ###__Autocomplete, Suggestions, Highlights__
  - in settings.json enable the suggestions by adding:
-=======
-### __Autocomplete, Suggestions, Highlights__
- 1. in settings.json enable the suggestions by adding:
->>>>>>> aeafeac4668639226b1620dfbc9e8c438c4335d6
   ```
   suggestions_enabled = true
   ```
@@ -721,7 +716,6 @@ In the configuration for the fields you want to be used, add:
     }
     ```
 First we enable the feature, and after that, with the whitelist and blacklist we specify which fields to be used.
-<<<<<<< HEAD
 ### __Facets__
 #### __Term Facets__
 Term facets are built on the terms created by elasticsearch. Elasticsearch by default adds as terms all the words found in a field.
@@ -784,10 +778,6 @@ Example:
 ```
  
 #####__Exact match for facets__
-=======
-
-### __Exact match for facets__
->>>>>>> aeafeac4668639226b1620dfbc9e8c438c4335d6
 Elasticsearch by default doesn't support exact match, for terms. For this we need to add an extra "count" field for each original field, what will contain the number of terms in that field.
 This is done automatically by the indexing methods, but it has to be enabled, with setting the **elastic.enableValuesCounting** configuration option on **true**. This is done in settings.json and it should look like:
 ```
@@ -813,11 +803,7 @@ After the feature is enabled, in the facets.json we can enable the exact checkbo
 }
 ```
 
-<<<<<<< HEAD
 ##### __Autocomplete for facets__
-=======
-### __Autocomplete for facets__
->>>>>>> aeafeac4668639226b1620dfbc9e8c438c4335d6
 If there are too many values in a facet, it's handy to have an option to search quickly. For this we can enable the autocomplete feature for facets. This can be done in the facets.json, facet configuration for the field by setting the **autocomplete** on **true**. We also have an extra option, **autocomplete_placeholder**, which will be used as a placeholder for autocomplete:
 ```
 {
