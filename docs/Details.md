@@ -124,6 +124,19 @@ in the **layout_vars** section you can change some layout configurations like ti
 </pre>
 By default the landing page is disabled. When enabled, you should add the template for it in the **views** folder, and all the logic and style should be implemented in the public folder.
 
+#### __Add/Remove DRAFT watermark__
+
+Bydefaul, a DRAFT watermark is displayed in the background of the elastic app. Because a new application is always regarded DRAFT until it is intentionally marked as ready. When an application is regarded ready the DRAFT watermark can be removed by adding the following CSS in public > custom.css:
+
+<pre>
+/* Remove DRAFT watermark */
+#content {
+    background:white;
+}
+</pre>
+
+If you want the DRAFT watermark back just remove the lines above from custom.css.
+
 ### __Set up the SPARQL Query to be indexed in Elasticsearch__
 Usually the first step is to try the query directly on the virtuoso endpoint. Once you get the data you need, you can start to configure the application for this query.
 Depending on the query you have, there are several options.
