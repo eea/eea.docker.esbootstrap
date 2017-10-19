@@ -5,6 +5,8 @@
   "dependencies" : {
     "nconf": "*",
     "express": "*",
+    "compression": "*",
+    "bundle-up3": "*",
     "jade": "*",
     "eea-searchserver": "git://github.com/eea/eea.searchserver.js#1.3.7",
     "morgan": "*",
@@ -15,6 +17,7 @@
     "getenv": "*",
     "fs-extra": "*"
   },
+
   "repository": {
     "type": "git",
     "url": "git://github.com/eea/eea.docker.esbootstrap.git"
