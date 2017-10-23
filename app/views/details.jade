@@ -5,12 +5,18 @@ block title
         title= "Missing Info"
 
 block extrajavascripts
-    each script in js_resources.details_page
-        script(type='text/javascript', src=script)
+    if renderJs
+        != renderJs('details_page')
+    else
+        each script in js_resources.details_page
+            script(type='text/javascript', src=script)
 
 block extrastyles
-    each style in css_resources.details_page
-        link(rel='stylesheet', href=style)
+    if renderStyles
+        != renderStyles('details_page')
+    else
+        each style in css_resources.details_page
+            link(rel='stylesheet', href=style)
 
 block content
     if (data)
