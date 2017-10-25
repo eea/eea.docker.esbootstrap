@@ -16,8 +16,6 @@ block extrastyles
             link(rel='stylesheet', href=style)
 
 block content
-    if (enableBreadcrumbs)
-        +portal_breadcrumbs (breadcrumbs)
     h1!= site_title
     +download_data
     p!= site_description

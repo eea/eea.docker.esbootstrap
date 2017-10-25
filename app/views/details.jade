@@ -20,9 +20,6 @@ block extrastyles
 
 block content
     if (data)
-        if (enableBreadcrumbs)
-            +portal_breadcrumbs (breadcrumbs, data._id.value)
-
         +detail_tables (sections, data)
     else
         +app_error("Data with ID: ", id)
