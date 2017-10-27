@@ -74,6 +74,7 @@ in the **layout_vars** section you can change some layout configurations like ti
 <pre>
   "layout_vars": {
         "head_title": "Elasticsearch bootstrap application",
+        "override_searchserver_resources": false,
         "css_resources": {
             "index_page": [
                 "/custom.css",
@@ -92,10 +93,7 @@ in the **layout_vars** section you can change some layout configurations like ti
             ],
             "details_page": [
                 "/custom.js",
-                "javascripts/jq.tools.js",
-                "http://www.eea.europa.eu/register_function.js",
-                "http://www.eea.europa.eu/nodeutilities.js",
-                "http://www.eea.europa.eu/mark_special_links.js"
+                "javascripts/jq.tools.js"
             ]
         },
         "site_title": "Elasticsearch bootstrap application",
@@ -109,7 +107,17 @@ in the **layout_vars** section you can change some layout configurations like ti
 </pre>
 
  - **head_title**: it is the text showed on title bar of the browser;
+ - **override_searchserver_resources**: if set to *true* it will only load the
+   files defined in *css_resources* and *js_resources*. This means that
+   you should also define a **layout_page** section which defines the base resources that should be loaded by the custom app. See the following [config](https://github.com/eea/eea.esbootstrap.configs/blob/master/CaR/settings.json#L17) for a real world example on an app that loads specific resources
+   only.
+   
+   If set to *false* which is the value set by default the resources defined in settings.json will be added after the resources defined in [builtinBundles.json](https://github.com/eea/eea.searchserver.js/blob/master/lib/builtinBundles.json#L2)  
  - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". If you added a public folder with your custom css or javascripts, you have to add those resources to the css/js list.**The sorting of the urls in the lists is the order for which they will be injected into HTML**;
+   
+   Although you can add external resources in these two fields it is adviced to
+   add only local resources since these resources we can bundle up in a single
+   file for better site performance
  - **site_title**: it is the text of H1 html tag of your app;
  - **site_description**: it is the description text;
  - **enableBreadcrumbs**: show/hide the breadcrumbs, possible values are ```true``` or ```false```;
