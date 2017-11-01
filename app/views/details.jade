@@ -5,14 +5,14 @@ block title
         title= "Missing Info"
 
 block extrajavascripts
-    if renderJs
+    if renderJs && !debug_mode
         != renderJs('details_page')
     else
         each script in js_resources.details_page
             script(type='text/javascript', src=script)
 
 block extrastyles
-    if renderStyles
+    if renderStyles && !debug_mode
         != renderStyles('details_page')
     else
         each style in css_resources.details_page
