@@ -711,17 +711,17 @@ with the attributes:
 In the configuration for the fields you want to be used, add:
 	```
     {
-	    "my_field_name": {
-		    "type":"string",
+    	"my_field_name": {
+		"type":"string",
     		"fields" : {
 	    		"toindex" : {"type" : "string", "analyzer" : "default"},
-    		    "index" : {"type" : "string", "analyzer" : "none"},
-    	        "my_field_name": {"type": "string", "index": "not_analyzed"}
-		    },
-    	    "copy_to" : ["did_you_mean", "autocomplete"]
-    	 }
+    		    	"index" : {"type" : "string", "analyzer" : "none"},
+    	        	"my_field_name": {"type": "string", "index": "not_analyzed"}
+		},
+    	    	"copy_to" : ["did_you_mean", "autocomplete"]
 	}
-	```
+    }
+    ```
  
 	This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the copy_to parameter we tell if the field should be used for suggestions, autocomplete, or both.
 
