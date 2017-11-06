@@ -709,9 +709,9 @@ with the attributes:
  
 	In this fields we will copy the real fields what we want to be included in the autocomplete & suggestions functionality. Be careful, if too many data are added in these fields, autocomplete may be slow.
 In the configuration for the fields you want to be used, add:
-	```
-    {
-    	"my_field_name": {
+```
+{
+	"my_field_name": {
 		"type":"string",
     		"fields" : {
 	    		"toindex" : {"type" : "string", "analyzer" : "default"},
@@ -720,8 +720,8 @@ In the configuration for the fields you want to be used, add:
 		},
     	    	"copy_to" : ["did_you_mean", "autocomplete"]
 	}
-    }
-    ```
+}
+```
  
 	This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the copy_to parameter we tell if the field should be used for suggestions, autocomplete, or both.
 
