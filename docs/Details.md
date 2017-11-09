@@ -121,7 +121,15 @@ in the **layout_vars** section you can change some layout configurations like ti
  - **site_title**: it is the text of H1 html tag of your app;
  - **site_description**: it is the description text;
  - **enableBreadcrumbs**: show/hide the breadcrumbs, possible values are ```true``` or ```false```;
- - **breadcrumbs**: it is text of the first breadcrumb;
+ - **breadcrumbs**: it can be a text, what will be used as the first breadcrumb. If text is used, the "Home" breadcrumb will automatically point to "https://www.eea.europa.eu".
+	 It can also be a list of dictionaries, where the key represents the label to be displayed in the breadcrumb, and the value represents the link. This is useful when the starting point of the breadcrumbs has more elements (ex. the CaR app, where we have "Home">"Countries and Regions">"Country")
+	 ex:
+	```
+	"breadcrumbs": [{"Home":"https://www.eea.europa.eu"},{"Countries and regions":"https://www.eea.europa.eu/countries-and-regions"},{"${external_config.title}":""}],
+	```
+	
+	Also, you can notice, the last key is a variable.
+	**Note:** Currently only variables from the external_configs are supported.
  - **dataprovencance_info_text**: it is the text of the link to the data provenance info;
  - **dataprovencance_info_url**: it is the url of the link to the data provenance info;
  - **further_info**: you can add a small HTML that be renderer below the data provenance info.
