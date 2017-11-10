@@ -715,8 +715,12 @@ with the attributes:
   "autocomplete": {"type": "string", "analyzer": "autocomplete"}
  ```
  
-	In this fields we will copy the real fields what we want to be included in the autocomplete & suggestions functionality. Be careful, if too many data are added in these fields, autocomplete may be slow.
+In these fields we will copy the real fields that we want to be included in the autocomplete & suggestions functionality. 
+
+> **Attention:** autocomplete may be slow if too much data is configured like adding a field with too much text or adding too many fields.
+
 In the configuration for the fields you want to be used, add:
+
 ```
 {
 	"my_field_name": {
@@ -731,7 +735,7 @@ In the configuration for the fields you want to be used, add:
 }
 ```
  
-	This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the copy_to parameter we tell if the field should be used for suggestions, autocomplete, or both.
+This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the **copy_to** parameter we tell if the field should be used for suggestions, autocomplete, or both.
 
  - For configuring highlights, in facets.json add the section:
 	```
@@ -1041,7 +1045,9 @@ First we have to configure the label field, than on the field containing the url
 	...
 }
 ```
-This can be applied also on fields what contains a list of labels and a list of urls. On the field with labels, you have to use the **split** option, on the field with links, you have to use the **link_split** option. You have to be careful, both fields should contain the same amount of elements.
+This can be applied also on fields what contains a list of labels and a list of urls. On the field with labels, you have to use the **split** option, on the field with links, you have to use the **link_split** option.
+
+> **Attention:** both fields should contain the same amount of elements.
 ```
 {
 	"name": "listOfLabelsForUrl",
