@@ -752,14 +752,14 @@ First we enable the feature, and after that, with the whitelist and blacklist we
 ### __Facets__
 #### __Term Facets__
 Term facets are built on the terms created by elasticsearch. Elasticsearch by default adds as terms all the words found in a field.
-If we have a field what contains coma separated values, and we want to use those values as terms, we have to use the "coma" analyzer in the **mapping.json**:
+If we have a field what contains coma separated values, and we want to use those values as terms, we have to use the **"coma"** analyzer in the **mapping.json**:
 ```
 "Country" : {
 	"type" :"string", 
 	"analyzer" : "coma" 
 },
 ```
-We have some predefined analyzers: "coma", "semicolon", "pipe". If yo
+We have some predefined analyzers: "coma", "semicolon", "pipe".
 ##### __Basic configuration__
 If we want a simple facet, we have to add a facet section in the configuration of the field
  - visible - if we want to enable or disable the facet. Available options: "true"/"false"
@@ -789,7 +789,7 @@ Example of configuration:
 },
 ```
 ##### __Whitelist & Blacklist__
-If in elasticsearch are indexed terms what we don't want to be displayed, we can use the **values_whitelist** and **values_blacklist** options. This can be applied for a field, and in that case it will be applied also in the listing of the results, or inside the facet section, and in this case the listing will contain all values, but the facet only what we want to show.
+If elasticsearch has indexed terms that we don't want to be displayed, we can use the **values_whitelist** and **values_blacklist** options. This can be applied for a field, and in that case it will be applied also in the listing of the results, or inside the facet section, and in this case the listing will contain all values, but the facet will show only what we want to show.
 Example:
 ```
 {
