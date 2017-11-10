@@ -910,12 +910,13 @@ After these settings, we can configure the facet:
 
 ### __Details page__
 #### __Configuration__
-Esbootstrap app provides a default details page.
+Esbootstrap app provides a default details page. You can than have the title of the record as an hyperlink to the details page where you can display more information and fields that is available in elasticsearch index.
 First you have to ensure that you have a unique **_id** field. This should be url friendly, so it's recommended to have something like this in the query:
 ```
 REPLACE(STR(?title), "[^a-zA-Z0-9]", "-", "i") AS ?_id
 ```
-The configuration of the details page is done in the facets.json.
+The above assumes the title field is unique among the documents in the elasticsearch index. You can of course put any other unique concatenations of fields instead of one field.
+The further configuration of the details page is done in the facets.json.
 First you have to create the link to the details page. For this, you will have to use the **display** option from the **listing** section of the field. In this example we will only have a link, with a static **Details** label. It is important to use the **href=/details?id=** for the link, this will create a link to the built in details page.
 ```
 {
