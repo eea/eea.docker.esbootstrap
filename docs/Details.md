@@ -75,6 +75,8 @@ in the **layout_vars** section you can change some layout configurations like ti
   "layout_vars": {
         "head_title": "Elasticsearch bootstrap application",
         "override_searchserver_resources": false,
+        "skip_external_template_styles": false,
+        "skip_resources_bundling": false,
         "css_resources": {
             "index_page": [
                 "/custom.css",
@@ -113,6 +115,12 @@ in the **layout_vars** section you can change some layout configurations like ti
    only.
    
    If set to *false* which is the value set by default the resources defined in settings.json will be added after the resources defined in [builtinBundles.json](https://github.com/eea/eea.searchserver.js/blob/master/lib/builtinBundles.json#L2)  
+ - **skip_external_template_styles**: set to *false* by default, if enabled we no
+   longer load the external template styles and instead we load a css file named *critical.css*. This is useful for performance reasons since *critical.css* contains the EEA header and footer, therefore
+   we need to load less resources that might need afterwards to be overriden.
+ - **skip_resources_bundling**: set to *false* by default, if set to *true* the
+   css and javascript will no longer be concatenated, useful to set to *true* when
+   debugging resources.
  - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". If you added a public folder with your custom css or javascripts, you have to add those resources to the css/js list.**The sorting of the urls in the lists is the order for which they will be injected into HTML**;
    
    Although you can add external resources in these two fields it is adviced to
