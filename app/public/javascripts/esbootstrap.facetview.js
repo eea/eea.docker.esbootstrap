@@ -14,9 +14,11 @@ jQuery(document).ready(function($) {
         search_sortby: settings_search_sortby,
         sort: settings_sort,
         post_init_callback: function() {
-            add_EEA_settings();
+            // 88482 avoid double add of eea settings and number replacing
+            // since we call also post_search_callback
+            // add_EEA_settings();
+            // replaceNumbers();
             markNavigationTab(settings_selected_navigation_tab);
-            replaceNumbers();
             $(window).trigger('post_init_callback');
         },
         post_search_callback: function() {
