@@ -1253,5 +1253,8 @@ Allways check if the jsons are valid
 check in the **_settings** if the filters and analyzers are present. If not, probably there is a typo, or a filter or analyzer is missing
 check if the **_mapping** is correct, similar with the configured one. If not, probably there is a typo
 
+ **For DEVs** 
+ - **Symptom on local dev env:** if create_index timeout, check IP of host in docker-compose file for the application
+ 
 ### __Default configuration demo__
 See example default custom configuration at [eea.esbootstrap.configs](https://github.com/eea/eea.esbootstrap.configs/tree/master/default)
