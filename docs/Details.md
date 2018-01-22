@@ -911,7 +911,7 @@ Ex:
 ```
 The configuration options are as follows:
 * **histogram** (boolean) - *true* if you wish to show the histogram, *false* otherwise; default is *true*
-* **columns_bucketsize** (number) - the size of the bucket interval for each histogram column
+* **columns_bucketsize** (number) - the size of the bucket interval for each histogram column; **indicated to be a multiple of 10**.
 * **slider_bucketsize** (number) - the size of the bucket interval for the slider; **the slider bucket must divide the 
 columns bucket size equally, or else the slider will be missaligned with the columns**.  
 
