@@ -403,7 +403,7 @@ with the attributes:
   - **type**: type of the facet that it can be
       - **facet**: it can be any kind of field
       - **range**: numeric field
-      - **rangehistogram**: numeric field with histogram
+      - **range**: numeric field with histogram attached
       - **geo**: geo_point* field
   - **size**: size of the facet if it's a simple facet
   - **order**: order can be one of the following
@@ -878,29 +878,6 @@ Ex:
     }
 },
 ```
-
-#### __Range Histogram Facets__
-Range facets with histogram attached can be used for numeric fields.
-It can be configured by adding the **histogram_config option** with coresponding values:
-Ex:
-```
-"histogram_config": {
-    "columns_bucketsize" : 100,
-    "columns_bucket_min" : 0,
-    "columns_bucket_max" : 5000,
-    "columns_min_color" : "#DDDDDD",
-    "columns_max_color" : "#AAAAAA",
-    "slider_bucketsize" : 10,
-    "outside_slider_columns_color": "#EEEEEE",
-    "histogram" : true,
-    "show_results_in_tooltip": true,
-},
-```
-The configuration options are as follows:
-
-
-
-
 
 
 #### __Geo Facets__
