@@ -32,12 +32,12 @@ should be configured for the new application.
 #### __Configure the elastic index__
 
 <pre>
-	"elastic": {
-	    "index": "newesappdata",
+  "elastic": {
+      "index": "newesappdata",
         "type": "resources",
         "field_base":""
         "enableValuesCounting": false
-	},
+  },
 </pre>
 
  - in the **elastic** section you only have to set the **index** attribute. The application will automatically enable blue/green indexing.
@@ -130,21 +130,21 @@ in the **layout_vars** section you can change some layout configurations like ti
  - **site_description**: it is the description text;
  - **enableBreadcrumbs**: show/hide the breadcrumbs, possible values are ```true``` or ```false```;
  - **breadcrumbs**: it can be a text, what will be used as the first breadcrumb. If text is used, the "Home" breadcrumb will automatically point to "https://www.eea.europa.eu".
-	 It can also be a list of dictionaries, where the key represents the label to be displayed in the breadcrumb, and the value represents the link. This is useful when the starting point of the breadcrumbs has more elements (ex. the CaR app, where we have "Home">"Countries and Regions">"Country")
-	 ex:
-	```
-	"breadcrumbs": [{"Home":"https://www.eea.europa.eu"},{"Countries and regions":"https://www.eea.europa.eu/countries-and-regions"},{"${external_config.title}":""}],
-	```
-	
-	Also, you can notice, the last key is a variable.
-	**Note:** Currently only variables from the external_configs are supported.
+   It can also be a list of dictionaries, where the key represents the label to be displayed in the breadcrumb, and the value represents the link. This is useful when the starting point of the breadcrumbs has more elements (ex. the CaR app, where we have "Home">"Countries and Regions">"Country")
+   ex:
+  ```
+  "breadcrumbs": [{"Home":"https://www.eea.europa.eu"},{"Countries and regions":"https://www.eea.europa.eu/countries-and-regions"},{"${external_config.title}":""}],
+  ```
+  
+  Also, you can notice, the last key is a variable.
+  **Note:** Currently only variables from the external_configs are supported.
  - **dataprovencance_info_text**: it is the text of the link to the data provenance info;
  - **dataprovencance_info_url**: it is the url of the link to the data provenance info;
  - **further_info**: you can add a small HTML that be renderer below the data provenance info.
 
 #### __Enable/disable landing page__
 <pre>
-	"landingpage_enabled": false
+  "landingpage_enabled": false
 </pre>
 By default the landing page is disabled. When enabled, you should add the template for it in the **views** folder, and all the logic and style should be implemented in the public folder.
 
@@ -174,11 +174,11 @@ PREFIX daviz: &lt;http://www.eea.europa.eu/portal_types/DavizVisualization#&gt;
 PREFIX dct: &lt;http://purl.org/dc/terms/&gt;
 SELECT distinct (encode_for_uri(?visualization) as ?_id) ?visualization ?description ?title ?creator ?created (year(?created) as ?year)
 WHERE {
-	?visualization a daviz:DavizVisualization
-		optional{?visualization dct:description ?description}
-		optional{?visualization dct:title ?title}
-		optional{?visualization dct:creator ?creator}
-		optional{?visualization dct:created ?created}
+  ?visualization a daviz:DavizVisualization
+    optional{?visualization dct:description ?description}
+    optional{?visualization dct:title ?title}
+    optional{?visualization dct:creator ?creator}
+    optional{?visualization dct:created ?created}
 }
 </pre>
 #### __Filtered Select queries__
@@ -242,18 +242,18 @@ example of mapping for a field:
   },
 </pre>
 - the **analyzer** attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
-	- coma
-	- semicolon
+  - coma
+  - semicolon
     - Also it is possible to create your own analyzer
 TODO
 - for **type** the most common data types are:
-	- string,
-	- long,
-	- integer,
-	- double,
-	- date,
-	- boolean,
-	- geo_point
+  - string,
+  - long,
+  - integer,
+  - double,
+  - date,
+  - boolean,
+  - geo_point
 
 A full list of data types is listed at:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
@@ -264,17 +264,17 @@ All of these settings can be configured within **default/default/facets.json**. 
 <pre>
 {
     "details_settings" : {
-		...
+    ...
     },
     "fields_mapping": [
-	    ...
-	],
-	"highlights": {
-		...
-	},
-	"types": {
-		...
-	}
+      ...
+  ],
+  "highlights": {
+    ...
+  },
+  "types": {
+    ...
+  }
 }
 </pre>
 
@@ -304,22 +304,22 @@ The second section is the **fields_mapping**, where all fields are enumerated an
 For one field the setting looks like:
 <pre>
   {
-	  "name": "creator",
-	  "values_whitelist":[],
-	  "values_blacklist":[],
+    "name": "creator",
+    "values_whitelist":[],
+    "values_blacklist":[],
       "listing": {
-	      "title": "Creator",
+        "title": "Creator",
           "visible" : true,
           "pos" : 3
       },
       "details": {
-	      "title": "Creator",
+        "title": "Creator",
           "pos" : 3,
           "section": "created",
           "visible": true
       },
       "facet": {
-		  "visible": true,
+      "visible": true,
           "title": "Creator",
           "pos": 0,
           "type": "facet",
@@ -328,24 +328,24 @@ For one field the setting looks like:
           "facet_display_options": ["sort", "checkbox"],
           "allow_exact": false,
           "desctext":""
-	},
+  },
     "csv_tsv": {
-	    "title": "Creator",
+      "title": "Creator",
         "visible": true,
         "pos": 3
-	},
-	"card": {
-	    "field": "creator",
+  },
+  "card": {
+      "field": "creator",
         "default": "",
         "visible": true,
         "type": "simple"
-	 },
+   },
      "list": {
-	     "field": "creator",
+       "field": "creator",
          "default": "",
          "visible": true,
          "type": "simple"
-	  }
+    }
 },
 </pre>
 
@@ -355,18 +355,18 @@ The attributes are:
 - **values_whitelist** and **values_blacklist**: can be used to filter what values to be displayed. By default they are empty, but they accept a list of elements what will be applied in all views. The white and blacklists can be overwritten in the listing, facets, csv_tsv, card, list sections, and it will be applied only for that view.
 - **listing**: here you define if you want this field to be displayed on the main listing page, what position it should take and what title it should have:
     <pre>
-	"listing": {
-		"visible" : true,
-		"type": "",
-		"format": "",
-		"title": "Column title",
-		"pos" : 0
-		"display": {
-		    "pre": "&lta href=/details?id=",
-	        "field": "_id",
+  "listing": {
+    "visible" : true,
+    "type": "",
+    "format": "",
+    "title": "Column title",
+    "pos" : 0
+    "display": {
+        "pre": "&lta href=/details?id=",
+          "field": "_id",
             "post": "&gt"
-		}
-	}
+    }
+  }
     </pre>
 with the attributes:
  - **visible**: boolean, controlling if it should be displayed in the list or not, if false all the other options will be ignored
@@ -375,13 +375,13 @@ with the attributes:
  - **format**: only used when "type" is set to "date". Ex: "dd M yy"
  - **pos**: position in the table
  - **display**: optional attribute, you can add extra formatting or extra fields to be displayed. In the **pre** and **post** attributes you can specify html snippet what will be displayed for this item. in the **field** attribute you can specify the name of the field. Usually the **field** attribute is identical with the original **name** but you can use others too. This is useful when you try to create links to detail pages.
-	  **IMPORTANT**: the first column should always use the display option and have the "post" attribute set to "&lt;/td&gt;"
+    **IMPORTANT**: the first column should always use the display option and have the "post" attribute set to "&lt;/td&gt;"
 
 - **facet**
-	In this section you can configure if you want a facet based on this field, and how it should look like:
-	<pre>
+  In this section you can configure if you want a facet based on this field, and how it should look like:
+  <pre>
       "facet": {
-		  "visible": true,
+      "visible": true,
           "title": "Creator",
           "pos": 0,
           "type": "facet",
@@ -394,22 +394,22 @@ with the attributes:
           "empty_message": "No values to show",
           "autocomplete": false, 
           "autocomplete_placeholder": "Search for value"
-	},
-	</pre>
-	with the attributes:
+  },
+  </pre>
+  with the attributes:
   - **visible:** boolean, controlling if it should be used as a facet or not, if false all other options will be ignored
   - **title**: label of the facet
   - **pos**: order of the facet
   - **type**: type of the facet that it can be
-	    - **facet**: it can be any kind of field
-	    - **range**: numeric field
-	    - **geo**: geo_point* field
+      - **facet**: it can be any kind of field
+      - **range**: numeric field
+      - **geo**: geo_point* field
   - **size**: size of the facet if it's a simple facet
   - **order**: order can be one of the following
-  	    - **term**: sorted by alphanumeric order "a-z"
-	    - **reverse_term**: or "rterm" for reversed alphanumeric order "z-a"
-	    - **count**: sorted by count, smaller on top
-	    - **reverse_count**: or "rcount", sorted by count, largest on top
+        - **term**: sorted by alphanumeric order "a-z"
+      - **reverse_term**: or "rterm" for reversed alphanumeric order "z-a"
+      - **count**: sorted by count, smaller on top
+      - **reverse_count**: or "rcount", sorted by count, largest on top
   - **facet_display_options**: options for the simple facet, usually enough to have "sort" and "checkbox"
   - TODO: list all available options
   - **allow_exact**: by default is set on false. If set on true, it will add a checkbox on the facet, and using it, the user can select if he wants exact search results or not.
@@ -424,37 +424,37 @@ with the attributes:
       "default_bounds": { "lat1": 50.738525, "lng1": 9.981955, "lat2": 46.738525, "lng2": 18.981955 }
   </pre>
 - **csv_tsv**
-	In this section you can configure the field for csv/tsv export
-	<pre>
+  In this section you can configure the field for csv/tsv export
+  <pre>
     "csv_tsv": {
-	    "title": "Creator",
+      "title": "Creator",
         "visible": true,
         "pos": 3
-	}
-	</pre>
-	with the attributes:
+  }
+  </pre>
+  with the attributes:
   - **visible**: boolean, controlling if it should be used in the csv/tsv export or not, if false all other options will be ignored
   - **title**: the column name
   - **pos**: position in the export
 
 - **card** && **list**
-	This is an optional section, here you can configure if the field is used in the card view, what name it has, and how to handle if it's a list.
-	<pre>
-	"card": {
-	    "type": "date",
+  This is an optional section, here you can configure if the field is used in the card view, what name it has, and how to handle if it's a list.
+  <pre>
+  "card": {
+      "type": "date",
         "format": "dd M yy",
         "field": "date",
         "default": "",
         "visible": true
-	},
-	</pre>
+  },
+  </pre>
     attributes:
-	- **field**: how it is used in the template
-	- **default**: it's default value
-	- **visible**: boolean value for enable/disable (mostly for development/debugging)
-	- **type** and **format**: Works similar as described in the **listing** section but with some extra options. Possible values: "date", "simple", "list". 
-		- **simple** if the field contains multiple values, only the first will be used
-		- **list** all values from the field will be merged into one csv separated string
+  - **field**: how it is used in the template
+  - **default**: it's default value
+  - **visible**: boolean value for enable/disable (mostly for development/debugging)
+  - **type** and **format**: Works similar as described in the **listing** section but with some extra options. Possible values: "date", "simple", "list". 
+    - **simple** if the field contains multiple values, only the first will be used
+    - **list** all values from the field will be merged into one csv separated string
 
 ##### __highlights__
 By default the elasticsearch highlight is disabled. If you enable it, you can configure with the whitelist and blacklist, which columns should contain the highlighted texts.
@@ -478,7 +478,7 @@ This property is a mapping tool, where we can normalize the content types to a s
         "contentTypeNormalize": {
             "highlight": "highlight",
             "press-release": "pressrelease",
-			 ...
+       ...
         },
         "defaultContentType" : "generic",
         "images": {
@@ -507,31 +507,31 @@ This property is a mapping tool, where we can normalize the content types to a s
                         }]
                     }
                 },
-				...
+        ...
             ]
         }
 },
 </pre>
-	
+  
  attributes:
 
  - **contentTypeNormalize**: is the mapping
  - **defaultContentType**: the default value if a type is missing from the mapping
  - **images**: describes how the url of the images should be built based on the content type. It can be done using the fallback properties, and a set of rules:
-	- **fallback_thumb**: the default thumbnail image
-	- **fallback_icon**: the default icon
-	- **rules**: a list of rules with conditions on an attribute, and a description on what the thumb and icon image should be built:
-		- **rule**: can be "startsWith" or "contains"
-		- **operator**: by default empty, but it might be "none"
-		- **field**: the field from elastic on what we apply the rule
-		- **value**: the value what we look for in the field
-		- **thumb_template** and **icon_template**: the templates for the image urls
-			- **template**: should be something like: "${url}/image_preview"
-			- **variables**: a list of variables what will be filled in the template
-				- **name**: the name of the variable from the template string
-				- **type**: "field" or "variable". If "field" is specified, it will take the value from elastic. If "variable" is selected, it will take the value from the variable defined in the "card" or "list" sections.
-				- **variable** or **field**: you only have to specify one of them, depending the **type** you've chosen. It should contain the name of the **field** or the **variable**
-			
+  - **fallback_thumb**: the default thumbnail image
+  - **fallback_icon**: the default icon
+  - **rules**: a list of rules with conditions on an attribute, and a description on what the thumb and icon image should be built:
+    - **rule**: can be "startsWith" or "contains"
+    - **operator**: by default empty, but it might be "none"
+    - **field**: the field from elastic on what we apply the rule
+    - **value**: the value what we look for in the field
+    - **thumb_template** and **icon_template**: the templates for the image urls
+      - **template**: should be something like: "${url}/image_preview"
+      - **variables**: a list of variables what will be filled in the template
+        - **name**: the name of the variable from the template string
+        - **type**: "field" or "variable". If "field" is specified, it will take the value from elastic. If "variable" is selected, it will take the value from the variable defined in the "card" or "list" sections.
+        - **variable** or **field**: you only have to specify one of them, depending the **type** you've chosen. It should contain the name of the **field** or the **variable**
+      
 ### __Enabling exact search feature__
 For enabling the **exact search** two settings are required
 
@@ -613,11 +613,11 @@ In **app/public/custom.js** you also have the possibility to add extra functiona
 ...
 
 $(window).bind('post_init_callback', function(){
-	<b>customPostInitFunction();</b>
+  <b>customPostInitFunction();</b>
 });
 
 $(window).bind('post_search_callback', function(){
-	<b>customPostSearchFunction();</b>
+  <b>customPostSearchFunction();</b>
 });
 ...
 </pre>
@@ -633,13 +633,13 @@ https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardv
 https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.jade
 If you want to customize it, is enough to copy them in your application in the **app/config/views** folder, and you can start modifying it. In the template you have access to all fields what you specified in the **mapping.json** in section **fields_mapping** in the **card** or **list** attributes of the fields. Ex: if you have in the **mapping.json**:
 <pre>
-	"card": {
-	    "type": "date",
+  "card": {
+      "type": "date",
         "format": "dd M yy",
         "field": "date",
         "default": "",
         "visible": true
-	},
+  },
 </pre>
 in the template you can have
 <pre>
@@ -679,19 +679,19 @@ with the attributes:
  - **settingsFile**: the absolute location of the settings.json
  - **routes**: the settings for the available views for listing and detail pages.
   We have a builtin route for this, so if you don't have anything special then you don't need to do anything else.
-	<pre>
+  <pre>
       routes: {
         routes: builtinRoutes,
         detailsIdName: 'id'
       },
-	</pre>
+  </pre>
 
  - **routes**: the routes module you want to use, usually you can use the builtinRoutes
  - **detailsIdName**: the url attribute used for the detail pages
 
   If you need extra functionality you will have to replicate the eea.searchserver.js/lib/builtinRoutes.js and implement the same methods.
  - **indexing**: The settings for the indexing module
-	<pre>
+  <pre>
       indexing:{
         managementCommands: managementCommands,
         indexingFilterQuery: null,
@@ -731,22 +731,22 @@ In the configuration for the fields you want to be used, add:
 
 ```
 {
-	"my_field_name": {
-		"type":"string",
-    		"fields" : {
-	    		"toindex" : {"type" : "string", "analyzer" : "default"},
-    		    	"index" : {"type" : "string", "analyzer" : "none"},
-    	        	"my_field_name": {"type": "string", "index": "not_analyzed"}
-		},
-    	    	"copy_to" : ["did_you_mean", "autocomplete"]
-	}
+  "my_field_name": {
+    "type":"string",
+        "fields" : {
+          "toindex" : {"type" : "string", "analyzer" : "default"},
+              "index" : {"type" : "string", "analyzer" : "none"},
+                "my_field_name": {"type": "string", "index": "not_analyzed"}
+    },
+            "copy_to" : ["did_you_mean", "autocomplete"]
+  }
 }
 ```
  
 This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the **copy_to** parameter we tell if the field should be used for suggestions, autocomplete, or both.
 
  - For configuring highlights, in facets.json add the section:
-	```
+  ```
     "highlights": {
         "enabled": true,
         "whitelist": [
@@ -763,8 +763,8 @@ Term facets are built on the terms created by elasticsearch. Elasticsearch by de
 If we have a field what contains coma separated values, and we want to use those values as terms, we have to use the **"coma"** analyzer in the **mapping.json**:
 ```
 "Country" : {
-	"type" :"string", 
-	"analyzer" : "coma" 
+  "type" :"string", 
+  "analyzer" : "coma" 
 },
 ```
 We have some predefined analyzers: "coma", "semicolon", "pipe".
@@ -782,10 +782,10 @@ If we want a simple facet, we have to add a facet section in the configuration o
 Example of configuration:
 ```
 {
-	"name": "countries",
-	...
+  "name": "countries",
+  ...
     "facet": {
-	    "visible": true,
+      "visible": true,
         "title": "Countries",
         "pos": 1,
         "type": "facet",
@@ -801,12 +801,12 @@ If elasticsearch has indexed terms that we don't want to be displayed, we can us
 Example:
 ```
 {
-	"name": "countries",
-	...
+  "name": "countries",
+  ...
     "facet": {
-	    "visible": true,
+      "visible": true,
         "values_whitelist":[
-	        "Austria", "Germany", "Denmark","Spain"],
+          "Austria", "Germany", "Denmark","Spain"],
         "title": "Countries",
         "pos": 1,
         "type": "facet",
@@ -823,18 +823,18 @@ Elasticsearch by default doesn't support exact match, for terms. For this we nee
 This is done automatically by the indexing methods, but it has to be enabled, with setting the **elastic.enableValuesCounting** configuration option on **true**. This is done in settings.json and it should look like:
 ```
 "elastic": {
-	...
-	"enableValuesCounting": true
-	...
+  ...
+  "enableValuesCounting": true
+  ...
 }
 ```
 After the feature is enabled, in the facets.json we can enable the exact checkbox for each facet individually. In the facet configuration for the field set the **allow_exact** on **true**:
 ```
 {
-	"name": "my_field",
-	...
+  "name": "my_field",
+  ...
     "facet": {
-	    "allow_exact": true,
+      "allow_exact": true,
         "visible": true,
         "type": "facet",
         "facet_display_options": ["sort", "checkbox"]
@@ -848,10 +848,10 @@ After the feature is enabled, in the facets.json we can enable the exact checkbo
 If there are too many values in a facet, it's handy to have an option to search quickly. For this we can enable the autocomplete feature for facets. This can be done in the facets.json, facet configuration for the field by setting the **autocomplete** on **true**. We also have an extra option, **autocomplete_placeholder**, which will be used as a placeholder for autocomplete:
 ```
 {
-	"name": "my_field",
-	...
+  "name": "my_field",
+  ...
     "facet": {
-	    "allow_exact": true,
+      "allow_exact": true,
         "visible": true,
         "type": "facet",
         "facet_display_options": ["sort", "checkbox"]
@@ -868,24 +868,25 @@ Range facets can be used for numeric fields.
 Ex:
 ```
 {
-	"name": "time_coverage",
+  "name": "time_coverage",
     "facet": {
     "visible": true,
-	    "title": "Time coverage",
+      "title": "Time coverage",
         "pos": 1,
         "type": "range"
     }
 },
 ```
 
+
 #### __Geo Facets__
 To be able to use Google Maps for facets, we have to provide a valid Google Map Key. This can be generated at
 https://developers.google.com/maps/documentation/javascript/get-api-key. This key should be added in the docker-compose.yml (or with rancher) as an environment variable:
 ```
-	...
-	environment:
-	    - GOOGLE_MAP_KEY=google-map-api-key
-	...
+  ...
+  environment:
+      - GOOGLE_MAP_KEY=google-map-api-key
+  ...
 ```
 Geographical facets can only be used on fields what contains both, latitude & longitude values and are separated with coma. 
 If you have latitude an longitude in separate fields, you can modify your sparql query, by adding:
@@ -895,17 +896,17 @@ concat(str(?Latitude),',',str(?Longitude)) as ?geo_pos
 This field should be indexed with the **geo_point** analyzer:
 ```
 "geo_pos" : {
-	"type" : "geo_point",
+  "type" : "geo_point",
     "analyzer" : "none"
 },
 ```
 After these settings, we can configure the facet:
 ```
 {
-	"name": "geo_pos",
-	...
+  "name": "geo_pos",
+  ...
     "facet": {
-	    "visible": true,
+      "visible": true,
         "title": "Geo location of station",
         "pos": 11,
         "type": "geo",
@@ -928,13 +929,13 @@ The further configuration of the details page is done in the facets.json.
 First you have to create the link to the details page. For this, you will have to use the **display** option from the **listing** section of the field. In this example we will only have a link, with a static **Details** label. It is important to use the **href=/details?id=** for the link, this will create a link to the built in details page.
 ```
 {
-	"name": "_id",
+  "name": "_id",
     "listing": {
-	    "title": "Details",
+      "title": "Details",
         "visible" : true,
         "pos" : 0,
         "display": {
-		    "pre": "<td><a class='listingTitle' href=/details?id=",
+        "pre": "<td><a class='listingTitle' href=/details?id=",
             "field": "_id",
             "post": ">Details</a></td>"
         }
@@ -945,14 +946,14 @@ For a much nicer link for the details page, you can use a combination of fields.
 In our example, you can observe, that we open the ```<td>``` in one field, and close it in the second one:
 ```
 {
-	"name": "_id",
+  "name": "_id",
     "listing": {
-	    "title": "Details",
+      "title": "Details",
         "width": "200px",
         "visible" : true,
         "pos" : 1,
         "display": {
-	        "pre": "<td><a class='listingTitle' href=/details?id=",
+          "pre": "<td><a class='listingTitle' href=/details?id=",
             "field": "_id",
             "post": ">"
         }
@@ -962,7 +963,7 @@ In our example, you can observe, that we open the ```<td>``` in one field, and c
 {
     "name": "title",
     "listing": {
-	    "title": "",
+      "title": "",
         "visible" : true,
         "pos" : 2,
         "display": {
@@ -976,22 +977,22 @@ After the link is configured, we can proceed to the fields what we want to be di
 First we define the sections for the details page:
 ```
 "details_settings" : {
-	"sections": [
-	    {"name":"info",
-	        "title":"General info",
+  "sections": [
+      {"name":"info",
+          "title":"General info",
             "pos":0},
         {"name":"created",
             "title":"Created",
             "pos":1}
-	]
+  ]
 },
 ```
 After that on each field what we want in the details page, we configure how to be displayed.
 For simple text:
 ```
 "details": {
-	"visible": true
-	"title": "Title",
+  "visible": true
+  "title": "Title",
     "pos" : 1,
     "section": "info",
 },
@@ -999,9 +1000,9 @@ For simple text:
 For image, use **type="img"**
 ```
 {
-	"name": "thumbnailUrl",
+  "name": "thumbnailUrl",
     "details": {
-	    "title": "Preview",
+      "title": "Preview",
         "pos" : 4,
         "section": "info",
         "visible": true,
@@ -1012,9 +1013,9 @@ For image, use **type="img"**
 For links, use **type="link"**. There are 2 optional attributes, **link_title** and **link_label** to add some customization for the link. By default they are set on the **title** of the field.
 ```
 {
-	"name": "externalUrl",
+  "name": "externalUrl",
     "details": {
-	    "title": "External url",
+      "title": "External url",
         "pos" : 5,
         "type": "link",
         "section": "info",
@@ -1027,8 +1028,8 @@ For links, use **type="link"**. There are 2 optional attributes, **link_title** 
 For a list of values, we have to specify the characters used for separating the values with the **split** attribute. It can be used on any type of field(simple text, img or link):
 ```
 "details": {
-	"visible": true
-	"title": "Countries",
+  "visible": true
+  "title": "Countries",
     "pos" : 1,
     "section": "info",
     "split": "|"
@@ -1038,9 +1039,9 @@ If we have a pair of fields, one with a link, the second with a label for the li
 First we have to configure the label field, than on the field containing the url we don't configure it for detail page, but enable the **is_link** option and in the **link_for** option set the name of the label field:
 ```
 {
-	"name": "labelForUrl",
+  "name": "labelForUrl",
     "details": {
-	    "title": "External link",
+      "title": "External link",
         "pos" : 5,
         "section": "info",
         "visible": true,
@@ -1048,10 +1049,10 @@ First we have to configure the label field, than on the field containing the url
     ...
 },
 {
-	"name": "externalUrl",
-	"is_link": true,
-	"link_for": "labelForUrl"
-	...
+  "name": "externalUrl",
+  "is_link": true,
+  "link_for": "labelForUrl"
+  ...
 }
 ```
 This can be applied also on fields what contains a list of labels and a list of urls. On the field with labels, you have to use the **split** option, on the field with links, you have to use the **link_split** option.
@@ -1059,9 +1060,9 @@ This can be applied also on fields what contains a list of labels and a list of 
 > **Attention:** both fields should contain the same amount of elements.
 ```
 {
-	"name": "listOfLabelsForUrl",
+  "name": "listOfLabelsForUrl",
     "details": {
-	    "title": "List of external links",
+      "title": "List of external links",
         "pos" : 5,
         "section": "info",
         "visible": true,
@@ -1070,11 +1071,11 @@ This can be applied also on fields what contains a list of labels and a list of 
     ...
 },
 {
-	"name": "listOfExternalUrls",
-	"is_link": true,
-	"link_for": "listOfLabelsForUrl",
-	"link_split": "|"
-	...
+  "name": "listOfExternalUrls",
+  "is_link": true,
+  "link_for": "listOfLabelsForUrl",
+  "link_split": "|"
+  ...
 }
 ```
 #### Change the layout of the details page
@@ -1087,11 +1088,11 @@ If you need some css or javascript for customization, you can add these files in
     ...
     "css_resources": {
         "index_page": [
-	        ...
+          ...
         ],
         "details_page": [
-			"app_resources/mycustom.css"
-			...
+      "app_resources/mycustom.css"
+      ...
         ]
     },
     "js_resources": {
@@ -1115,9 +1116,9 @@ All options are identical for both card and list.
 Here is an example for each type of field:
 ```
 {
-	"name": "title",
+  "name": "title",
     "card": {
-	    "field": "title",
+      "field": "title",
         "default": "",
         "visible": true,
         "type" : "simple"
@@ -1125,9 +1126,9 @@ Here is an example for each type of field:
     ...
 },
 {
-	"name": "tags",
+  "name": "tags",
     "card": {
-	    "field": "tags",
+      "field": "tags",
         "default": "",
         "visible": true,
         "type" : "list"
@@ -1137,12 +1138,12 @@ Here is an example for each type of field:
 {
     "name": "http://purl.org/dc/terms/issued",
     "card": {
-	    "type": "date",
+      "type": "date",
         "format": "dd M yy",
         "field": "date",
         "default": "",
         "visible": true
-	},
+  },
 },
 ...
 ```
@@ -1155,7 +1156,7 @@ If you're ok with the builtin templates, you don't have to copy them into your a
 If you want to improve the default relevance order of your data, you can add some rules, how the weight of the results should be calculated.
 First you have to enable the custom relevance feature in **settings.json**:
 ```
-	"relevance_enabled": true,
+  "relevance_enabled": true,
 ```
 After that, add a **relevance.json** file in your apps root.
 Here is how we have the configuration for global-search app:
@@ -1224,8 +1225,8 @@ Here is how we have the configuration for global-search app:
 ```
 - In the **fields_boosting** section we add a boost on some fields.
 - In the **functions** section we have 2 function:
-	- with the **gauss** function for **http://purl.org/dc/terms/issued**, we promote the most recent documents
-	- with the **script_score** function for **items_count_http://purl.org/dc/terms/references**, we promote the documents with most references
+  - with the **gauss** function for **http://purl.org/dc/terms/issued**, we promote the most recent documents
+  - with the **script_score** function for **items_count_http://purl.org/dc/terms/references**, we promote the documents with most references
 - In the **facet_decay_functions** section we configure some extra options for relevance if a specific facet is used. Ex: when an **organisation** is selected, documents with the less number of organisations will be promoted.
 **Note:** if you want to use the **items_count_<field_name>** we need to have enabled the **exact match** feature.
 
@@ -1234,11 +1235,11 @@ Allways check if the jsons are valid
 
 - **Symptom:** no data in elasticsearch
 **Check:**
-	- semantic endpoint is up and responding
-	- your query is returning values, and doesn't generate an error
-	- in case of SELECT queries, you have to provide a unique _id field, preferably url friendly, something like:
-		```REPLACE(STR(?title), "[^a-zA-Z0-9]", "-", "i") AS ?_id```
-		
+  - semantic endpoint is up and responding
+  - your query is returning values, and doesn't generate an error
+  - in case of SELECT queries, you have to provide a unique _id field, preferably url friendly, something like:
+    ```REPLACE(STR(?title), "[^a-zA-Z0-9]", "-", "i") AS ?_id```
+    
 - **Symptom:** not all the data is indexed in elasticsearch
 **Check:**
     - if too many rows are returned by the query, might be a timeout when reading the data from the endpoint. You should consider splitting the results, using **filtersQuery.sparql**
@@ -1246,12 +1247,15 @@ Allways check if the jsons are valid
 
 - **Symptom:** data is indexed, but the facets doesn't look good
 **Check:**
-	- the analyzer used to identify terms. 
-	- check if the analyzer/mapping is valid. For this you can do:
+  - the analyzer used to identify terms. 
+  - check if the analyzer/mapping is valid. For this you can do:
 ```~ curl -XGET '<elastic_host>:9200/<index_name>/_settings?pretty'  ```
 ```~ curl -XGET '<elastic_host>:9200/<index_name>/_mapping/<elastic_type>?pretty' ```
 check in the **_settings** if the filters and analyzers are present. If not, probably there is a typo, or a filter or analyzer is missing
 check if the **_mapping** is correct, similar with the configured one. If not, probably there is a typo
 
+ **For DEVs** 
+ - **Symptom on local dev env:** if create_index timeout, check IP of host in docker-compose file for the application
+ 
 ### __Default configuration demo__
 See example default custom configuration at [eea.esbootstrap.configs](https://github.com/eea/eea.esbootstrap.configs/tree/master/default)
