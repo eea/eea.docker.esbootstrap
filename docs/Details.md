@@ -912,7 +912,8 @@ Ex:
 The configuration options are as follows:
 * **histogram** (boolean) - *true* if you wish to show the histogram, *false* otherwise; default is *true*
 * **columns_bucketsize** (number) - the size of the bucket interval for each histogram column
-* **slider_bucketsize** (number) - the size of the bucket interval for the slider
+* **slider_bucketsize** (number) - the size of the bucket interval for the slider; **the slider bucket must divide the 
+columns bucket size equally, or else the slider will be missaligned with the columns**.  
 * **columns_bucket_min**  (number)- the minimum offset x value from which the grouping by bucket size should begin
 * **columns_bucket_min**  (number) - the maximum offset x value to which the grouping by bucket size should end
 * **columns_min_color**  (color string) - the color of the minimum offset columns ( either rgb, rgba or hex color)
