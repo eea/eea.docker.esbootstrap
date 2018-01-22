@@ -403,7 +403,7 @@ with the attributes:
   - **type**: type of the facet that it can be
       - **facet**: it can be any kind of field
       - **range**: numeric field
-      - **range**: numeric field with histogram attached
+      - **rangehistogram**: numeric field with histogram attached
       - **geo**: geo_point* field
   - **size**: size of the facet if it's a simple facet
   - **order**: order can be one of the following
@@ -756,7 +756,7 @@ This way we define some subfields, what later will be used differently for autoc
         ],
         "blacklist": []
     }
-    ```
+  ```
 First we enable the feature, and after that, with the whitelist and blacklist we specify which fields to be used.
 ### __Facets__
 #### __Term Facets__
@@ -878,6 +878,48 @@ Ex:
     }
 },
 ```
+#### __Range Histogram Facets__
+Range facets with histogram attached can be used for numeric fields.
+ 
+It can be configured by adding the **histogram_config option** with coresponding values in **facets.json** 
+for the corresponding facet.
+Ex:
+```
+...
+{
+  "name": "time_coverage",
+    "facet": {
+    "visible": true,
+      "title": "Time coverage",
+        "pos": 1,
+        "type": "rangehistogram",
+        "histogram_config": {
+            "columns_bucketsize" : 100,
+            "columns_bucket_min" : 0,
+            "columns_bucket_max" : 5000,
+            "columns_min_color" : "#DDDDDD",
+            "columns_max_color" : "#AAAAAA",
+            "slider_bucketsize" : 10,
+            "outside_slider_columns_color": "#EEEEEE",
+            "histogram" : true,
+            "show_results_in_tooltip": true,
+        },
+    }
+},
+
+...
+```
+The configuration options are as follows:
+* **histogram** (boolean) - *true* if you wish to show the histogram, *false* otherwise; default is *true*
+* **columns_bucketsize** (number) - the size of the bucket interval for each histogram column
+* **slider_bucketsize** (number) - the size of the bucket interval for the slider
+* **columns_bucket_min**  (number)- the minimum offset x value from which the grouping by bucket size should begin
+* **columns_bucket_min**  (number) - the maximum offset x value to which the grouping by bucket size should end
+* **columns_min_color**  (color string) - the color of the minimum offset columns ( either rgb, rgba or hex color)
+* **columns_max_color** (color string)- the color of the maximum offset columns ( either rgb, rgba or hex color)
+* **outside_slider_columns_color** (color string) - the color of the columns which are filtered outside the slider position ( either rgb, rgba or hex color)
+* **show_results_in_tooltip** (boolean) - if you want to show the result numbers in the tooltip; default *true*
+
 
 
 #### __Geo Facets__
