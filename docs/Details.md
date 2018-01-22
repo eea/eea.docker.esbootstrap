@@ -891,19 +891,19 @@ Ex:
     "facet": {
     "visible": true,
       "title": "Time coverage",
-        "pos": 1,
-        "type": "rangehistogram",
-        "histogram_config": {
-            "columns_bucketsize" : 100,
-            "columns_bucket_min" : 0,
-            "columns_bucket_max" : 5000,
-            "columns_min_color" : "#DDDDDD",
-            "columns_max_color" : "#AAAAAA",
-            "slider_bucketsize" : 10,
-            "outside_slider_columns_color": "#EEEEEE",
-            "histogram" : true,
-            "show_results_in_tooltip": true,
-        },
+      "pos": 1,
+      "type": "rangehistogram",
+      "histogram_config": {
+        "columns_bucketsize" : 100,
+        "columns_bucket_min" : 0,
+        "columns_bucket_max" : 5000,
+        "columns_min_color" : "#DDDDDD",
+        "columns_max_color" : "#AAAAAA",
+        "slider_bucketsize" : 10,
+        "outside_slider_columns_color": "#EEEEEE",
+        "histogram" : true,
+        "show_results_in_tooltip": true,
+      },
     }
 },
 
