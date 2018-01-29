@@ -927,8 +927,8 @@ columns bucket size equally, or else the slider will be missaligned with the col
 
 * **outside_slider_columns_color** (color string) - the color of the columns which are filtered outside the slider position ( either rgb, rgba or hex color)
 * **show_results_in_tooltip** (boolean) - if you want to show the result numbers in the tooltip; default *true*
-* **tooltip_results_name** (string) - the name of the results for all columns that appears in the tooltip; default is "*items*"  
-* **measurement_unit** (string) - the name of the measurement unit for each column 
+* **tooltip_results_name** (string) - the name of the results that appears in the tooltip; default is "*items*"  
+* **measurement_unit** (string) - the name of the measurement unit for each column; default is empty 
 
 #### __Geo Facets__
 To be able to use Google Maps for facets, we have to provide a valid Google Map Key. This can be generated at
