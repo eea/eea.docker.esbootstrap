@@ -930,7 +930,7 @@ columns bucket size equally, or else the slider will be missaligned with the col
 * **show_results_in_tooltip** (boolean) - if you want to show the result numbers in the tooltip; default *true*
 * **tooltip_results_name** (string) - the name of the results that appears in the tooltip; default is "*items*"  
 * **measurement_unit** (string) - the name of the measurement unit for each column; default is empty
-* **discrete_values** (boolean) - when we have discrete values, ex. *years*, and we want to show one *year* per column, we need to set this on *true*; default *false*  
+* **discrete_values** (boolean) - when we have discrete values, ex. *years*, and we want to show one *year* per column, we need to set this to *true*; default is *false*  
 
 #### __Geo Facets__
 To be able to use Google Maps for facets, we have to provide a valid Google Map Key. This can be generated at
