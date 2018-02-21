@@ -1,6 +1,6 @@
 {
   "name": "esbootstrap",
-  "version": "1.2.23",
+  "version": "1.2.24",
   "description": "Bootstrap for ElasticSearch apps",
   "dependencies" : {
     "nconf": "*",
@@ -8,7 +8,7 @@
     "compression": "*",
     "bundle-up3": "*",
     "jade": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#1.3.23",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#1.3.24",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
