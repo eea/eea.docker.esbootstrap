@@ -26,34 +26,43 @@ if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME)) {
 }
 
 var managementCommands;
-var hasConstruct = false;
-var queryFile = '/code/' + APP_CONFIG_DIR + '/query.sparql';
-if (! existsSync(queryFile)){
-    managementCommands = searchServer.builtinCommandsRivers;
+
+var nconf = require('nconf');
+nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
+
+if (nconf.get("indexFile") !== undefined){
+    managementCommands = searchServer.builtinCommandsFile;
 }
 else {
+    var hasConstruct = false;
+    var queryFile = '/code/' + APP_CONFIG_DIR + '/query.sparql';
+    if (! existsSync(queryFile)){
+        managementCommands = searchServer.builtinCommandsRivers;
+    }
+    else {
 
-    var query = fs.readFileSync(queryFile, 'utf8');
-    var lowerQuery = query.toLowerCase();
-    var constructPos = lowerQuery.indexOf('construct');
-    var selectPos = lowerQuery.indexOf('select');
+        var query = fs.readFileSync(queryFile, 'utf8');
+        var lowerQuery = query.toLowerCase();
+        var constructPos = lowerQuery.indexOf('construct');
+        var selectPos = lowerQuery.indexOf('select');
 
-    if (constructPos !== -1) {
-        if (selectPos !== -1) {
-            if (constructPos < selectPos){
+        if (constructPos !== -1) {
+            if (selectPos !== -1) {
+                if (constructPos < selectPos){
+                    hasConstruct = true;
+                }
+            }
+            else {
                 hasConstruct = true;
             }
         }
-        else {
-            hasConstruct = true;
-        }
-    }
 
-    if (hasConstruct){
-        managementCommands = searchServer.builtinCommandsRDF;
-    }
-    else {
-        managementCommands = searchServer.builtinCommands;
+        if (hasConstruct){
+            managementCommands = searchServer.builtinCommandsRDF;
+        }
+        else {
+            managementCommands = searchServer.builtinCommands;
+        }
     }
 }
 
@@ -64,8 +73,6 @@ var defaultExtraAnalyzers = APP_CONFIG_DIR + '/analyzers.json';
 var defaultNormalize = APP_CONFIG_DIR + '/normalize.json';
 var defaultFilterAnalyzers = APP_CONFIG_DIR + '/filters.json';
 
-var nconf = require('nconf');
-nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
 var endpoint = nconf.get("endpoint");
 var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"];
 
