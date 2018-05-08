@@ -15,7 +15,9 @@
     "sparql-client": "*",
     "nodemon": "*",
     "getenv": "*",
-    "fs-extra": "*"
+    "fs-extra": "*",
+    "deep-extend": "*",
+    "commander": "*"
   },
 
   "repository": {
