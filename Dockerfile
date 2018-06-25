@@ -1,5 +1,5 @@
 FROM eeacms/node:v4.2.2-1.1
-ENV NODE_ENV 'production'
+ENV NODE_ENV 'development'
 ENV APP_CONFIG_DIRNAME 'default'
 ADD ./app/package.json /tmp/package.json
 ADD ./README.md /tmp/README.md
@@ -8,5 +8,6 @@ ADD . /sources_from_git
 RUN ln -s /sources_from_git/app /code
 
 RUN chown node:node -R /node_modules/eea-searchserver/lib/framework/public/min
+RUN npm install -g node-inspect
 
 USER node
