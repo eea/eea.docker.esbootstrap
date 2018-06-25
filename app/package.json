@@ -8,14 +8,16 @@
     "compression": "*",
     "bundle-up3": "*",
     "jade": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#strip-html-tags",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#strip-master",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
     "sparql-client": "*",
     "nodemon": "*",
     "getenv": "*",
-    "fs-extra": "5.0.0"
+    "fs-extra": "v0.8.1",
+    "deep-extend": "*",
+    "commander": "*"
   },
 
   "repository": {
