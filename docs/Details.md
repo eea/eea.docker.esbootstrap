@@ -1,3 +1,4 @@
+
 # eea.docker.esbootstrap
 esbootstrap configuration
 
@@ -231,6 +232,30 @@ Ex:
 </pre>
 After the normalize.json is set up, you can use your short names in the **mapping.json**. 
 **Note: ** in the dataMapping.json you still have to use the original property names.
+#### __Indexing from csv/tsv file__
+Configure "indexFile" in **settings.json**:
+<pre>  {
+    "http": {
+        "port": 3000
+    },
+    "elastic": {
+		...
+    },
+	...
+    "indexFile": {
+        "file": "file.tsv",
+        "delimiter": "\t",
+        "id_type": "auto",
+        "id_field": "ID"
+    }
+}
+</pre>
+
+- the **file** should be the csv/tsv file located near the **settings.json** file
+- the **delimiter** should be '\t' or ',' depending on the format of the file
+- **id_type** and **id_field** specifies the way how the unique elastic **_id** will be created. **id_type** can be set to **auto** or **field**. 
+	- If **auto** is used for **id_type** , the **_id** will be generated automatically.
+	- If **field** is used for **id_type**, the value from **id_field** will be used as **_id**
 
 ### __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
