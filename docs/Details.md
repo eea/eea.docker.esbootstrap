@@ -272,7 +272,7 @@ example of mapping for a field:
     - Also it is possible to create your own analyzer
 TODO
 - for **type** the most common data types are:
-  - text/keyword (for background compatibility, we can still use string),
+  - text/keyword (for backward compatibility, we can still use string),
   - long,
   - integer,
   - double,
@@ -283,8 +283,14 @@ TODO
 A full list of data types is listed at:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
 
-In elastic6, **string** type was replaced with **text** and **keyword**, types. Their exact description can be seen at: [text](https://www.elastic.co/guide/en/elasticsearch/reference/current/text.html) and [keyword](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html)
-
+In elastic6, **string** type was replaced with **text** and **keyword**, types. Their exact description can be seen at: [text](https://www.elastic.co/guide/en/elasticsearch/reference/current/text.html) and [keyword](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html).
+For backward compatibility, we can still keep field mappings with **string** type, and those will be interpreted as:
+<pre>
+  {
+    "type" : "text",
+    "fielddata" : true
+  }
+</pre>
 #### __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
 All of these settings can be configured within **default/default/facets.json**. Based on this configuration file the data retrieved from Elasticsearch will be displayed on the views.
