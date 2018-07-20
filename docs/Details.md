@@ -972,6 +972,15 @@ columns bucket size equally, or else the slider will be missaligned with the col
 * **measurement_unit** (string) - the name of the measurement unit for each column; default is empty
 * **discrete_values** (boolean) - when we have discrete values, ex. *years*, and we want to show one *year* per column, we need to set this to *true*; default is *false*  
 
+**Important**
+For simple usage, the fields should be index as number types (int, long, double, etc). Also, it's possible to have text fields, containing numbers, but in this case in the **histogram_config** we must specify the **painless scripts** how the numeric values to be extracted from the field.
+Two scripts are required:
+* **min_max_script** what is used to get the minimum and maximum values for the fields. Required for the initialization of the rangehistogram facet
+* **aggs_script** what is used to build the histogram
+For example in the **time_coverage** we can have one or more date values, or a string "None". We need to specify a script what takes all the values, and if possible returns the year as a number, or if something is wrong, returns a default numeric value.
+<pre>
+"min_max_script": "def vals = doc['time_coverage']; if (vals.length == 0){return 2000} else {def ret = [];for (val in vals){def tmp_val = val.substring(0,4);ret.add(tmp_val.toLowerCase() == tmp_val.toUpperCase() ? Integer.parseInt(tmp_val) : 2000);}return ret;}"
+</pre>
 #### __Geo Facets__
 To be able to use Google Maps for facets, we have to provide a valid Google Map Key. This can be generated at
 https://developers.google.com/maps/documentation/javascript/get-api-key. This key should be added in the docker-compose.yml (or with rancher) as an environment variable:
