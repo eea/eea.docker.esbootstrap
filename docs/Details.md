@@ -1341,7 +1341,15 @@ Here is how we have the configuration for global-search app:
   - **create_index** - switch to **blue** index; remove existing data; get all data from semantic and index in elasticsearch **blue** index
   - **sync_index** - keep the existing index; make the blue/green switch; get all data from semantic and index in elasticsearch in the new index
   - **remove_data** - remove all data from **blue** and **green** indexes
-
+- For applications using the RDF River:
+  - **create_index** - 
+  - **sync_index** -
+  - **create_bluegreen** -
+  - **remove_river** - removes all data from the river index, the effect is that it interrupts all indexing
+  - **remove_data** - removes all data from the current index, also removes all lastupdate info from the status index, and the cache index
+  - **remove_cluster** - removes a cluster (or list of clusters) from the current index, and removes the lastupdate info for this cluster from the status index
+  - **reindex** - removes all data from current index and status index, and reindexes everything
+  - **reindex_cluster** - removes a cluster (or list of clusters), removes the lastupdate info from status index, and reindexes the selected cluster
 
 ### __Troubleshooting__
 Allways check if the jsons are valid
