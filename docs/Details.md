@@ -267,10 +267,14 @@ example of mapping for a field:
   },
 </pre>
 - the **analyzer** attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
-  - coma
-  - semicolon
-    - Also it is possible to create your own analyzer
-TODO
+  - coma - coma separated values
+  - semicolon - semicolon separated values
+  - pipe - pipe separated values
+  - date2year - take the year from a date
+  - didYouMean - should be used for the field what you want to use for "did you mean" feature.
+  - autocomplete - should be used for the field what you want to use for "autocomplete" in freetext
+  - Also it is possible to create your own analyzer, using the [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html). You only have to create an analyzers.json in the root of your apps config directory, and put the custom analyzer in that file.
+  
 - for **type** the most common data types are:
   - text/keyword (for backward compatibility, we can still use string),
   - long,
