@@ -977,6 +977,7 @@ For simple usage, the fields should be index as number types (int, long, double,
 Two scripts are required:
 * **min_max_script** what is used to get the minimum and maximum values for the fields. Required for the initialization of the rangehistogram facet
 * **aggs_script** what is used to build the histogram
+
 For example in the **time_coverage** we can have one or more date values, or a string "None". We need to specify a script what takes all the values, and if possible returns the year as a number, or if something is wrong, returns a default numeric value.
 <pre>
 "min_max_script": "def vals = doc['time_coverage']; if (vals.length == 0){return 2000} else {def ret = [];for (val in vals){def tmp_val = val.substring(0,4);ret.add(tmp_val.toLowerCase() == tmp_val.toUpperCase() ? Integer.parseInt(tmp_val) : 2000);}return ret;}"
