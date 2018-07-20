@@ -1342,9 +1342,10 @@ Here is how we have the configuration for global-search app:
   - **sync_index** - keep the existing index; make the blue/green switch; get all data from semantic and index in elasticsearch in the new index
   - **remove_data** - remove all data from **blue** and **green** indexes
 - For applications using the RDF River:
-  - **create_index** - 
-  - **sync_index** -
-  - **create_bluegreen** -
+  - **create_index/sync_index** 
+    - if there is no data indexed, creates the blue index, and reads all documents from semantic, and indexes in elasticsearch, saves in the status index the last update info for each cluster
+    - if there is already indexed data, a **blue/green** copy will be done, and using the last update info from the status index, all new documents from semantic will be indexed in elasticsearch
+  - **create_bluegreen** - just executes a **blue/green** copy, without fetching new data from semantic (mostly usefull in development) 
   - **remove_river** - removes all data from the river index, the effect is that it interrupts all indexing
   - **remove_data** - removes all data from the current index, also removes all lastupdate info from the status index, and the cache index
   - **remove_cluster** - removes a cluster (or list of clusters) from the current index, and removes the lastupdate info for this cluster from the status index
