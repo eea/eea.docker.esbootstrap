@@ -1333,6 +1333,13 @@ Here is how we have the configuration for global-search app:
 - In the **facet_decay_functions** section we configure some extra options for relevance if a specific facet is used. Ex: when an **organisation** is selected, documents with the less number of organisations will be promoted.
 **Note:** if you want to use the **items_count_<field_name>** we need to have enabled the **exact match** feature.
 
+### __Commands__
+- For applications using indexing from CSV/TSV file
+* **create_index** - just read all data from the csv file, and index in elasticsearch
+* **remove_data** - remove all data from elasticsearch
+
+
+
 ### __Troubleshooting__
 Allways check if the jsons are valid
 
