@@ -1335,8 +1335,8 @@ Here is how we have the configuration for global-search app:
 
 ### __Commands__
 - For applications using indexing from CSV/TSV file
-* **create_index** - just read all data from the csv file, and index in elasticsearch
-* **remove_data** - remove all data from elasticsearch
+  - **create_index** - just read all data from the csv file, and index in elasticsearch
+  - **remove_data** - remove all data from elasticsearch
 
 
 
