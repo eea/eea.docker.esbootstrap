@@ -1337,7 +1337,10 @@ Here is how we have the configuration for global-search app:
 - For applications using indexing from CSV/TSV file
   - **create_index** - just read all data from the csv file, and index in elasticsearch
   - **remove_data** - remove all data from elasticsearch
-
+- For applications using SPARQL SELECT QUERY:
+  - **create_index** - switch to **blue** index; remove existing data; get all data from semantic and index in elasticsearch **blue** index
+  - **sync_index** - keep the existing index; make the blue/green switch; get all data from semantic and index in elasticsearch in the new index
+  - **remove_data** - remove all data from **blue** and **green** indexes
 
 
 ### __Troubleshooting__
