@@ -18,7 +18,6 @@
     "fs-extra": "v0.8.1",
     "deep-extend": "*",
     "commander": "*"
-
   },
 
   "repository": {
