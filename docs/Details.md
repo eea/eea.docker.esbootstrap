@@ -1,3 +1,4 @@
+
 # eea.docker.esbootstrap
 esbootstrap configuration
 
@@ -231,6 +232,30 @@ Ex:
 </pre>
 After the normalize.json is set up, you can use your short names in the **mapping.json**. 
 **Note: ** in the dataMapping.json you still have to use the original property names.
+#### __Indexing from csv/tsv file__
+Configure "indexFile" in **settings.json**:
+<pre>  {
+    "http": {
+        "port": 3000
+    },
+    "elastic": {
+		...
+    },
+	...
+    "indexFile": {
+        "file": "file.tsv",
+        "delimiter": "\t",
+        "id_type": "auto",
+        "id_field": "ID"
+    }
+}
+</pre>
+
+- the **file** should be the csv/tsv file located near the **settings.json** file
+- the **delimiter** should be '\t' or ',' depending on the format of the file
+- **id_type** and **id_field** specifies the way how the unique elastic **_id** will be created. **id_type** can be set to **auto** or **field**. 
+	- If **auto** is used for **id_type** , the **_id** will be generated automatically.
+	- If **field** is used for **id_type**, the value from **id_field** will be used as **_id**
 
 ### __Data mapping for indexing in Elasticsearch__
 When new data is indexed, by default Elasticsearch tries to make a guess on the data type for each attribute, but sometimes it's useful to specify it explicitly.
@@ -242,12 +267,16 @@ example of mapping for a field:
   },
 </pre>
 - the **analyzer** attribute in normal cases should be none, but if there is a list of values you can use our builtin analyzers:
-  - coma
-  - semicolon
-    - Also it is possible to create your own analyzer
-TODO
+  - coma - coma separated values
+  - semicolon - semicolon separated values
+  - pipe - pipe separated values
+  - date2year - take the year from a date
+  - didYouMean - should be used for the field what you want to use for "did you mean" feature.
+  - autocomplete - should be used for the field what you want to use for "autocomplete" in freetext
+  - Also it is possible to create your own analyzer, using the [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html). You only have to create an analyzers.json in the root of your apps config directory, and put the custom analyzer in that file.
+  
 - for **type** the most common data types are:
-  - string,
+  - text/keyword (for backward compatibility, we can still use string),
   - long,
   - integer,
   - double,
@@ -257,6 +286,17 @@ TODO
 
 A full list of data types is listed at:
 https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
+
+In Elasticsearch 6, **string** type was replaced with **text** and **keyword**, types. Their exact description can be seen at: [text](https://www.elastic.co/guide/en/elasticsearch/reference/current/text.html) and [keyword](https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html).
+For backward compatibility, we can still keep field mappings with **string** type, and those will be interpreted as:
+<pre>
+  {
+    "type" : "text",
+    "fielddata" : true
+  }
+</pre>
+
+**Warning:** Elasticsearch 6 is more sensible on mapping, wrong mapping, or malformed values can break the indexing.
 
 #### __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
@@ -932,6 +972,16 @@ columns bucket size equally, or else the slider will be missaligned with the col
 * **measurement_unit** (string) - the name of the measurement unit for each column; default is empty
 * **discrete_values** (boolean) - when we have discrete values, ex. *years*, and we want to show one *year* per column, we need to set this to *true*; default is *false*  
 
+**Important**
+For simple usage, the fields should be index as number types (int, long, double, etc). Also, it's possible to have text fields, containing numbers, but in this case in the **histogram_config** we must specify the **painless scripts** how the numeric values to be extracted from the field.
+Two scripts are required:
+* **min_max_script** what is used to get the minimum and maximum values for the fields. Required for the initialization of the rangehistogram facet
+* **aggs_script** what is used to build the histogram
+
+For example in the **time_coverage** we can have one or more date values, or a string "None". We need to specify a script what takes all the values, and if possible returns the year as a number, or if something is wrong, returns a default numeric value.
+<pre>
+"min_max_script": "def vals = doc['time_coverage']; if (vals.length == 0){return 2000} else {def ret = [];for (val in vals){def tmp_val = val.substring(0,4);ret.add(tmp_val.toLowerCase() == tmp_val.toUpperCase() ? Integer.parseInt(tmp_val) : 2000);}return ret;}"
+</pre>
 #### __Geo Facets__
 To be able to use Google Maps for facets, we have to provide a valid Google Map Key. This can be generated at
 https://developers.google.com/maps/documentation/javascript/get-api-key. This key should be added in the docker-compose.yml (or with rancher) as an environment variable:
@@ -1282,6 +1332,25 @@ Here is how we have the configuration for global-search app:
   - with the **script_score** function for **items_count_http://purl.org/dc/terms/references**, we promote the documents with most references
 - In the **facet_decay_functions** section we configure some extra options for relevance if a specific facet is used. Ex: when an **organisation** is selected, documents with the less number of organisations will be promoted.
 **Note:** if you want to use the **items_count_<field_name>** we need to have enabled the **exact match** feature.
+
+### __Commands__
+- For applications using indexing from CSV/TSV file
+  - **create_index** - just read all data from the csv file, and index in elasticsearch
+  - **remove_data** - remove all data from elasticsearch
+- For applications using SPARQL SELECT QUERY:
+  - **create_index** - switch to **blue** index; remove existing data; get all data from semantic and index in elasticsearch **blue** index
+  - **sync_index** - keep the existing index; make the blue/green switch; get all data from semantic and index in elasticsearch in the new index
+  - **remove_data** - remove all data from **blue** and **green** indexes
+- For applications using the RDF River:
+  - **create_index/sync_index** 
+    - if there is no data indexed, creates the blue index, and reads all documents from semantic, and indexes in elasticsearch, saves in the status index the last update info for each cluster
+    - if there is already indexed data, a **blue/green** copy will be done, and using the last update info from the status index, all new documents from semantic will be indexed in elasticsearch
+  - **create_bluegreen** - just executes a **blue/green** copy, without fetching new data from semantic (mostly usefull in development) 
+  - **remove_river** - removes all data from the river index, the effect is that it interrupts all indexing
+  - **remove_data** - removes all data from the current index, also removes all lastupdate info from the status index, and the cache index
+  - **remove_cluster** - removes a cluster (or list of clusters) from the current index, and removes the lastupdate info for this cluster from the status index
+  - **reindex** - removes all data from current index and status index, and reindexes everything
+  - **reindex_cluster** - removes a cluster (or list of clusters), removes the lastupdate info from status index, and reindexes the selected cluster
 
 ### __Troubleshooting__
 Allways check if the jsons are valid
