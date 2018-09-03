@@ -1,4 +1,5 @@
 
+
 # eea.docker.esbootstrap
 esbootstrap configuration
 
@@ -445,6 +446,7 @@ with the attributes:
       - **range**: numeric field
       - **rangehistogram**: numeric field with histogram attached
       - **geo**: geo_point* field
+      - **aggregation_options**: radio options for ranges on numeric fields
   - **size**: size of the facet if it's a simple facet
   - **order**: order can be one of the following
         - **term**: sorted by alphanumeric order "a-z"
@@ -982,6 +984,50 @@ For example in the **time_coverage** we can have one or more date values, or a s
 <pre>
 "min_max_script": "def vals = doc['time_coverage']; if (vals.length == 0){return 2000} else {def ret = [];for (val in vals){def tmp_val = val.substring(0,4);ret.add(tmp_val.toLowerCase() == tmp_val.toUpperCase() ? Integer.parseInt(tmp_val) : 2000);}return ret;}"
 </pre>
+#### __Aggregation Options__
+This is a radio facet what can be used on ranges for numeric fields.
+It can be configured by adding the **groups** option where we define the ranges and their labels to be displayed in the facet.
+Ex:
+```
+{
+	"name": "readingTime",
+	...
+	"facet": {
+			"visible": true,
+	        "title": "Reading time (minutes)",
+            "pos": 12,
+            "type": "aggregation_options",
+            "groups": [
+	            {
+	                "label": "Short",
+                    "from": 0,
+                    "to": 4.9999
+	            },
+                {
+	                "label": "Medium",
+                    "from": 5,
+                    "to": 24.9999
+                },
+                {
+	                "label": "Large",
+                    "from": 25
+                },
+                {
+	                "label": "Unknown",
+                    "to": -0.0001
+                }
+			]
+		}
+},
+```
+The configuration options are as follows:
+* **label** (string) - the label to be displayed in the facet
+* **from** (float) - the lower limit for the range, it can be missing
+* **to** (float) - the upper limit for the range, it can be missing
+
+**Observation**
+The intervals defined with the lower and upper limits are closed intervals, elasticsearch uses **>=** and **<=** operators.
+
 #### __Geo Facets__
 To be able to use Google Maps for facets, we have to provide a valid Google Map Key. This can be generated at
 https://developers.google.com/maps/documentation/javascript/get-api-key. This key should be added in the docker-compose.yml (or with rancher) as an environment variable:
