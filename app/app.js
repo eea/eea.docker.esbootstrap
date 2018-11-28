@@ -127,12 +127,27 @@ defaultCustomResourcesPath.forEach(function(dirpath) {
 searchServer.Helpers.SimpleStart(options);
 
 exports.relevanceSettings = function(next){
-    var relevancePath = path.join(__dirname, APP_CONFIG_DIR, "/relevance.json");
-    if (fs.existsSync(relevancePath)) {
-        next(require(relevancePath));
+    var env_relevance_settings = getenv.string('relevance_settings', '');
+    var isEnv = false;
+    if (env_relevance_settings !== ''){
+        try{
+            env_relevance_settings = JSON.parse(env_relevance_settings)
+            isEnv = true;
+            next(env_relevance_settings);
+        }
+        catch (e){
+            console.warn("Warning: Relevance configuration is not a valid json");
+            console.log("Falling back to relevance.json file");
+        }
     }
-    else{
-        next({});
+    if (!isEnv){
+        var relevancePath = path.join(__dirname, APP_CONFIG_DIR, "/relevance.json");
+        if (fs.existsSync(relevancePath)) {
+            next(require(relevancePath));
+        }
+        else{
+            next({});
+        }
     }
 };
 
