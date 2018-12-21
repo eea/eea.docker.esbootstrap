@@ -45,6 +45,9 @@ if (SENTRY_DSN !== 'false'){
     if (GLOBAL.sentry_rancher_env){
         sentry_config.environment = GLOBAL.sentry_rancher_env;
     }
+    else {
+        sentry_config.environment = "env not found";
+    }
     Sentry.init(sentry_config);
 }
 
