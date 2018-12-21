@@ -11,6 +11,19 @@ var getenv = require('getenv');
 var APP_CONFIG_DIRNAME = getenv.string('APP_CONFIG_DIRNAME', 'default');
 var APP_CONFIG_DIR = 'config/'+ APP_CONFIG_DIRNAME;
 
+const Sentry = require('@sentry/node');
+
+var SENTRY_DSN = getenv.string('SENTRY_DSN', false);
+var SENTRY_VER = getenv.string('VERSION_INFO', false);
+
+if (SENTRY_DSN !== 'false'){
+    var sentry_config = {
+        dsn : SENTRY_DSN,
+        release: SENTRY_VER,
+    }
+    Sentry.init(sentry_config);
+}
+
 var existsSync = function(path) {
   try {
     fs.accessSync(path);
