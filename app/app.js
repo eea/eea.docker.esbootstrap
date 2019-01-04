@@ -25,7 +25,7 @@ GLOBAL.sentry_app_name = APP_CONFIG_DIRNAME;
 
 console.log("GET RANCHER ENV");
 try{
-    GLOBAL.sentry_rancher_env = sync_request('GET', rancher_api_url);
+    GLOBAL.sentry_rancher_env = sync_request('GET', rancher_api_url).getBody('utf-8');
     console.log("RANCHER ENV:" + rancher_env);
 }
 catch (e){
