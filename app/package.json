@@ -24,6 +24,7 @@
     "type": "git",
     "url": "git://github.com/eea/eea.docker.esbootstrap.git"
   },
+  
   "keywords": [
     "node",
     "express",
