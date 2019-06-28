@@ -20,16 +20,16 @@ var sync_request = require('sync-request');
 var rancher_api_url = 'http://rancher-metadata/latest/self/stack/environment_name'
 
 var os = require("os");
-GLOBAL.sentry_hostname = os.hostname();
-GLOBAL.sentry_app_name = APP_CONFIG_DIRNAME;
+global.sentry_hostname = os.hostname();
+global.sentry_app_name = APP_CONFIG_DIRNAME;
 
 console.log("GET RANCHER ENV");
 try{
-    GLOBAL.sentry_rancher_env = sync_request('GET', rancher_api_url).getBody('utf-8');
-    console.log("RANCHER ENV:" + GLOBAL.sentry_rancher_env);
+    global.sentry_rancher_env = sync_request('GET', rancher_api_url).getBody('utf-8');
+    console.log("RANCHER ENV:" + global.sentry_rancher_env);
 }
 catch (e){
-    GLOBAL.sentry_rancher_env = "env not found";
+    global.sentry_rancher_env = "env not found";
     console.log("Faild to get RANCHER ENV");
 }
 
@@ -37,10 +37,10 @@ if (SENTRY_DSN !== 'false'){
     var sentry_config = {
         dsn : SENTRY_DSN,
         release: SENTRY_VER,
-        environment: GLOBAL.sentry_rancher_env,
+        environment: global.sentry_rancher_env,
         beforeSend: function(event) {
             event.logger = "nodejs";
-            event.tags = {app_name: APP_CONFIG_DIRNAME, instance: GLOBAL.sentry_hostname};
+            event.tags = {app_name: APP_CONFIG_DIRNAME, instance: global.sentry_hostname};
             return event;
         }
     }

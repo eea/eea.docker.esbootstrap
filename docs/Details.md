@@ -21,9 +21,9 @@ All apps configurations are placed in the config folder. An app folder contains 
         │   ├── custom.css
         │   └── custom.js
         └── views
-            ├── cardview.jade
-            ├── listview.jade
-            └── landingview.jade
+            ├── cardview.pug
+            ├── listview.pug
+            └── landingview.pug
 </pre>
 
 ### __Configure settings.json__
@@ -582,11 +582,11 @@ For enabling the **exact search** two settings are required
  2. In **mapping.json**, for facets where we want the exact search option, enable it using the **allow_exact** option.
 
 ### __Configure the layout of the pages__
-For templating we use nodejs's jade template: http://naltatis.github.io/jade-syntax-docs/
+For templating we use nodejs's pug template (former jade template): http://naltatis.github.io/jade-syntax-docs/
 The default templates are:
 
-- **app/views/index.jade**
-- **app/views/details.jade**
+- **app/views/index.pug**
+- **app/views/details.pug**
 The main blocks are already specified, in most cases only the labels like title or breadcrumbs should be changed.
 
 #### __Adding custom js code__
@@ -672,8 +672,8 @@ By default the application contains a small css called **app/public/css/esbootst
 
 #### __Customize card and list views__
 By default we use the predefined templates from eea.searchserver.js: 
-https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.jade
-https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.jade
+https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.pug
+https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.pug
 If you want to customize it, is enough to copy them in your application in the **app/config/views** folder, and you can start modifying it. In the template you have access to all fields what you specified in the **mapping.json** in section **fields_mapping** in the **card** or **list** attributes of the fields. Ex: if you have in the **mapping.json**:
 <pre>
   "card": {
@@ -718,7 +718,7 @@ time(class="eea-tileIssued", datetime="${date}") ${date}
 with the attributes:
 
  - **app_dir**: the absolute location of the application, leave it as it is
- - **views**: the absolute location of the jade templates, by default it is in the views folder
+ - **views**: the absolute location of the pug templates, by default it is in the views folder
  - **settingsFile**: the absolute location of the settings.json
  - **routes**: the settings for the available views for listing and detail pages.
   We have a builtin route for this, so if you don't have anything special then you don't need to do anything else.
@@ -1228,7 +1228,7 @@ This can be applied also on fields what contains a list of labels and a list of 
 }
 ```
 #### Change the layout of the details page
-The template what is used for displaying the details page is the [details.jade](https://github.com/eea/eea.docker.esbootstrap/blob/master/app/views/details.jade)
+The template what is used for displaying the details page is the [details.pug](https://github.com/eea/eea.docker.esbootstrap/blob/master/app/views/details.pug)
 In your new template, if you want, you can access the available values using **data.my_field.value**.
 If you want more customization, what can't be simply with the configuration options, you have the possibility to override this file. You only have to copy it in your **apps** view folder, and from now, that template will be used.
 If you need some css or javascript for customization, you can add these files in your apps **public** folder, and add them as required resources in the apps **settings.json**:
@@ -1297,7 +1297,7 @@ Here is an example for each type of field:
 ...
 ```
 For configuring the templates for cards and list views, a good starting point are 
-[cardview.jade](https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.jade) and [listview.jade](https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.jade)
+[cardview.pug](https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.pug) and [listview.pug](https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.pug)
 You can copy them in your apps **views** folder, and customize them. The values for the fields passed to the template can be accessed like this: **${title}**.
 If you're ok with the builtin templates, you don't have to copy them into your apps view folder, but you have to provide all the required fields.
 
