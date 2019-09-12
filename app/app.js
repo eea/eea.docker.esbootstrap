@@ -66,7 +66,7 @@ var managementCommands;
 var nconf = require('nconf');
 nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
 
-if (nconf.get("indexFile") !== undefined){
+if ((nconf.get("indexFile") !== undefined) || (nconf.get("indexUrl") !== undefined)){
     managementCommands = searchServer.builtinCommandsFile;
 }
 else {
