@@ -9,6 +9,9 @@ RUN apt-get update -q && \
 RUN mkdir -p /external_templates
 RUN chown node:node -R /external_templates
 
+RUN mkdir -p /data_downloads
+RUN chown node:node -R /data_downloads
+
 
 ENV NODE_ENV 'production'
 ENV APP_CONFIG_DIRNAME 'default'
