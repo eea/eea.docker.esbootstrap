@@ -61,11 +61,11 @@ if (! existsSync('/code/config/' + APP_CONFIG_DIRNAME)) {
     fs.copySync('/code/config/default', '/code/config/' + APP_CONFIG_DIRNAME);
 }
 
-var managementCommands;
+var managementCommands = searchServer.builtinCommands;
 
 var nconf = require('nconf');
 nconf.file({file:'/code/' + APP_CONFIG_DIR + '/settings.json'});
-
+/*
 if (nconf.get("indexFile") !== undefined){
     managementCommands = searchServer.builtinCommandsFile;
 }
@@ -101,7 +101,7 @@ else {
         }
     }
 }
-
+*/
 var builtinRoutes = searchServer.builtinRoutes;
 
 var defaultIndexingFilterQuery = APP_CONFIG_DIR + '/filtersQuery.sparql';
@@ -109,7 +109,6 @@ var defaultExtraAnalyzers = APP_CONFIG_DIR + '/analyzers.json';
 var defaultNormalize = APP_CONFIG_DIR + '/normalize.json';
 var defaultFilterAnalyzers = APP_CONFIG_DIR + '/filters.json';
 
-var endpoint = nconf.get("endpoint");
 var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"];
 
 
@@ -130,9 +129,7 @@ var options = {
     extraAnalyzers: '',
     filterAnalyzers: '',
     dataMapping: APP_CONFIG_DIR + '/mapping.json',
-    normalize: '',
-    isConstruct: hasConstruct,
-    endpoint: endpoint
+    normalize: ''
   }
 };
 
