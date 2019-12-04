@@ -1,4 +1,4 @@
-#esbootstrap API
+# Esbootstrap API
 
 ## configuring the API:
 The only thing that has to be configured is the token used to access the API.
@@ -7,22 +7,25 @@ If none of them is specified, the token will be disabled, the API will be access
 If the token is specified in both places, the one from ENV will be used.
 
 In the settings.json:
+```
 "API":{
     "token": "<TOKEN>"
 },
-
+```
 Set the ENV in docker-compose:
+```
 app:
     environment:
         ...
         API_token: '<TOKEN>'
-
+```
 
 To set the Authorization header for requests with curl use:
+```
 curl -X GET \
   'http://<APP_ADDRESS>/API/v1/<API_ENDPOINT>' \
-  -H 'Authorization: Bearer <TOKEN>' \
-
+  -H 'Authorization: Bearer <TOKEN>'
+```
 
 ## available commands:
 
@@ -41,36 +44,41 @@ tests if connection to elasticsearch is up
 tests if the index exists
 
 Curl:
+```
 curl http://<APP_ADDRESS>/API/v1/healthcheck
-
+```
 example of responses:
 ex.1, everything works:
+```
 {
     "elastic": "ok",
     "index": "ok",
     "app": "ok"
 }
-
+```
 ex.2, elasticsearch is down:
+```
 {
     "elastic": "ECONNREFUSED",
     "app": "ok"
 }
-
+```
 ex.3, elasticsearch is up, but the index is not present (or the production alias is missing):
+```
 {
     "elastic": "ok",
     "index": "index_not_found_exception",
     "app": "ok"
 }
-
+```
 ### Update
 GET
 /API/v1/update
 
 Curl:
+```
 curl -X GET http://<APP_ADDRESS/API/v1/update -H 'Authorization: Bearer <TOKEN>'
-
+```
 requires authorization header
 triggers a new update,
 - a new index with the current timestamp will be created
@@ -78,10 +86,13 @@ triggers a new update,
 
 response:
 ex.1, authorization is missing or is incorrect:
+```
 Bad request
+```
 ex.2, successfull call
+```
 {"status":"Indexing triggered","index":"<INDEX_NAME>_2019-12-03_13:51:47"}
-
+```
 Note:
 If more updates are called, the previous ones will be cancelled. The "latest" alias will always point to the newest index.
 
@@ -94,28 +105,32 @@ GET
 PARAMETER:
 url: the url from where to fetch the data to be indexed
 
+```
 curl -X GET \
   'http://<APP_ADDRESS>/API/v1/update_from_url?url=http://discomap.eea.europa.eu/App/SqlEndpoint/query?sql=Select%20%2A%2C%20100%20as%20x%20from%20%5BGHGPAMS%5D.%5Bv2r1%5D.%5BPAMs_Viewer_Flat_file_elasticsearch%5D' \
-  -H 'Authorization: Bearer <TOKEN>' \
-
+  -H 'Authorization: Bearer <TOKEN>'
+```
 response:
+```
 {
     "status": "Indexing triggered",
     "index": "<INDEX_NAME>_2019-12-03_14:34:52"
 }
-
+```
 ### Status
 GET
 /API/v1/status
 Does not require authorization
 
 Curl:
+```
 curl http://<APP_ADDRESS>/API/v1/status
-
+```
 gets the status of the latest and production indices, and compares them
 
 response:
 ex.1 indexing in progress:
+```
 {
     "latest_index_info": {
         "status": "indexing",
@@ -150,8 +165,9 @@ ex.1 indexing in progress:
         "docs": 2090
     }
 }
-
+```
 ex.2, indexing finished:
+```
 {
     "latest_index_info": {
         "status": "finished",
@@ -189,15 +205,18 @@ ex.2, indexing finished:
         "docs": 2090
     }
 }
-
+```
 ### Switch
 /API/v1/switch
 After the indexing is finished, and the demo app was tested, the production alias can be moved to the latest index
 
 Curl:
+```
 curl -X GET http://<APP_ADDRESS/API/v1/switch -H 'Authorization: Bearer <TOKEN>'
-
+```
 response:
+```
 {
     "prod": "<index>_2019-12-03_14:03:46"
 }
+```
