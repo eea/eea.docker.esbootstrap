@@ -21,7 +21,9 @@
     "jstransformer-clean-css": "*",
     "jstransformer-uglify-js": "*",
     "JSONStream": "*",
-    "autodetect-decoder-stream": "*"
+    "autodetect-decoder-stream": "*",
+    "elasticsearch-scroll-stream": "*",
+    "sleep-promise": "*"
   },
 
   "repository": {
