@@ -23,7 +23,8 @@
     "JSONStream": "*",
     "autodetect-decoder-stream": "*",
     "elasticsearch-scroll-stream": "*",
-    "sleep-promise": "*"
+    "sleep-promise": "*",
+    "rdflib": "*"
   },
 
   "repository": {
