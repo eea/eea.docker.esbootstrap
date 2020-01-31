@@ -8,7 +8,7 @@
     "compression": "*",
     "bundle-up3": "*",
     "pug": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#108957_v2",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#108957_v3",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
