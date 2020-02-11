@@ -1,6 +1,6 @@
 {
   "name": "esbootstrap",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "Bootstrap for ElasticSearch apps",
   "dependencies" : {
     "nconf": "*",
@@ -8,7 +8,7 @@
     "compression": "*",
     "bundle-up3": "*",
     "pug": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#2.2.0",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#3.0.0",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
@@ -19,7 +19,12 @@
     "@sentry/node": "4.4.2",
     "sync-request": "5.0.0",
     "jstransformer-clean-css": "*",
-    "jstransformer-uglify-js": "*"
+    "jstransformer-uglify-js": "*",
+    "JSONStream": "*",
+    "autodetect-decoder-stream": "*",
+    "elasticsearch-scroll-stream": "*",
+    "sleep-promise": "*",
+    "rdflib": "*"
   },
 
   "repository": {
