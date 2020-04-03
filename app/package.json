@@ -14,7 +14,7 @@
     "node-crontab": "*",
     "sparql-client": "*",
     "nodemon": "*",
-    "getenv": "*",
+    "getenv": "0.7.0",
     "fs-extra": "v0.8.1",
     "deep-extend": "*",
     "commander": "*"
