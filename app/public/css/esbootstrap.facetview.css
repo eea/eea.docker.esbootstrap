@@ -27,3 +27,11 @@
 .span3.order-by > select.facetview_orderby {
     display:none;
 }
+
+.facets_footer_slot_init {
+    display:none;
+}
+
+.facets_footer_slot {
+    padding-top:10px;
+}
