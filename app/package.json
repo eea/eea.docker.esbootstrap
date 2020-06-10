@@ -24,7 +24,7 @@
     "autodetect-decoder-stream": "*",
     "elasticsearch-scroll-stream": "*",
     "sleep-promise": "*",
-    "rdflib": "*"
+    "rdflib": "1.0.6"
   },
 
   "repository": {
