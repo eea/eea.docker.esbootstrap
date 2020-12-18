@@ -8,7 +8,7 @@
     "compression": "*",
     "bundle-up3": "*",
     "pug": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#3.0.27",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#strip-split-indexer",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
@@ -24,7 +24,10 @@
     "autodetect-decoder-stream": "*",
     "elasticsearch-scroll-stream": "*",
     "sleep-promise": "*",
-    "rdflib": "1.0.6"
+    "rdflib": "1.0.6",
+    "solid-rest": "1.2.1",
+    "solid-auth-cli": "1.0.14",
+    "solid-auth-client": "2.4.1"
   },
 
   "repository": {
