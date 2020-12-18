@@ -8,7 +8,7 @@
     "compression": "*",
     "bundle-up3": "*",
     "jade": "*",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#strip-master",
+    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#strip-split",
     "morgan": "*",
     "request": "*",
     "node-crontab": "*",
