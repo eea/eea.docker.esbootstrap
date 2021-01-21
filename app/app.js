@@ -108,6 +108,9 @@ var defaultIndexingFilterQuery = APP_CONFIG_DIR + '/filtersQuery.sparql';
 var defaultExtraAnalyzers = APP_CONFIG_DIR + '/analyzers.json';
 var defaultNormalize = APP_CONFIG_DIR + '/normalize.json';
 var defaultFilterAnalyzers = APP_CONFIG_DIR + '/filters.json';
+var defaultExtraTokenizers = APP_CONFIG_DIR + '/tokenizers.json';
+var defaultExtraCharFilters = APP_CONFIG_DIR + '/char_filters.json';
+
 
 var defaultCustomResourcesPath = [APP_CONFIG_DIR + "/public"];
 
@@ -141,6 +144,12 @@ if (fs.existsSync(__dirname +'/' + defaultExtraAnalyzers)){
 }
 if (fs.existsSync(__dirname +'/' + defaultNormalize)){
   options.indexing.normalize = defaultNormalize;
+}
+if (fs.existsSync(__dirname +'/' + defaultExtraTokenizers)){
+  options.indexing.extraTokenizers = defaultExtraTokenizers;
+}
+if (fs.existsSync(__dirname +'/' + defaultExtraCharFilters)){
+  options.indexing.extraCharFilters = defaultExtraCharFilters;
 }
 
 if (fs.existsSync(__dirname +'/' + defaultFilterAnalyzers)){
@@ -188,4 +197,3 @@ exports.relevanceSettings = function(next){
 exports.fieldsMapping = function(next){
     next(require(path.join(__dirname, "/" + APP_CONFIG_DIR + "/facets.json")));
 };
-
