@@ -115,7 +115,7 @@ in the **layout_vars** section you can change some layout configurations like ti
    files defined in *css_resources* and *js_resources*. This means that
    you should also define a **layout_page** section which defines the base resources that should be loaded by the custom app. See the following [config](https://github.com/eea/eea.esbootstrap.configs/blob/master/CaR/settings.json#L17) for a real world example on an app that loads specific resources
    only.
-   
+
    If set to *false* which is the value set by default the resources defined in settings.json will be added after the resources defined in [builtinBundles.json](https://github.com/eea/eea.searchserver.js/blob/master/lib/builtinBundles.json#L2)  
  - **skip_external_template_styles**: set to *false* by default, if enabled we no
    longer load the external template styles and instead we load a css file named *critical.css*. This is useful for performance reasons since *critical.css* contains the EEA header and footer, therefore
@@ -124,7 +124,7 @@ in the **layout_vars** section you can change some layout configurations like ti
    css and javascript will no longer be concatenated, useful to set to *true* when
    debugging resources.
  - **css_resources**, **js_resources**: it contains the urls of CSS/JS files to be injected into HTML of your app. It can be divided in two or more section depending on how many pages have your app, generally "index" and "details". If you added a public folder with your custom css or javascripts, you have to add those resources to the css/js list.**The sorting of the urls in the lists is the order for which they will be injected into HTML**;
-   
+
    Although you can add external resources in these two fields it is adviced to
    add only local resources since these resources we can bundle up in a single
    file for better site performance
@@ -137,7 +137,7 @@ in the **layout_vars** section you can change some layout configurations like ti
   ```
   "breadcrumbs": [{"Home":"https://www.eea.europa.eu"},{"Countries and regions":"https://www.eea.europa.eu/countries-and-regions"},{"${external_config.title}":""}],
   ```
-  
+
   Also, you can notice, the last key is a variable.
   **Note:** Currently only variables from the external_configs are supported.
  - **dataprovencance_info_text**: it is the text of the link to the data provenance info;
@@ -231,7 +231,7 @@ Ex:
   "http://purl.org/dc/terms/subject": "subject"
 }
 </pre>
-After the normalize.json is set up, you can use your short names in the **mapping.json**. 
+After the normalize.json is set up, you can use your short names in the **mapping.json**.
 **Note: ** in the dataMapping.json you still have to use the original property names.
 #### __Indexing from csv/tsv file__
 Configure "indexFile" in **settings.json**:
@@ -254,7 +254,7 @@ Configure "indexFile" in **settings.json**:
 
 - the **file** should be the csv/tsv file located near the **settings.json** file
 - the **delimiter** should be '\t' or ',' depending on the format of the file
-- **id_type** and **id_field** specifies the way how the unique elastic **_id** will be created. **id_type** can be set to **auto** or **field**. 
+- **id_type** and **id_field** specifies the way how the unique elastic **_id** will be created. **id_type** can be set to **auto** or **field**.
 	- If **auto** is used for **id_type** , the **_id** will be generated automatically.
 	- If **field** is used for **id_type**, the value from **id_field** will be used as **_id**
 
@@ -275,7 +275,7 @@ example of mapping for a field:
   - didYouMean - should be used for the field what you want to use for "did you mean" feature.
   - autocomplete - should be used for the field what you want to use for "autocomplete" in freetext
   - Also it is possible to create your own analyzer, using the [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html). You only have to create an analyzers.json in the root of your apps config directory, and put the custom analyzer in that file.
-  
+
 - for **type** the most common data types are:
   - text/keyword (for backward compatibility, we can still use string),
   - long,
@@ -298,6 +298,48 @@ For backward compatibility, we can still keep field mappings with **string** typ
 </pre>
 
 **Warning:** Elasticsearch 6 is more sensible on mapping, wrong mapping, or malformed values can break the indexing.
+
+If you decide to create your new analyzer, you are now able to customize it even further using tokenizers.json and char_filters.json.
+With these you can create custom filters/tokenizers which can then be used in your custom analyzer.json
+
+Example of tokenizers.json:
+<pre>
+{
+    "url_tokenizer": {
+      "type": "simple_pattern",
+      "pattern": "[a-zA-Z0-9\\.\\-]*"
+    }
+}
+</pre>
+
+Example of char_filters.json:
+<pre>
+{
+    "url_filter": {
+      "type": "mapping",
+      "mappings": ["/ => \\u0020",
+                   ". => \\u0020"]
+    }
+}
+</pre>
+
+Using the tokenizer and filter above we can now create a custom analyzer which will deconstruct urls into different terms
+split up by the mapping in char_filters.json:
+<pre>
+{
+    "urlanalizer": {
+      "filter": [
+        "lowercase"
+      ],
+      "char_filter": [
+        "url_filter"
+      ],
+      "tokenizer": "url_tokenizer",
+      "type": "custom"
+    }
+}
+</pre>
+
 
 #### __Configure fields definition for the presentation layer__
 In this paragraph we describe how we can configure what data to be displayed on the listing and detail pages, what data to be used as facets, and what data should appear in the csv/tsv export.
@@ -433,7 +475,7 @@ with the attributes:
           "desctext":"",
           "short_name": "Value",
           "empty_message": "No values to show",
-          "autocomplete": false, 
+          "autocomplete": false,
           "autocomplete_placeholder": "Search for value"
   },
   </pre>
@@ -495,7 +537,7 @@ with the attributes:
   - **field**: how it is used in the template
   - **default**: it's default value
   - **visible**: boolean value for enable/disable (mostly for development/debugging)
-  - **type** and **format**: Works similar as described in the **listing** section but with some extra options. Possible values: "date", "simple", "list". 
+  - **type** and **format**: Works similar as described in the **listing** section but with some extra options. Possible values: "date", "simple", "list".
     - **simple** if the field contains multiple values, only the first will be used
     - **list** all values from the field will be merged into one csv separated string
 
@@ -555,7 +597,7 @@ This property is a mapping tool, where we can normalize the content types to a s
         }
 },
 </pre>
-  
+
  attributes:
 
  - **contentTypeNormalize**: is the mapping
@@ -574,7 +616,7 @@ This property is a mapping tool, where we can normalize the content types to a s
         - **name**: the name of the variable from the template string
         - **type**: "field" or "variable". If "field" is specified, it will take the value from elastic. If "variable" is selected, it will take the value from the variable defined in the "card" or "list" sections.
         - **variable** or **field**: you only have to specify one of them, depending the **type** you've chosen. It should contain the name of the **field** or the **variable**
-      
+
 ### __Enabling exact search feature__
 For enabling the **exact search** two settings are required
 
@@ -671,7 +713,7 @@ In the bootstrap application we already added a small method for formating chemi
 By default the application contains a small css called **app/public/css/esbootstrap.facetview.css**. You should add another css file called **app/public/custom.css" if you want to add any css.
 
 #### __Customize card and list views__
-By default we use the predefined templates from eea.searchserver.js: 
+By default we use the predefined templates from eea.searchserver.js:
 https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.pug
 https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.pug
 If you want to customize it, is enough to copy them in your application in the **app/config/views** folder, and you can start modifying it. In the template you have access to all fields what you specified in the **mapping.json** in section **fields_mapping** in the **card** or **list** attributes of the fields. Ex: if you have in the **mapping.json**:
@@ -753,20 +795,20 @@ with the attributes:
 
   We have a builtin commands module with the basic "create_index", "sync_index", "remove_data" commands what can be used by any application.
   If you need extra commands you will have to replicate the eea.searchserver.js/lib/builtinCommands.js and implement your own commands
-  
+
 ### __Autocomplete, Suggestions, Highlights__
  - in settings.json enable the suggestions by adding:
   ```
   suggestions_enabled = true
   ```
-  
+
  - in mapping.json add the two fields:
  ```
   "did_you_mean": {"type": "string", "analyzer": "didYouMean"},
   "autocomplete": {"type": "string", "analyzer": "autocomplete"}
  ```
- 
-In these fields we will copy the real fields that we want to be included in the autocomplete & suggestions functionality. 
+
+In these fields we will copy the real fields that we want to be included in the autocomplete & suggestions functionality.
 
 > **Attention:** autocomplete may be slow if too much data is configured like adding a field with too much text or adding too many fields.
 
@@ -785,7 +827,7 @@ In the configuration for the fields you want to be used, add:
   }
 }
 ```
- 
+
 This way we define some subfields, what later will be used differently for autocomplete, highlight, etc. With the **copy_to** parameter we tell if the field should be used for suggestions, autocomplete, or both.
 
  - For configuring highlights, in facets.json add the section:
@@ -800,14 +842,22 @@ This way we define some subfields, what later will be used differently for autoc
     }
   ```
 First we enable the feature, and after that, with the whitelist and blacklist we specify which fields to be used.
+
+Added option to disable the search on suggested terms which is enabled by default.
+ - in settings.json disable the search on suggested terms by adding:
+  ```
+  autocorrect_disable = true
+  ```
+The option is False by default
+
 ### __Facets__
 #### __Term Facets__
 Term facets are built on the terms created by elasticsearch. Elasticsearch by default adds as terms all the words found in a field.
 If we have a field what contains coma separated values, and we want to use those values as terms, we have to use the **"coma"** analyzer in the **mapping.json**:
 ```
 "Country" : {
-  "type" :"string", 
-  "analyzer" : "coma" 
+  "type" :"string",
+  "analyzer" : "coma"
 },
 ```
 We have some predefined analyzers: "coma", "semicolon", "pipe".
@@ -820,8 +870,8 @@ If we want a simple facet, we have to add a facet section in the configuration o
  - size - the maximum number of terms to be displayed in the facet
  - order - default order of terms inside the facet. Available options: "term", "reverse_term", "count", "reverse_count"
  - operator - default operator between the selected terms. Available options: "AND", "OR"
- - facet_display_options - for now it should be set on ["sort", "checkbox"], as we don't support any other options. 
- 
+ - facet_display_options - for now it should be set on ["sort", "checkbox"], as we don't support any other options.
+
 Example of configuration:
 ```
 {
@@ -860,7 +910,7 @@ Example:
     }
 },
 ```
- 
+
 ##### __Exact match for facets__
 Elasticsearch by default doesn't support exact match, for terms. For this we need to add an extra "count" field for each original field, what will contain the number of terms in that field.
 This is done automatically by the indexing methods, but it has to be enabled, with setting the **elastic.enableValuesCounting** configuration option on **true**. This is done in settings.json and it should look like:
@@ -922,8 +972,8 @@ Ex:
 ```
 #### __Range Histogram Facets__
 Range facets with histogram attached can be used for numeric fields.
- 
-It can be configured by adding the **histogram_config option** with coresponding values in **facets.json** 
+
+It can be configured by adding the **histogram_config option** with coresponding values in **facets.json**
 for the corresponding facet.
 Ex:
 ```
@@ -957,7 +1007,7 @@ Ex:
 The configuration options are as follows:
 * **histogram** (boolean) - *true* if you wish to show the histogram, *false* otherwise; default is *true*
 * **columns_bucketsize** (number) - the size of the bucket interval for each histogram column; **indicated to be a multiple of 10**.
-* **slider_bucketsize** (number) - the size of the bucket interval for the slider; **the slider bucket must divide the 
+* **slider_bucketsize** (number) - the size of the bucket interval for the slider; **the slider bucket must divide the
 columns bucket size equally, or else the slider will be missaligned with the columns**.  
 
 * **columns_bucket_min**  (number)- the minimum offset x value from which the grouping by bucket size should begin;
@@ -1037,7 +1087,7 @@ https://developers.google.com/maps/documentation/javascript/get-api-key. This ke
       - GOOGLE_MAP_KEY=google-map-api-key
   ...
 ```
-Geographical facets can only be used on fields what contains both, latitude & longitude values and are separated with coma. 
+Geographical facets can only be used on fields what contains both, latitude & longitude values and are separated with coma.
 If you have latitude an longitude in separate fields, you can modify your sparql query, by adding:
 ```
 concat(str(?Latitude),',',str(?Longitude)) as ?geo_pos
@@ -1091,7 +1141,7 @@ First you have to create the link to the details page. For this, you will have t
     }
 }
 ```
-For a much nicer link for the details page, you can use a combination of fields. We will use the url built from the **_id** field, and it's label will be the **title** of the document. It's important to use correctly the **pos** attribute, and to only use the **title** attribute on the first field, in this case **_id**. The other field should have an empty string as title. Using this logic, you can build more complex links, and this can be used not only for the details page. 
+For a much nicer link for the details page, you can use a combination of fields. We will use the url built from the **_id** field, and it's label will be the **title** of the document. It's important to use correctly the **pos** attribute, and to only use the **title** attribute on the first field, in this case **_id**. The other field should have an empty string as title. Using this logic, you can build more complex links, and this can be used not only for the details page.
 In our example, you can observe, that we open the ```<td>``` in one field, and close it in the second one:
 ```
 {
@@ -1169,7 +1219,7 @@ For links, use **type="link"**. There are 2 optional attributes, **link_title** 
         "type": "link",
         "section": "info",
         "visible": true,
-        "link_title": "Title for external link", 
+        "link_title": "Title for external link",
         "link_label": "Label for external link"
     }
 }
@@ -1296,7 +1346,7 @@ Here is an example for each type of field:
 },
 ...
 ```
-For configuring the templates for cards and list views, a good starting point are 
+For configuring the templates for cards and list views, a good starting point are
 [cardview.pug](https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/cardview.pug) and [listview.pug](https://github.com/eea/eea.searchserver.js/blob/master/lib/framework/views/listview.pug)
 You can copy them in your apps **views** folder, and customize them. The values for the fields passed to the template can be accessed like this: **${title}**.
 If you're ok with the builtin templates, you don't have to copy them into your apps view folder, but you have to provide all the required fields.
@@ -1388,10 +1438,10 @@ Here is how we have the configuration for global-search app:
   - **sync_index** - keep the existing index; make the blue/green switch; get all data from semantic and index in elasticsearch in the new index
   - **remove_data** - remove all data from **blue** and **green** indexes
 - For applications using the RDF River:
-  - **create_index/sync_index** 
+  - **create_index/sync_index**
     - if there is no data indexed, creates the blue index, and reads all documents from semantic, and indexes in elasticsearch, saves in the status index the last update info for each cluster
     - if there is already indexed data, a **blue/green** copy will be done, and using the last update info from the status index, all new documents from semantic will be indexed in elasticsearch
-  - **create_bluegreen** - just executes a **blue/green** copy, without fetching new data from semantic (mostly usefull in development) 
+  - **create_bluegreen** - just executes a **blue/green** copy, without fetching new data from semantic (mostly usefull in development)
   - **remove_river** - removes all data from the river index, the effect is that it interrupts all indexing
   - **remove_data** - removes all data from the current index, also removes all lastupdate info from the status index, and the cache index
   - **remove_cluster** - removes a cluster (or list of clusters) from the current index, and removes the lastupdate info for this cluster from the status index
@@ -1407,7 +1457,7 @@ Allways check if the jsons are valid
   - your query is returning values, and doesn't generate an error
   - in case of SELECT queries, you have to provide a unique _id field, preferably url friendly, something like:
     ```REPLACE(STR(?title), "[^a-zA-Z0-9]", "-", "i") AS ?_id```
-    
+
 - **Symptom:** not all the data is indexed in elasticsearch
 **Check:**
     - if too many rows are returned by the query, might be a timeout when reading the data from the endpoint. You should consider splitting the results, using **filtersQuery.sparql**
@@ -1415,15 +1465,15 @@ Allways check if the jsons are valid
 
 - **Symptom:** data is indexed, but the facets doesn't look good
 **Check:**
-  - the analyzer used to identify terms. 
+  - the analyzer used to identify terms.
   - check if the analyzer/mapping is valid. For this you can do:
 ```~ curl -XGET '<elastic_host>:9200/<index_name>/_settings?pretty'  ```
 ```~ curl -XGET '<elastic_host>:9200/<index_name>/_mapping/<elastic_type>?pretty' ```
 check in the **_settings** if the filters and analyzers are present. If not, probably there is a typo, or a filter or analyzer is missing
 check if the **_mapping** is correct, similar with the configured one. If not, probably there is a typo
 
- **For DEVs** 
+ **For DEVs**
  - **Symptom on local dev env:** if create_index timeout, check IP of host in docker-compose file for the application
- 
+
 ### __Default configuration demo__
 See example default custom configuration at [eea.esbootstrap.configs](https://github.com/eea/eea.esbootstrap.configs/tree/master/default)
