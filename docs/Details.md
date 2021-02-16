@@ -850,6 +850,13 @@ Added option to disable the search on suggested terms which is enabled by defaul
   ```
 The option is False by default
 
+If you want the search term to be included in the autocomplete menu created by the search bar
+as the first item, you need to add the following to your settings.json:
+  ```
+  autocomplete_include_searchterm = true
+  ```
+The option is False by default
+
 ### __Facets__
 #### __Term Facets__
 Term facets are built on the terms created by elasticsearch. Elasticsearch by default adds as terms all the words found in a field.
