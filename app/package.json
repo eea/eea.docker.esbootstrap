@@ -1,6 +1,6 @@
 {
   "name": "esbootstrap",
-  "version": "3.0.37-es7dev1",
+  "version": "3.0.37-es7dev2",
   "description": "Bootstrap for ElasticSearch apps",
   "dependencies" : {
     "nconf": "*",
