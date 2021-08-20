@@ -2,10 +2,15 @@ FROM node:8.15.1
 
 RUN apt-get update -q && \
     apt-get install python3-pip -y && \
+    apt-get install python2.7 -y && \
     apt-get upgrade -y libc6 libc6-dev && \
     pip3 install chaperone && apt-get clean && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 #RUN useradd -m node && usermod -u 600 node
+RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py && \
+    python get-pip.py && \
+    pip2 install requests
+
 RUN mkdir -p /external_templates
 RUN chown node:node -R /external_templates
 
