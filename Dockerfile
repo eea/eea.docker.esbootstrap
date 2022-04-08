@@ -3,7 +3,9 @@ FROM node:8.15.1
 RUN apt-get update -q && \
     apt-get install python3-pip -y && \
     apt-get install python2.7 -y && \
-    apt-get upgrade -y libc6 libc6-dev && \
+    apt-get upgrade -y libc6 libc6-dev openssl ca-certificates && \
+    sed -i '/^mozilla\/DST_Root_CA_X3/s/^/!/' /etc/ca-certificates.conf && \
+    update-ca-certificates -f && \
     pip3 install chaperone && apt-get clean && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 #RUN useradd -m node && usermod -u 600 node
