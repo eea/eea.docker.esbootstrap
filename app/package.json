@@ -8,7 +8,7 @@
     "compression": "1.7.4",
     "bundle-up3": "1.1.1",
     "pug": "3.0.2",
-    "eea-searchserver": "git://github.com/eea/eea.searchserver.js#3.1.8",
+    "eea-searchserver": "https://github.com/eea/eea.searchserver.js#3.1.8",
     "dateformat": "4.5.1",
     "morgan": "1.10.0",
     "request": "2.88.2",
@@ -34,7 +34,7 @@
 
   "repository": {
     "type": "git",
-    "url": "git://github.com/eea/eea.docker.esbootstrap.git"
+    "url": "https://github.com/eea/eea.docker.esbootstrap.git"
   },
   "keywords": [
     "node",
