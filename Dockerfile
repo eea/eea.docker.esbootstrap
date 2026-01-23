@@ -25,7 +25,10 @@ COPY  --from=0 /node_modules /node_modules
 RUN mkdir -p /external_templates \
  && chown node:node -R /external_templates \
  && ln -s /sources_from_git/app /code \
- && chown node:node -R /node_modules
+ && chown node:node -R /node_modules \
+ && chown node:node -R /code \
+ && chown node:node /sources_from_git \
+ && chown node:node /sources_from_git/app
 
 
 USER node
