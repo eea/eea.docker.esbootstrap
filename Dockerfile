@@ -27,9 +27,7 @@ RUN mkdir -p /external_templates \
  && ln -s /sources_from_git/app /code \
  && chown node:node -R /node_modules \
  && chown node:node -R /code \
- && chown node:node /sources_from_git \
- && chown node:node /sources_from_git/app
-
+ && chown node:node -R /sources_from_git
 
 USER node
 
